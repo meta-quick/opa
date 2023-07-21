@@ -1,7 +1,7 @@
 package ast
 
 import (
-	"encoding/json"
+	"github.com/bytedance/sonic"
 	"testing"
 
 	"github.com/open-policy-agent/opa/util"
@@ -100,7 +100,7 @@ func TestTerm_UnmarshalJSON(t *testing.T) {
 	for name, data := range testCases {
 		t.Run(name, func(t *testing.T) {
 			var term Term
-			err := json.Unmarshal([]byte(data.JSON), &term)
+			err := sonic.Unmarshal([]byte(data.JSON), &term)
 			if err != nil {
 				t.Fatal(err)
 			}
@@ -542,7 +542,7 @@ func TestExpr_UnmarshalJSON(t *testing.T) {
 	for name, data := range testCases {
 		t.Run(name, func(t *testing.T) {
 			var expr Expr
-			err := json.Unmarshal([]byte(data.JSON), &expr)
+			err := sonic.Unmarshal([]byte(data.JSON), &expr)
 			if err != nil {
 				t.Fatal(err)
 			}
@@ -954,7 +954,7 @@ p = 1`,
 			for i, a := range module.Annotations {
 				ref := NewAnnotationsRef(a)
 
-				bytes, err := json.Marshal(ref)
+				bytes, err := sonic.Marshal(ref)
 				if err != nil {
 					t.Fatal(err)
 				}

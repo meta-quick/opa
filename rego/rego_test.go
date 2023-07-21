@@ -2300,7 +2300,7 @@ func TestNDBCacheMarshalUnmarshalJSON(t *testing.T) {
 	}
 
 	var other builtins.NDBCache
-	err = json.Unmarshal(jOriginal, &other)
+	err = sonic.Unmarshal(jOriginal, &other)
 	if err != nil {
 		t.Fatal(err)
 	}

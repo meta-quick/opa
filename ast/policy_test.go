@@ -54,7 +54,7 @@ metadata := 7
 		t.Fatal(err)
 	}
 
-	bs, err := json.Marshal(mod)
+	bs, err := sonic.Marshal(mod)
 	if err != nil {
 		t.Fatalf("Unexpected error: %v", err)
 	}
@@ -404,7 +404,7 @@ func TestRuleHeadJSON(t *testing.T) {
 	rule := Rule{
 		Head: &head,
 	}
-	bs, err := json.Marshal(&rule)
+	bs, err := sonic.Marshal(&rule)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -413,13 +413,13 @@ func TestRuleHeadJSON(t *testing.T) {
 	}
 
 	var readRule Rule
-	if err := json.Unmarshal(bs, &readRule); err != nil {
+	if err := sonic.Unmarshal(bs, &readRule); err != nil {
 		t.Fatal(err)
 	}
 	if exp, act := 1, len(readRule.Head.Reference); act != exp {
 		t.Errorf("expected unmarshalled rule to have Reference, got %v", readRule.Head.Reference)
 	}
-	bs0, err := json.Marshal(&readRule)
+	bs0, err := sonic.Marshal(&readRule)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -428,7 +428,7 @@ func TestRuleHeadJSON(t *testing.T) {
 	}
 
 	var readAgainRule Rule
-	if err := json.Unmarshal(bs, &readAgainRule); err != nil {
+	if err := sonic.Unmarshal(bs, &readAgainRule); err != nil {
 		t.Fatal(err)
 	}
 	if !readAgainRule.Equal(&readRule) {

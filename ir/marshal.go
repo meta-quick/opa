@@ -6,6 +6,7 @@ package ir
 
 import (
 	"encoding/json"
+	"github.com/bytedance/sonic"
 	"reflect"
 )
 
@@ -19,12 +20,12 @@ func (a *Block) MarshalJSON() ([]byte, error) {
 			Stmt: a.Stmts[i],
 		}
 	}
-	return json.Marshal(result)
+	return sonic.Marshal(result)
 }
 
 func (a *Block) UnmarshalJSON(bs []byte) error {
 	var typed rawTypedBlock
-	if err := json.Unmarshal(bs, &typed); err != nil {
+	if err := sonic.Unmarshal(bs, &typed); err != nil {
 		return err
 	}
 	a.Stmts = make([]Stmt, len(typed.Stmts))
@@ -42,16 +43,16 @@ func (a *Operand) MarshalJSON() ([]byte, error) {
 	var result typedOperand
 	result.Value = a.Value
 	result.Type = a.Value.typeHint()
-	return json.Marshal(result)
+	return sonic.Marshal(result)
 }
 
 func (a *Operand) UnmarshalJSON(bs []byte) error {
 	var typed rawTypedOperand
-	if err := json.Unmarshal(bs, &typed); err != nil {
+	if err := sonic.Unmarshal(bs, &typed); err != nil {
 		return err
 	}
 	x := valFactories[typed.Type]()
-	if err := json.Unmarshal(typed.Value, &x); err != nil {
+	if err := sonic.Unmarshal(typed.Value, &x); err != nil {
 		return err
 	}
 	a.Value = x
@@ -78,7 +79,7 @@ type rawTypedStmt struct {
 
 func (raw rawTypedStmt) Unmarshal() (Stmt, error) {
 	x := stmtFactories[raw.Type]()
-	if err := json.Unmarshal(raw.Stmt, &x); err != nil {
+	if err := sonic.Unmarshal(raw.Stmt, &x); err != nil {
 		return nil, err
 	}
 	return x, nil

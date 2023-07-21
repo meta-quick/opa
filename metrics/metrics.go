@@ -8,6 +8,7 @@ package metrics
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/bytedance/sonic"
 	"sort"
 	"strings"
 	"sync"
@@ -107,7 +108,7 @@ func (m *metrics) String() string {
 }
 
 func (m *metrics) MarshalJSON() ([]byte, error) {
-	return json.Marshal(m.All())
+	return sonic.Marshal(m.All())
 }
 
 func (m *metrics) Timer(name string) Timer {

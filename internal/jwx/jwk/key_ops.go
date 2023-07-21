@@ -1,8 +1,8 @@
 package jwk
 
 import (
-	"encoding/json"
 	"fmt"
+	"github.com/bytedance/sonic"
 )
 
 // KeyUsageType is used to denote what this key should be used for
@@ -51,7 +51,7 @@ func (keyOperationList *KeyOperationList) Accept(v interface{}) error {
 // UnmarshalJSON unmarshals and checks data as KeyType Algorithm
 func (keyOperationList *KeyOperationList) UnmarshalJSON(data []byte) error {
 	var tempKeyOperationList []string
-	err := json.Unmarshal(data, &tempKeyOperationList)
+	err := sonic.Unmarshal(data, &tempKeyOperationList)
 	if err != nil {
 		return fmt.Errorf("invalid key operation")
 	}

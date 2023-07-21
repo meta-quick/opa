@@ -1648,7 +1648,7 @@ var ObjectKeys = &Builtin{
 var encoding = category("encoding")
 
 var JSONMarshal = &Builtin{
-	Name:        "json.marshal",
+	Name:        "sonic.Marshal",
 	Description: "Serializes the input term to JSON.",
 	Decl: types.NewFunction(
 		types.Args(
@@ -1660,7 +1660,7 @@ var JSONMarshal = &Builtin{
 }
 
 var JSONUnmarshal = &Builtin{
-	Name:        "json.unmarshal",
+	Name:        "sonic.Unmarshal",
 	Description: "Deserializes the input string.",
 	Decl: types.NewFunction(
 		types.Args(

@@ -26,6 +26,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"github.com/bytedance/sonic"
 	"io"
 	"strings"
 
@@ -196,7 +197,7 @@ func parseCompact(str string) (m *Message, err error) {
 		return nil, fmt.Errorf("failed to decode Headers: %w", err)
 	}
 	var hdr StandardHeaders
-	if err := json.Unmarshal(decodedHeader, &hdr); err != nil {
+	if err := sonic.Unmarshal(decodedHeader, &hdr); err != nil {
 		return nil, fmt.Errorf("failed to parse JOSE Headers: %w", err)
 	}
 

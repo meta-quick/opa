@@ -35,7 +35,7 @@ t[x] = y {
 
 p { false } else { false } else { true }
 
-fn([x, y]) = z { json.unmarshal(x, z); z > y }
+fn([x, y]) = z { sonic.Unmarshal(x, z); z > y }
 `)
 	vis := &testVis{}
 	NewGenericVisitor(vis.Visit).Walk(rule)
@@ -97,7 +97,7 @@ t[x] = y {
 
 p { false } else { false } else { true }
 
-fn([x, y]) = z { json.unmarshal(x, z); z > y }
+fn([x, y]) = z { sonic.Unmarshal(x, z); z > y }
 `)
 
 	var elems []interface{}
@@ -129,7 +129,7 @@ t[x] = y {
 
 p { false } else { false } else { true }
 
-fn([x, y]) = z { json.unmarshal(x, z); z > y }
+fn([x, y]) = z { sonic.Unmarshal(x, z); z > y }
 `)
 
 	var before, after []interface{}

@@ -2,8 +2,8 @@ package download
 
 import (
 	"context"
-	"encoding/json"
 	"fmt"
+	"github.com/bytedance/sonic"
 	"io"
 	"math/rand"
 	"net/http"
@@ -397,7 +397,7 @@ func manifestFromDesc(ctx context.Context, target oraslib.Target, desc *ocispec.
 		return nil, fmt.Errorf("unable to read bytes from descriptor: %w", err)
 	}
 
-	if err = json.Unmarshal(descBytes, &manifest); err != nil {
+	if err = sonic.Unmarshal(descBytes, &manifest); err != nil {
 		return nil, fmt.Errorf("unable to unmarshal manifest: %w", err)
 	}
 

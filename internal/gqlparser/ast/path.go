@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
+	"github.com/bytedance/sonic"
 )
 
 var _ json.Unmarshaler = (*Path)(nil)
@@ -37,7 +38,7 @@ func (path Path) String() string {
 
 func (path *Path) UnmarshalJSON(b []byte) error {
 	var vs []interface{}
-	err := json.Unmarshal(b, &vs)
+	err := sonic.Unmarshal(b, &vs)
 	if err != nil {
 		return err
 	}

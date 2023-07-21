@@ -6361,13 +6361,13 @@ func TestCompilerRewritePrintCalls(t *testing.T) {
 			module: `package test
 			q = input
 			p {
-				x := q with input as json.unmarshal("{}")
+				x := q with input as sonic.Unmarshal("{}")
 				print(x)
 			}`,
 			exp: `package test
 			q = __local3__ { true; __local3__ = input }
 			p = true {
-				json.unmarshal("{}", __local2__)
+				sonic.Unmarshal("{}", __local2__)
 				__local0__ = data.test.q with input as __local2__
 				__local4__ = {__local1__ | __local1__ = __local0__}
 				internal.print([__local4__])

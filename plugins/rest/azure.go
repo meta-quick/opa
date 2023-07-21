@@ -1,9 +1,9 @@
 package rest
 
 import (
-	"encoding/json"
 	"errors"
 	"fmt"
+	"github.com/bytedance/sonic"
 	"io"
 	"net/http"
 	"net/url"
@@ -114,7 +114,7 @@ func azureManagedIdentitiesTokenRequest(
 
 	if s := response.StatusCode; s != http.StatusOK {
 		var azureError azureManagedIdentitiesError
-		err = json.Unmarshal(data, &azureError)
+		err = sonic.Unmarshal(data, &azureError)
 		if err != nil {
 			return token, err
 		}
@@ -124,7 +124,7 @@ func azureManagedIdentitiesTokenRequest(
 		return token, &azureError
 	}
 
-	err = json.Unmarshal(data, &token)
+	err = sonic.Unmarshal(data, &token)
 	if err != nil {
 		return token, err
 	}

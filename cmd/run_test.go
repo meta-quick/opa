@@ -161,7 +161,7 @@ func checkLogTimeStampFormat(t *testing.T, params runCmdParams, format string) {
 		var rec struct {
 			Time string `json:"time"`
 		}
-		if err := json.Unmarshal([]byte(line), &rec); err != nil {
+		if err := sonic.Unmarshal([]byte(line), &rec); err != nil {
 			t.Fatalf("incorrect log message %s: %v", line, err)
 		}
 		if rec.Time == "" {

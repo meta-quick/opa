@@ -2134,20 +2134,6 @@
       }
     },
     {
-      "name": "json.marshal",
-      "decl": {
-        "args": [
-          {
-            "type": "any"
-          }
-        ],
-        "result": {
-          "type": "string"
-        },
-        "type": "function"
-      }
-    },
-    {
       "name": "json.match_schema",
       "decl": {
         "args": [
@@ -2328,20 +2314,6 @@
               }
             ],
             "type": "any"
-          }
-        ],
-        "result": {
-          "type": "any"
-        },
-        "type": "function"
-      }
-    },
-    {
-      "name": "json.unmarshal",
-      "decl": {
-        "args": [
-          {
-            "type": "string"
           }
         ],
         "result": {
@@ -3663,6 +3635,34 @@
             "type": "any"
           },
           "type": "set"
+        },
+        "type": "function"
+      }
+    },
+    {
+      "name": "sonic.Marshal",
+      "decl": {
+        "args": [
+          {
+            "type": "any"
+          }
+        ],
+        "result": {
+          "type": "string"
+        },
+        "type": "function"
+      }
+    },
+    {
+      "name": "sonic.Unmarshal",
+      "decl": {
+        "args": [
+          {
+            "type": "string"
+          }
+        ],
+        "result": {
+          "type": "any"
         },
         "type": "function"
       }

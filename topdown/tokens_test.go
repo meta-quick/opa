@@ -294,7 +294,7 @@ func TestTopDownJWTEncodeSignES256(t *testing.T) {
 	// Verification
 
 	standardHeaders := &jws.StandardHeaders{}
-	err = json.Unmarshal([]byte(es256Hdr), standardHeaders)
+	err = sonic.Unmarshal([]byte(es256Hdr), standardHeaders)
 	if err != nil {
 		t.Fatal("Failed to parse header")
 	}
@@ -421,7 +421,7 @@ func TestTopDownJWTEncodeSignES512(t *testing.T) {
 	// Verification
 
 	standardHeaders := &jws.StandardHeaders{}
-	err = json.Unmarshal([]byte(es512Hdr), standardHeaders)
+	err = sonic.Unmarshal([]byte(es512Hdr), standardHeaders)
 	if err != nil {
 		t.Fatal("Failed to parse header")
 	}

@@ -8,6 +8,7 @@ import (
 	"encoding/binary"
 	"encoding/json"
 	"fmt"
+	"github.com/bytedance/sonic"
 )
 
 // Buffer wraps `[]byte` and provides functions that are often used in
@@ -105,7 +106,7 @@ func (b Buffer) MarshalJSON() ([]byte, error) {
 // with base64.RawURLEncoding
 func (b *Buffer) UnmarshalJSON(data []byte) error {
 	var x string
-	if err := json.Unmarshal(data, &x); err != nil {
+	if err := sonic.Unmarshal(data, &x); err != nil {
 		return fmt.Errorf("failed to unmarshal JSON: %w", err)
 	}
 	return b.Base64Decode([]byte(x))

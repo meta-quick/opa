@@ -4,9 +4,9 @@ package jwk
 import (
 	"crypto/ecdsa"
 	"crypto/rsa"
-	"encoding/json"
 	"errors"
 	"fmt"
+	"github.com/bytedance/sonic"
 
 	"github.com/open-policy-agent/opa/internal/jwx/jwa"
 )
@@ -78,7 +78,7 @@ func parse(jwkSrc string) (*Set, error) {
 	var jwkKeySet Set
 	var jwkKey Key
 	rawKeySetJSON := &RawKeySetJSON{}
-	err := json.Unmarshal([]byte(jwkSrc), rawKeySetJSON)
+	err := sonic.Unmarshal([]byte(jwkSrc), rawKeySetJSON)
 	if err != nil {
 		return nil, fmt.Errorf("failed to unmarshal JWK Set: %w", err)
 	}
@@ -86,7 +86,7 @@ func parse(jwkSrc string) (*Set, error) {
 
 		// It might be a single key
 		rawKeyJSON := &RawKeyJSON{}
-		err := json.Unmarshal([]byte(jwkSrc), rawKeyJSON)
+		err := sonic.Unmarshal([]byte(jwkSrc), rawKeyJSON)
 		if err != nil {
 			return nil, fmt.Errorf("failed to unmarshal JWK: %w", err)
 		}

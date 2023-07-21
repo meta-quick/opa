@@ -8,6 +8,7 @@ package config
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/bytedance/sonic"
 	"os"
 	"path/filepath"
 	"reflect"
@@ -166,7 +167,7 @@ func (c Config) GetPersistenceDirectory() (string, error) {
 // ActiveConfig returns OPA's active configuration
 // with the credentials and crypto keys removed
 func (c *Config) ActiveConfig() (interface{}, error) {
-	bs, err := json.Marshal(c)
+	bs, err := sonic.Marshal(c)
 	if err != nil {
 		return nil, err
 	}

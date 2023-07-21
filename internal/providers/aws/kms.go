@@ -6,6 +6,7 @@ import (
 	"encoding/base64"
 	"encoding/json"
 	"fmt"
+	"github.com/bytedance/sonic"
 	"net/http"
 	"time"
 
@@ -98,7 +99,7 @@ func (k *KMS) SignDigest(ctx context.Context, digest []byte, keyID string, signi
 	}
 
 	var data KMSSignResponse
-	if err := json.Unmarshal(resp, &data); err != nil {
+	if err := sonic.Unmarshal(resp, &data); err != nil {
 		return "", fmt.Errorf("failed to unmarshal response: %w", err)
 	}
 

@@ -166,7 +166,7 @@ func run(params params) error {
 					return err
 				}
 
-				bs, err = json.Marshal(ctcs)
+				bs, err = sonic.Marshal(ctcs)
 				if err != nil {
 					return err
 				}

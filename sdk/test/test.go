@@ -181,7 +181,7 @@ func (s *Server) buildBundles(ref string, policies map[string]string) error {
 		},
 	}
 
-	manifestData, err := json.Marshal(manifest)
+	manifestData, err := sonic.Marshal(manifest)
 	if err != nil {
 		return err
 	}
@@ -373,7 +373,7 @@ func (s *Server) handleBundles(w http.ResponseWriter, r *http.Request) {
 	for url, str := range b {
 		switch {
 		case url == ".manifest":
-			err := json.Unmarshal([]byte(str), &manifest)
+			err := sonic.Unmarshal([]byte(str), &manifest)
 			if err != nil {
 				w.WriteHeader(http.StatusInternalServerError)
 				fmt.Fprintf(w, "error unmarshaling .manifest file: %v", err)
@@ -399,7 +399,7 @@ func (s *Server) handleBundles(w http.ResponseWriter, r *http.Request) {
 
 			var d map[string]interface{}
 
-			err := json.Unmarshal([]byte(str), &d)
+			err := sonic.Unmarshal([]byte(str), &d)
 			if err != nil {
 				w.WriteHeader(http.StatusInternalServerError)
 				fmt.Fprintf(w, "error unmarshaling json file: %v", err)

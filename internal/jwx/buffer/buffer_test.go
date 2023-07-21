@@ -50,7 +50,7 @@ func TestJSON(t *testing.T) {
 	}
 
 	var b2 Buffer
-	err = json.Unmarshal(jsontxt, &b2)
+	err = sonic.Unmarshal(jsontxt, &b2)
 	if err != nil {
 		t.Fatal("failed to marshal buffer")
 	}

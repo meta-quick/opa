@@ -88,8 +88,8 @@ func TestHashFileBytes(t *testing.T) {
 		[]string{"$", "α", "©", "™"},
 	}
 
-	arrayBytes, _ := json.Marshal(arrayInput)
-	mapBytes, _ := json.Marshal(mapInput)
+	arrayBytes, _ := sonic.Marshal(arrayInput)
+	mapBytes, _ := sonic.Marshal(mapInput)
 
 	tests := map[string]struct {
 		input     []byte

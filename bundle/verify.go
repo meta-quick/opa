@@ -9,8 +9,8 @@ import (
 	"bytes"
 	"encoding/base64"
 	"encoding/hex"
-	"encoding/json"
 	"fmt"
+	"github.com/bytedance/sonic"
 
 	"github.com/open-policy-agent/opa/internal/jwx/jwa"
 	"github.com/open-policy-agent/opa/internal/jwx/jws"
@@ -94,7 +94,7 @@ func verifyJWTSignature(token string, bvc *VerificationConfig) (*DecodedSignatur
 	}
 
 	var hdr jws.StandardHeaders
-	if err := json.Unmarshal(decodedHeader, &hdr); err != nil {
+	if err := sonic.Unmarshal(decodedHeader, &hdr); err != nil {
 		return nil, fmt.Errorf("failed to parse JWT headers: %w", err)
 	}
 
@@ -104,7 +104,7 @@ func verifyJWTSignature(token string, bvc *VerificationConfig) (*DecodedSignatur
 	}
 
 	var ds DecodedSignature
-	if err := json.Unmarshal(payload, &ds); err != nil {
+	if err := sonic.Unmarshal(payload, &ds); err != nil {
 		return nil, err
 	}
 

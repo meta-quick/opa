@@ -74,7 +74,7 @@ func TestConsoleDecisionLogWithInput(t *testing.T) {
 		Result bool `json:"result"`
 	}{}
 
-	err = json.Unmarshal(resultJSON, &parsedBody)
+	err = sonic.Unmarshal(resultJSON, &parsedBody)
 	if err != nil {
 		t.Fatalf("Failed to parse body: \n\nActual: %s\n\nExpected: {\"result\": BOOL}\n\nerr = %s ", string(resultJSON), err)
 	}

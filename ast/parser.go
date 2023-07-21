@@ -8,6 +8,7 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
+	"github.com/bytedance/sonic"
 	"io"
 	"math/big"
 	"net/url"
@@ -1537,7 +1538,7 @@ func (p *Parser) parseNumber() *Term {
 func (p *Parser) parseString() *Term {
 	if p.s.lit[0] == '"' {
 		var s string
-		err := json.Unmarshal([]byte(p.s.lit), &s)
+		err := sonic.Unmarshal([]byte(p.s.lit), &s)
 		if err != nil {
 			p.errorf(p.s.Loc(), "illegal string literal: %s", p.s.lit)
 			return nil

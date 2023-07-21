@@ -5,9 +5,9 @@
 package rest
 
 import (
-	"encoding/json"
 	"errors"
 	"fmt"
+	"github.com/bytedance/sonic"
 	"io"
 	"net/http"
 	"strings"
@@ -117,7 +117,7 @@ func accessTokenFromMetadataService(endpoint, path string, scopes []string) (str
 	}
 
 	var accessToken AccessToken
-	err = json.Unmarshal(data, &accessToken)
+	err = sonic.Unmarshal(data, &accessToken)
 	if err != nil {
 		return "", err
 	}

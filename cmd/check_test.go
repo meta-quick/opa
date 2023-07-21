@@ -50,7 +50,7 @@ p { is_foo("bar") }`,
 			caps: func() string {
 				c := ast.CapabilitiesForThisVersion()
 				c.FutureKeywords = []string{"in"}
-				j, err := json.Marshal(c)
+				j, err := sonic.Marshal(c)
 				if err != nil {
 					panic(err)
 				}
@@ -67,7 +67,7 @@ p if "opa" in input.tools`,
 			caps: func() string {
 				c := ast.CapabilitiesForThisVersion()
 				c.FutureKeywords = []string{"in", "if"}
-				j, err := json.Marshal(c)
+				j, err := sonic.Marshal(c)
 				if err != nil {
 					panic(err)
 				}

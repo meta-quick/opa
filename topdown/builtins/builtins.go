@@ -77,7 +77,7 @@ func (c *NDBCache) UnmarshalJSON(data []byte) error {
 	out := map[string]ast.Object{}
 	var incoming interface{}
 
-	// Note: We use util.Unmarshal instead of json.Unmarshal to get
+	// Note: We use util.Unmarshal instead of sonic.Unmarshal to get
 	// correct deserialization of number types.
 	err := util.Unmarshal(data, &incoming)
 	if err != nil {

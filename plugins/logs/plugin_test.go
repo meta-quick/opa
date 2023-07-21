@@ -2290,7 +2290,7 @@ func newTestFixture(t *testing.T, opts ...testFixtureOptions) testFixture {
 			]}`, ts.server.URL))
 
 	mgrCfg := make(map[string]interface{})
-	err := json.Unmarshal(managerConfig, &mgrCfg)
+	err := sonic.Unmarshal(managerConfig, &mgrCfg)
 	if err != nil {
 		t.Fatal(err)
 	}

@@ -1125,7 +1125,7 @@ func TestFunctionsTypeInference(t *testing.T) {
 		`foo([a, b]) = y { split(a, b, y) }`,
 		`bar(x) = y { count(x, y) }`,
 		`baz([x, y]) = z { sprintf("%s%s", [x, y], z) }`,
-		`qux({"bar": x, "foo": y}) = {a: b} { upper(y, a); json.unmarshal(x, b) }`,
+		`qux({"bar": x, "foo": y}) = {a: b} { upper(y, a); sonic.Unmarshal(x, b) }`,
 		`corge(x) = y { qux({"bar": x, "foo": x}, a); baz([a["{5: true}"], "BUZ"], y) }`,
 	}
 	body := strings.Join(functions, "\n")

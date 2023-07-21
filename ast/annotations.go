@@ -5,8 +5,8 @@
 package ast
 
 import (
-	"encoding/json"
 	"fmt"
+	"github.com/bytedance/sonic"
 	"net/url"
 	"sort"
 	"strings"
@@ -231,7 +231,7 @@ func (a *Annotations) MarshalJSON() ([]byte, error) {
 		}
 	}
 
-	return json.Marshal(data)
+	return sonic.Marshal(data)
 }
 
 func NewAnnotationsRef(a *Annotations) *AnnotationsRef {
@@ -284,7 +284,7 @@ func (ar *AnnotationsRef) MarshalJSON() ([]byte, error) {
 		}
 	}
 
-	return json.Marshal(data)
+	return sonic.Marshal(data)
 }
 
 func scopeCompare(s1, s2 string) int {
@@ -621,7 +621,7 @@ func (rr *RelatedResourceAnnotation) Compare(other *RelatedResourceAnnotation) i
 }
 
 func (rr *RelatedResourceAnnotation) String() string {
-	bs, _ := json.Marshal(rr)
+	bs, _ := sonic.Marshal(rr)
 	return string(bs)
 }
 
@@ -634,7 +634,7 @@ func (rr *RelatedResourceAnnotation) MarshalJSON() ([]byte, error) {
 		d["description"] = rr.Description
 	}
 
-	return json.Marshal(d)
+	return sonic.Marshal(d)
 }
 
 // Copy returns a deep copy of s.
@@ -667,7 +667,7 @@ func (s *SchemaAnnotation) Compare(other *SchemaAnnotation) int {
 }
 
 func (s *SchemaAnnotation) String() string {
-	bs, _ := json.Marshal(s)
+	bs, _ := sonic.Marshal(s)
 	return string(bs)
 }
 

@@ -36,7 +36,7 @@ func TestWriteTokenToFile(t *testing.T) {
 			t.Fatalf("Unexpected error %v", err)
 		}
 
-		expectedBytes, err := json.MarshalIndent(expected, "", " ")
+		expectedBytes, err := sonic.MarshalIndent(expected, "", " ")
 		if err != nil {
 			t.Fatal(err)
 		}

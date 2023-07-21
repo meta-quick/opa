@@ -9,6 +9,7 @@ import (
 	"encoding/base64"
 	"encoding/json"
 	"fmt"
+	"github.com/bytedance/sonic"
 	"path/filepath"
 	"strings"
 
@@ -157,7 +158,7 @@ func ReadWasmMetadataFromStore(ctx context.Context, store storage.Store, txn sto
 		return nil, err
 	}
 
-	bs, err := json.Marshal(value)
+	bs, err := sonic.Marshal(value)
 	if err != nil {
 		return nil, fmt.Errorf("corrupt wasm manifest data")
 	}
@@ -421,7 +422,7 @@ func activateBundles(opts *ActivateOpts) error {
 						for i := len(p) - 1; i > 0; i-- {
 							dir[p[i]] = value
 
-							bs, err := json.Marshal(dir)
+							bs, err := sonic.Marshal(dir)
 							if err != nil {
 								return err
 							}
@@ -540,7 +541,7 @@ func activateDeltaBundles(opts *ActivateOpts, bundles map[string]*Bundle) error 
 			return err
 		}
 
-		bs, err := json.Marshal(value)
+		bs, err := sonic.Marshal(value)
 		if err != nil {
 			return fmt.Errorf("corrupt manifest data: %w", err)
 		}

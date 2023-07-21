@@ -7,6 +7,7 @@ package topdown
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/bytedance/sonic"
 	"strings"
 
 	gqlast "github.com/open-policy-agent/opa/internal/gqlparser/ast"
@@ -112,7 +113,7 @@ func objectToQueryDocument(value ast.Object) (*gqlast.QueryDocument, error) {
 	}
 	// Unmarshal from JSON -> gqlast.QueryDocument.
 	var result gqlast.QueryDocument
-	err = json.Unmarshal(bs, &result)
+	err = sonic.Unmarshal(bs, &result)
 	if err != nil {
 		return nil, err
 	}
@@ -133,7 +134,7 @@ func objectToSchemaDocument(value ast.Object) (*gqlast.SchemaDocument, error) {
 	}
 	// Unmarshal from JSON -> gqlast.SchemaDocument.
 	var result gqlast.SchemaDocument
-	err = json.Unmarshal(bs, &result)
+	err = sonic.Unmarshal(bs, &result)
 	if err != nil {
 		return nil, err
 	}

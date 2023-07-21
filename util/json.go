@@ -11,15 +11,15 @@ import (
 	"io"
 	"reflect"
 
+	"github.com/bytedance/sonic"
 	"github.com/ghodss/yaml"
-
 	"github.com/open-policy-agent/opa/loader/extension"
 )
 
 // UnmarshalJSON parses the JSON encoded data and stores the result in the value
 // pointed to by x.
 //
-// This function is intended to be used in place of the standard json.Marshal
+// This function is intended to be used in place of the standard sonic.Marshal
 // function when json.Number is required.
 func UnmarshalJSON(bs []byte, x interface{}) error {
 	return unmarshalJSON(bs, x, true)
@@ -74,7 +74,7 @@ func MustUnmarshalJSON(bs []byte) interface{} {
 // If the data cannot be encoded, this function will panic. This function is for
 // test purposes.
 func MustMarshalJSON(x interface{}) []byte {
-	bs, err := json.Marshal(x)
+	bs, err := sonic.Marshal(x)
 	if err != nil {
 		panic(err)
 	}
@@ -87,7 +87,7 @@ func MustMarshalJSON(x interface{}) []byte {
 // rego.Input and inmem's Write operations. Works with both references and
 // values.
 func RoundTrip(x *interface{}) error {
-	bs, err := json.Marshal(x)
+	bs, err := sonic.Marshal(x)
 	if err != nil {
 		return err
 	}

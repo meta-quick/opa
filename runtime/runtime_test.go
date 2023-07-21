@@ -354,7 +354,7 @@ func TestUrlPathToConfigOverride(t *testing.T) {
 	}
 
 	var serviceConf map[string]interface{}
-	if err = json.Unmarshal(rt.Manager.Config.Services, &serviceConf); err != nil {
+	if err = sonic.Unmarshal(rt.Manager.Config.Services, &serviceConf); err != nil {
 		t.Fatal(err)
 	}
 
@@ -368,7 +368,7 @@ func TestUrlPathToConfigOverride(t *testing.T) {
 	}
 
 	var bundleConf map[string]interface{}
-	if err = json.Unmarshal(rt.Manager.Config.Bundles, &bundleConf); err != nil {
+	if err = sonic.Unmarshal(rt.Manager.Config.Bundles, &bundleConf); err != nil {
 		t.Fatal(err)
 	}
 

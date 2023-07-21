@@ -6,10 +6,10 @@ package rest
 
 import (
 	"context"
-	"encoding/json"
 	"encoding/xml"
 	"errors"
 	"fmt"
+	"github.com/bytedance/sonic"
 	"net/http"
 	"net/url"
 	"os"
@@ -289,7 +289,7 @@ func (cs *awsMetadataCredentialService) refreshFromService(ctx context.Context) 
 	}
 
 	var payload metadataPayload
-	err = json.Unmarshal(body, &payload)
+	err = sonic.Unmarshal(body, &payload)
 	if err != nil {
 		return errors.New("failed to parse credential response from metadata service: " + err.Error())
 	}

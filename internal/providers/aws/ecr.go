@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"github.com/bytedance/sonic"
 	"math/big"
 	"net/http"
 	"strings"
@@ -75,7 +76,7 @@ func (e *ECR) GetAuthorizationToken(ctx context.Context, creds Credentials, sign
 			ExpiresAt          json.Number `json:"expiresAt"`
 		} `json:"authorizationData"`
 	}
-	if err := json.Unmarshal(resp, &data); err != nil {
+	if err := sonic.Unmarshal(resp, &data); err != nil {
 		return ECRAuthorizationToken{}, fmt.Errorf("failed to unmarshal response: %w", err)
 	}
 

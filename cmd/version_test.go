@@ -103,7 +103,7 @@ func getTestServer(update interface{}, statusCode int) (baseURL string, teardown
 
 	mux.HandleFunc("/v1/version", func(w http.ResponseWriter, req *http.Request) {
 		w.WriteHeader(statusCode)
-		bs, _ := json.Marshal(update)
+		bs, _ := sonic.Marshal(update)
 		w.Header().Set("Content-Type", "application/json")
 		_, _ = w.Write(bs)
 	})

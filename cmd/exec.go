@@ -3,8 +3,8 @@ package cmd
 import (
 	"bytes"
 	"context"
-	"encoding/json"
 	"fmt"
+	"github.com/bytedance/sonic"
 	"os"
 	"path/filepath"
 
@@ -200,7 +200,7 @@ func setupConfig(file string, overrides []string, overrideFiles []string, bundle
 		cfg["trigger"] = "manual"
 	}
 
-	return json.Marshal(root)
+	return sonic.Marshal(root)
 }
 
 func injectExplicitBundles(root map[string]interface{}, paths []string) error {

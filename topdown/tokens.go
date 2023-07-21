@@ -17,6 +17,7 @@ import (
 	"encoding/pem"
 	"errors"
 	"fmt"
+	"github.com/bytedance/sonic"
 	"hash"
 	"math/big"
 	"strings"
@@ -927,7 +928,7 @@ func commonBuiltinJWTEncodeSign(bctx BuiltinContext, inputHeaders, jwsPayload, j
 
 	standardHeaders := &jws.StandardHeaders{}
 	jwsHeaders := []byte(inputHeaders)
-	err = json.Unmarshal(jwsHeaders, standardHeaders)
+	err = sonic.Unmarshal(jwsHeaders, standardHeaders)
 	if err != nil {
 		return err
 	}
@@ -1170,7 +1171,7 @@ func validateJWTHeader(h string) (ast.Object, error) {
 
 func extractJSONObject(s string) (ast.Object, error) {
 	// XXX: This code relies on undocumented behavior of Go's
-	// json.Unmarshal using the last occurrence of duplicate keys in a JSON
+	// sonic.Unmarshal using the last occurrence of duplicate keys in a JSON
 	// Object. If duplicate keys are present in a JWT, the last must be
 	// used or the token rejected. Since detecting duplicates is tantamount
 	// to parsing it ourselves, we're relying on the Go implementation

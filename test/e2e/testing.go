@@ -427,7 +427,7 @@ func (t *TestRuntime) compileRequest(req types.CompileRequestV1, instrument bool
 	resp.Close()
 
 	var typedResp types.CompileResponseV1
-	err = json.Unmarshal(body, &typedResp)
+	err = sonic.Unmarshal(body, &typedResp)
 	if err != nil {
 		return nil, err
 	}
@@ -459,7 +459,7 @@ func (t *TestRuntime) GetDataWithInputTyped(path string, input interface{}, resp
 		return err
 	}
 
-	return json.Unmarshal(bs, response)
+	return sonic.Unmarshal(bs, response)
 }
 
 // HealthCheck will query /health and return an error if the server is not healthy

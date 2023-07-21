@@ -57,7 +57,7 @@ func RunDecisionLoggerBenchmark(b *testing.B, rt *e2e.TestRuntime) {
 						Result bool `json:"result"`
 					}{}
 
-					err = json.Unmarshal(bodyJSON, &parsedBody)
+					err = sonic.Unmarshal(bodyJSON, &parsedBody)
 					if err != nil {
 						b.Fatalf("Failed to parse body: \n\nActual: %s\n\nExpected: {\"result\": BOOL}\n\nerr = %s ", string(bodyJSON), err)
 					}

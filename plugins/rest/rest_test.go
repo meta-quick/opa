@@ -2175,7 +2175,7 @@ func (t *oauth2TestServer) handle(w http.ResponseWriter, r *http.Request) {
 		if t.expX5t != "" {
 			headerRaw, _ := base64.RawURLEncoding.DecodeString(strings.Split(token, ".")[0])
 			var headers map[string]string
-			_ = json.Unmarshal(headerRaw, &headers)
+			_ = sonic.Unmarshal(headerRaw, &headers)
 			x5t := headers["x5t"]
 
 			if t.expX5t != x5t {
@@ -2433,7 +2433,7 @@ func TestOauth2ClientCredentialsGrantTypeWithKms(t *testing.T) {
 				t.Fatalf("failed to read kms sign request = %v", err)
 			}
 			defer r.Body.Close()
-			err = json.Unmarshal(bodyBytes, signRequest)
+			err = sonic.Unmarshal(bodyBytes, signRequest)
 			if err != nil {
 				t.Fatalf("failed to unmarshall kms sign request = %v", err)
 			}

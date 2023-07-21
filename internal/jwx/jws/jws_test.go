@@ -81,7 +81,7 @@ func TestAlgError(t *testing.T) {
 	t.Run("Unknown Algorithm", func(t *testing.T) {
 		const hdr = `{"typ":"JWT",` + "\r\n" + ` "alg":"unknown"}`
 		var standardHeaders jws.StandardHeaders
-		err := json.Unmarshal([]byte(hdr), &standardHeaders)
+		err := sonic.Unmarshal([]byte(hdr), &standardHeaders)
 		if err != nil {
 			t.Fatal(err)
 		}
@@ -249,7 +249,7 @@ func TestEncode(t *testing.T) {
 		hdrBytes := []byte(hdr)
 
 		standardHeaders := &jws.StandardHeaders{}
-		err := json.Unmarshal(hdrBytes, standardHeaders)
+		err := sonic.Unmarshal(hdrBytes, standardHeaders)
 		if err != nil {
 			t.Fatal("Failed to parse Protected header")
 		}
@@ -315,7 +315,7 @@ func TestEncode(t *testing.T) {
 		jwsPayload := []byte{80, 97, 121, 108, 111, 97, 100}
 
 		standardHeaders := &jws.StandardHeaders{}
-		err := json.Unmarshal(hdr, standardHeaders)
+		err := sonic.Unmarshal(hdr, standardHeaders)
 		if err != nil {
 			t.Fatal("Failed to parse header")
 		}

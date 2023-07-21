@@ -239,7 +239,7 @@ var (
 //
 // and
 //
-//	map[string]int -> json.Marshal()
+//	map[string]int -> sonic.Marshal()
 //
 // The difference between these two is relevant for feeding input into the
 // wasm vm: when calling rego.New(...) with rego.Target("wasm"), it's up to
@@ -263,10 +263,10 @@ func BenchmarkObjectString(b *testing.B) {
 					str = val.String()
 				}
 			})
-			b.Run("json.Marshal", func(b *testing.B) {
+			b.Run("sonic.Marshal", func(b *testing.B) {
 				b.ResetTimer()
 				for i := 0; i < b.N; i++ {
-					bs, err = json.Marshal(obj)
+					bs, err = sonic.Marshal(obj)
 					if err != nil {
 						b.Fatal(err)
 					}
@@ -299,10 +299,10 @@ func BenchmarkObjectStringInterfaces(b *testing.B) {
 					str = valString.String()
 				}
 			})
-			b.Run("json.Marshal", func(b *testing.B) {
+			b.Run("sonic.Marshal", func(b *testing.B) {
 				b.ResetTimer()
 				for i := 0; i < b.N; i++ {
-					bs, err = json.Marshal(valJSON)
+					bs, err = sonic.Marshal(valJSON)
 					if err != nil {
 						b.Fatal(err)
 					}
@@ -355,7 +355,7 @@ func BenchmarkObjectConstruction(b *testing.B) {
 }
 
 // BenchmarkArrayString compares the performance characteristics of
-// (ast.Value).String() with the stdlib-native json.Marshal. See
+// (ast.Value).String() with the stdlib-native sonic.Marshal. See
 // BenchmarkObjectString above for details.
 func BenchmarkArrayString(b *testing.B) {
 	var err error
@@ -375,10 +375,10 @@ func BenchmarkArrayString(b *testing.B) {
 					str = val.String()
 				}
 			})
-			b.Run("json.Marshal", func(b *testing.B) {
+			b.Run("sonic.Marshal", func(b *testing.B) {
 				b.ResetTimer()
 				for i := 0; i < b.N; i++ {
-					bs, err = json.Marshal(obj)
+					bs, err = sonic.Marshal(obj)
 					if err != nil {
 						b.Fatal(err)
 					}
@@ -419,10 +419,10 @@ func BenchmarkSetMarshalJSON(b *testing.B) {
 				set.Add(StringTerm(fmt.Sprint(i)))
 			}
 
-			b.Run("json.Marshal", func(b *testing.B) {
+			b.Run("sonic.Marshal", func(b *testing.B) {
 				b.ResetTimer()
 				for i := 0; i < b.N; i++ {
-					bs, err = json.Marshal(set)
+					bs, err = sonic.Marshal(set)
 					if err != nil {
 						b.Fatal(err)
 					}

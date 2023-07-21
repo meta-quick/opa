@@ -9,6 +9,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"github.com/bytedance/sonic"
 	"io"
 	"math"
 	"net/http"
@@ -464,7 +465,7 @@ func runE2E(params benchmarkCommandParams, url string, input map[string]interfac
 
 func e2eQuery(params benchmarkCommandParams, url string, input map[string]interface{}) (types.MetricsV1, error) {
 
-	reqBody, err := json.Marshal(input)
+	reqBody, err := sonic.Marshal(input)
 	if err != nil {
 		return nil, err
 	}
@@ -496,7 +497,7 @@ func e2eQuery(params benchmarkCommandParams, url string, input map[string]interf
 			return nil, fmt.Errorf("request failed, OPA server replied with HTTP %v: %v", resp.StatusCode, e["message"])
 		}
 
-		bs, err := json.Marshal(e["errors"])
+		bs, err := sonic.Marshal(e["errors"])
 		if err != nil {
 			return nil, err
 		}

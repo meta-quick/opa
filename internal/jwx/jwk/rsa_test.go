@@ -56,7 +56,7 @@ func TestRSA(t *testing.T) {
 
 		// It might be a single key
 		rawKeyJSON := &jwk.RawKeyJSON{}
-		err := json.Unmarshal([]byte(jwkSrc), rawKeyJSON)
+		err := sonic.Unmarshal([]byte(jwkSrc), rawKeyJSON)
 		if err != nil {
 			t.Fatalf("Failed to unmarshal JWK: %s", err.Error())
 		}
@@ -85,7 +85,7 @@ func TestRSA(t *testing.T) {
 
 		// It might be a single key
 		rawKeyJSON := &jwk.RawKeyJSON{}
-		err := json.Unmarshal([]byte(jwkSrc), rawKeyJSON)
+		err := sonic.Unmarshal([]byte(jwkSrc), rawKeyJSON)
 		if err != nil {
 			t.Fatalf("Failed to unmarshal JWK: %s", err.Error())
 		}
@@ -110,7 +110,7 @@ func TestRSA(t *testing.T) {
 }`
 		// It might be a single key
 		rawKeyJSON := &jwk.RawKeyJSON{}
-		err := json.Unmarshal([]byte(jwkSrc), rawKeyJSON)
+		err := sonic.Unmarshal([]byte(jwkSrc), rawKeyJSON)
 		if err != nil {
 			t.Fatalf("Failed to unmarshal JWK: %s", err.Error())
 		}
@@ -136,14 +136,14 @@ func TestRSA(t *testing.T) {
 }`
 		var jwkKey jwk.Key
 		rawKeySetJSON := &jwk.RawKeySetJSON{}
-		err := json.Unmarshal([]byte(jwkSrc), rawKeySetJSON)
+		err := sonic.Unmarshal([]byte(jwkSrc), rawKeySetJSON)
 		if err != nil {
 			t.Fatalf("Failed to unmarshal JWK Set: %s", err.Error())
 		}
 		if len(rawKeySetJSON.Keys) == 0 {
 			// It might be a single key
 			rawKeyJSON := &jwk.RawKeyJSON{}
-			err := json.Unmarshal([]byte(jwkSrc), rawKeyJSON)
+			err := sonic.Unmarshal([]byte(jwkSrc), rawKeyJSON)
 			if err != nil {
 				t.Fatalf("Failed to unmarshal JWK: %s", err.Error())
 			}
@@ -186,7 +186,7 @@ func TestRSA(t *testing.T) {
 }`
 		var jwkKey jwk.Key
 		rawKeySetJSON := &jwk.RawKeySetJSON{}
-		err := json.Unmarshal([]byte(jwkSrc), rawKeySetJSON)
+		err := sonic.Unmarshal([]byte(jwkSrc), rawKeySetJSON)
 		if err != nil {
 			t.Fatalf("Failed to unmarshal JWK Set: %s", err.Error())
 		}

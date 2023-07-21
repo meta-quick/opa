@@ -388,7 +388,7 @@ func TestMarshalJSON(t *testing.T) {
 		),
 	)
 
-	bs, err := json.Marshal(tpe)
+	bs, err := sonic.Marshal(tpe)
 	if err != nil {
 		t.Fatalf("Unexpected error: %v", err)
 	}
@@ -461,7 +461,7 @@ func TestRoundtripJSON(t *testing.T) {
 		),
 	}, NewAny(S, N))
 
-	bs, err := json.Marshal(tpe)
+	bs, err := sonic.Marshal(tpe)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -478,7 +478,7 @@ func TestRoundtripJSON(t *testing.T) {
 
 func TestRoundtripJSONVariadicFunction(t *testing.T) {
 	tpe := NewVariadicFunction([]Type{S}, N, nil)
-	bs, err := json.Marshal(tpe)
+	bs, err := sonic.Marshal(tpe)
 	if err != nil {
 		t.Fatal(err)
 	}

@@ -5,8 +5,8 @@
 package cmd
 
 import (
-	"encoding/json"
 	"fmt"
+	"github.com/bytedance/sonic"
 	"io"
 	"os"
 	"sort"
@@ -154,7 +154,7 @@ func populateManifest(out io.Writer, m bundle.Manifest) error {
 	}
 
 	if len(m.Metadata) != 0 {
-		metadata, err := json.Marshal(m.Metadata)
+		metadata, err := sonic.Marshal(m.Metadata)
 		if err != nil {
 			return err
 		}
@@ -261,7 +261,7 @@ func populateAnnotations(out io.Writer, refs []*ast.AnnotationsRef) error {
 						if len(s.Schema) > 0 {
 							le.value = s.Schema.String()
 						} else if s.Definition != nil {
-							b, _ := json.Marshal(s.Definition)
+							b, _ := sonic.Marshal(s.Definition)
 							le.value = string(b)
 						}
 						l = append(l, le)
@@ -283,7 +283,7 @@ func populateAnnotations(out io.Writer, refs []*ast.AnnotationsRef) error {
 					fmt.Fprintln(out, "Custom:")
 					l := make([]listEntry, 0, len(a.Custom))
 					for k, v := range a.Custom {
-						b, _ := json.Marshal(v)
+						b, _ := sonic.Marshal(v)
 						l = append(l, listEntry{k, string(b)})
 					}
 					printList(out, l, ": ")

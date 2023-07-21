@@ -6,8 +6,8 @@ package ast
 
 import (
 	"bytes"
-	"encoding/json"
 	"fmt"
+	"github.com/bytedance/sonic"
 	"math/rand"
 	"strings"
 	"time"
@@ -493,7 +493,7 @@ func (pkg *Package) MarshalJSON() ([]byte, error) {
 		}
 	}
 
-	return json.Marshal(data)
+	return sonic.Marshal(data)
 }
 
 // IsValidImportPath returns an error indicating if the import path is invalid.
@@ -607,7 +607,7 @@ func (imp *Import) MarshalJSON() ([]byte, error) {
 		}
 	}
 
-	return json.Marshal(data)
+	return sonic.Marshal(data)
 }
 
 // Compare returns an integer indicating whether rule is less than, equal to,
@@ -723,7 +723,7 @@ func (rule *Rule) MarshalJSON() ([]byte, error) {
 		}
 	}
 
-	return json.Marshal(data)
+	return sonic.Marshal(data)
 }
 
 func (rule *Rule) elseString() string {
@@ -932,7 +932,7 @@ func (head *Head) MarshalJSON() ([]byte, error) {
 	// for unmarshaling a json object into a Head struct!
 	// NOTE(charlieegan3): we also need to optionally include the location
 	type h Head
-	return json.Marshal(struct {
+	return sonic.Marshal(struct {
 		h
 		Ref      Ref       `json:"ref"`
 		Location *Location `json:"location,omitempty"`
@@ -1030,7 +1030,7 @@ func (body Body) MarshalJSON() ([]byte, error) {
 	if len(body) == 0 {
 		return []byte(`[]`), nil
 	}
-	ret, err := json.Marshal([]*Expr(body))
+	ret, err := sonic.Marshal([]*Expr(body))
 	return ret, err
 }
 
@@ -1487,7 +1487,7 @@ func (expr *Expr) MarshalJSON() ([]byte, error) {
 		}
 	}
 
-	return json.Marshal(data)
+	return sonic.Marshal(data)
 }
 
 // UnmarshalJSON parses the byte array and stores the result in expr.
@@ -1570,7 +1570,7 @@ func (d *SomeDecl) MarshalJSON() ([]byte, error) {
 		}
 	}
 
-	return json.Marshal(data)
+	return sonic.Marshal(data)
 }
 
 func (q *Every) String() string {
@@ -1647,7 +1647,7 @@ func (q *Every) MarshalJSON() ([]byte, error) {
 		}
 	}
 
-	return json.Marshal(data)
+	return sonic.Marshal(data)
 }
 
 func (w *With) String() string {
@@ -1724,7 +1724,7 @@ func (w *With) MarshalJSON() ([]byte, error) {
 		}
 	}
 
-	return json.Marshal(data)
+	return sonic.Marshal(data)
 }
 
 // Copy returns a deep copy of the AST node x. If x is not an AST node, x is returned unmodified.

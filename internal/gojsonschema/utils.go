@@ -28,6 +28,7 @@ package gojsonschema
 
 import (
 	"encoding/json"
+	"github.com/bytedance/sonic"
 	"math/big"
 )
 
@@ -65,7 +66,7 @@ func marshalWithoutNumber(value interface{}) (*string, error) {
 
 	var document interface{}
 
-	err = json.Unmarshal([]byte(*jsonString), &document)
+	err = sonic.Unmarshal([]byte(*jsonString), &document)
 	if err != nil {
 		return nil, err
 	}

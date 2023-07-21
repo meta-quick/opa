@@ -2,29 +2,30 @@ package ast
 
 import (
 	"encoding/json"
+	"github.com/bytedance/sonic"
 )
 
 func UnmarshalSelectionSet(b []byte) (SelectionSet, error) {
 	var tmp []json.RawMessage
 
-	if err := json.Unmarshal(b, &tmp); err != nil {
+	if err := sonic.Unmarshal(b, &tmp); err != nil {
 		return nil, err
 	}
 
 	var result = make([]Selection, 0)
 	for _, item := range tmp {
 		var field Field
-		if err := json.Unmarshal(item, &field); err == nil {
+		if err := sonic.Unmarshal(item, &field); err == nil {
 			result = append(result, &field)
 			continue
 		}
 		var fragmentSpread FragmentSpread
-		if err := json.Unmarshal(item, &fragmentSpread); err == nil {
+		if err := sonic.Unmarshal(item, &fragmentSpread); err == nil {
 			result = append(result, &fragmentSpread)
 			continue
 		}
 		var inlineFragment InlineFragment
-		if err := json.Unmarshal(item, &inlineFragment); err == nil {
+		if err := sonic.Unmarshal(item, &inlineFragment); err == nil {
 			result = append(result, &inlineFragment)
 			continue
 		}
@@ -35,28 +36,28 @@ func UnmarshalSelectionSet(b []byte) (SelectionSet, error) {
 
 func (f *FragmentDefinition) UnmarshalJSON(b []byte) error {
 	var tmp map[string]json.RawMessage
-	if err := json.Unmarshal(b, &tmp); err != nil {
+	if err := sonic.Unmarshal(b, &tmp); err != nil {
 		return err
 	}
 	for k := range tmp {
 		switch k {
 		case "Name":
-			err := json.Unmarshal(tmp[k], &f.Name)
+			err := sonic.Unmarshal(tmp[k], &f.Name)
 			if err != nil {
 				return err
 			}
 		case "VariableDefinition":
-			err := json.Unmarshal(tmp[k], &f.VariableDefinition)
+			err := sonic.Unmarshal(tmp[k], &f.VariableDefinition)
 			if err != nil {
 				return err
 			}
 		case "TypeCondition":
-			err := json.Unmarshal(tmp[k], &f.TypeCondition)
+			err := sonic.Unmarshal(tmp[k], &f.TypeCondition)
 			if err != nil {
 				return err
 			}
 		case "Directives":
-			err := json.Unmarshal(tmp[k], &f.Directives)
+			err := sonic.Unmarshal(tmp[k], &f.Directives)
 			if err != nil {
 				return err
 			}
@@ -67,12 +68,12 @@ func (f *FragmentDefinition) UnmarshalJSON(b []byte) error {
 			}
 			f.SelectionSet = ss
 		case "Definition":
-			err := json.Unmarshal(tmp[k], &f.Definition)
+			err := sonic.Unmarshal(tmp[k], &f.Definition)
 			if err != nil {
 				return err
 			}
 		case "Position":
-			err := json.Unmarshal(tmp[k], &f.Position)
+			err := sonic.Unmarshal(tmp[k], &f.Position)
 			if err != nil {
 				return err
 			}
@@ -83,18 +84,18 @@ func (f *FragmentDefinition) UnmarshalJSON(b []byte) error {
 
 func (f *InlineFragment) UnmarshalJSON(b []byte) error {
 	var tmp map[string]json.RawMessage
-	if err := json.Unmarshal(b, &tmp); err != nil {
+	if err := sonic.Unmarshal(b, &tmp); err != nil {
 		return err
 	}
 	for k := range tmp {
 		switch k {
 		case "TypeCondition":
-			err := json.Unmarshal(tmp[k], &f.TypeCondition)
+			err := sonic.Unmarshal(tmp[k], &f.TypeCondition)
 			if err != nil {
 				return err
 			}
 		case "Directives":
-			err := json.Unmarshal(tmp[k], &f.Directives)
+			err := sonic.Unmarshal(tmp[k], &f.Directives)
 			if err != nil {
 				return err
 			}
@@ -105,7 +106,7 @@ func (f *InlineFragment) UnmarshalJSON(b []byte) error {
 			}
 			f.SelectionSet = ss
 		case "ObjectDefinition":
-			err := json.Unmarshal(tmp[k], &f.ObjectDefinition)
+			err := sonic.Unmarshal(tmp[k], &f.ObjectDefinition)
 			if err != nil {
 				return err
 			}

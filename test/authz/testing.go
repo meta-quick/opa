@@ -104,7 +104,7 @@ func GenerateDataset(profile DataSetProfile) map[string]interface{} {
 
 func generateTokensJSON(profile DataSetProfile) interface{} {
 	tokens := generateTokens(profile)
-	bs, err := json.Marshal(tokens)
+	bs, err := sonic.Marshal(tokens)
 	if err != nil {
 		panic(err)
 	}

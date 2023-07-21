@@ -9,10 +9,10 @@ package types
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/bytedance/sonic"
+	"github.com/open-policy-agent/opa/util"
 	"sort"
 	"strings"
-
-	"github.com/open-policy-agent/opa/util"
 )
 
 // Sprint returns the string representation of the type.
@@ -71,7 +71,7 @@ func (n *NamedType) MarshalJSON() ([]byte, error) {
 	if n.Descr != "" {
 		obj["description"] = n.Descr
 	}
-	return json.Marshal(obj)
+	return sonic.Marshal(obj)
 }
 
 func (n *NamedType) Description(d string) *NamedType {
@@ -91,7 +91,7 @@ func Named(name string, t Type) *NamedType {
 
 // MarshalJSON returns the JSON encoding of t.
 func (t Null) MarshalJSON() ([]byte, error) {
-	return json.Marshal(map[string]interface{}{
+	return sonic.Marshal(map[string]interface{}{
 		"type": t.typeMarker(),
 	})
 }
@@ -125,7 +125,7 @@ func (t Boolean) MarshalJSON() ([]byte, error) {
 	repr := map[string]interface{}{
 		"type": t.typeMarker(),
 	}
-	return json.Marshal(repr)
+	return sonic.Marshal(repr)
 }
 
 func (t Boolean) String() string {
@@ -145,7 +145,7 @@ func NewString() String {
 
 // MarshalJSON returns the JSON encoding of t.
 func (t String) MarshalJSON() ([]byte, error) {
-	return json.Marshal(map[string]interface{}{
+	return sonic.Marshal(map[string]interface{}{
 		"type": t.typeMarker(),
 	})
 }
@@ -167,7 +167,7 @@ func NewNumber() Number {
 
 // MarshalJSON returns the JSON encoding of t.
 func (t Number) MarshalJSON() ([]byte, error) {
-	return json.Marshal(map[string]interface{}{
+	return sonic.Marshal(map[string]interface{}{
 		"type": t.typeMarker(),
 	})
 }
@@ -192,7 +192,7 @@ func NewArray(static []Type, dynamic Type) *Array {
 
 // MarshalJSON returns the JSON encoding of t.
 func (t *Array) MarshalJSON() ([]byte, error) {
-	return json.Marshal(t.toMap())
+	return sonic.Marshal(t.toMap())
 }
 
 func (t *Array) toMap() map[string]interface{} {
@@ -261,7 +261,7 @@ func NewSet(of Type) *Set {
 
 // MarshalJSON returns the JSON encoding of t.
 func (t *Set) MarshalJSON() ([]byte, error) {
-	return json.Marshal(t.toMap())
+	return sonic.Marshal(t.toMap())
 }
 
 func (t *Set) toMap() map[string]interface{} {
@@ -295,7 +295,7 @@ func NewStaticProperty(key interface{}, value Type) *StaticProperty {
 
 // MarshalJSON returns the JSON encoding of p.
 func (p *StaticProperty) MarshalJSON() ([]byte, error) {
-	return json.Marshal(map[string]interface{}{
+	return sonic.Marshal(map[string]interface{}{
 		"key":   p.Key,
 		"value": p.Value,
 	})
@@ -317,7 +317,7 @@ func NewDynamicProperty(key, value Type) *DynamicProperty {
 
 // MarshalJSON returns the JSON encoding of p.
 func (p *DynamicProperty) MarshalJSON() ([]byte, error) {
-	return json.Marshal(map[string]interface{}{
+	return sonic.Marshal(map[string]interface{}{
 		"key":   p.Key,
 		"value": p.Value,
 	})
@@ -390,7 +390,7 @@ func (t *Object) Keys() []interface{} {
 
 // MarshalJSON returns the JSON encoding of t.
 func (t *Object) MarshalJSON() ([]byte, error) {
-	return json.Marshal(t.toMap())
+	return sonic.Marshal(t.toMap())
 }
 
 func (t *Object) toMap() map[string]interface{} {
@@ -459,7 +459,7 @@ func (t Any) Contains(other Type) bool {
 
 // MarshalJSON returns the JSON encoding of t.
 func (t Any) MarshalJSON() ([]byte, error) {
-	return json.Marshal(t.toMap())
+	return sonic.Marshal(t.toMap())
 }
 
 func (t Any) toMap() map[string]interface{} {
@@ -626,7 +626,7 @@ func (t *Function) MarshalJSON() ([]byte, error) {
 	if t.variadic != nil {
 		repr["variadic"] = t.variadic
 	}
-	return json.Marshal(repr)
+	return sonic.Marshal(repr)
 }
 
 // UnmarshalJSON decodes the JSON serialized function declaration.

@@ -7,8 +7,8 @@ package bundle
 
 import (
 	"crypto/rand"
-	"encoding/json"
 	"fmt"
+	"github.com/bytedance/sonic"
 
 	"github.com/open-policy-agent/opa/internal/jwx/jwa"
 	"github.com/open-policy-agent/opa/internal/jwx/jws"
@@ -72,7 +72,7 @@ func (*DefaultSigner) GenerateSignedToken(files []FileInfo, sc *SigningConfig, k
 		}
 	}
 
-	hdr, err := json.Marshal(headers)
+	hdr, err := sonic.Marshal(headers)
 	if err != nil {
 		return "", err
 	}
@@ -107,7 +107,7 @@ func generatePayload(files []FileInfo, sc *SigningConfig, keyID string) ([]byte,
 			payload["keyid"] = keyID
 		}
 	}
-	return json.Marshal(payload)
+	return sonic.Marshal(payload)
 }
 
 // GetSigner returns the Signer registered under the given id

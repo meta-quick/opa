@@ -124,7 +124,7 @@ func TestHttpSendInterQueryForceCache(t *testing.T) {
 			if err != nil {
 				t.Fatal(err)
 			}
-			if err = json.Unmarshal(resultJSON, &parsedBody); err != nil {
+			if err = sonic.Unmarshal(resultJSON, &parsedBody); err != nil {
 				t.Fatal(err)
 			}
 			if !reflect.DeepEqual(parsedBody.Result, expect) {
@@ -141,7 +141,7 @@ func TestHttpSendInterQueryForceCache(t *testing.T) {
 			if err != nil {
 				t.Fatal(err)
 			}
-			if err = json.Unmarshal(resultJSON, &parsedBody); err != nil {
+			if err = sonic.Unmarshal(resultJSON, &parsedBody); err != nil {
 				t.Fatal(err)
 			}
 			if !reflect.DeepEqual(parsedBody.Result, expect) {

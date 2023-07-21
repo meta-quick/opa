@@ -9,6 +9,7 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
+	"github.com/bytedance/sonic"
 	"strings"
 
 	"github.com/open-policy-agent/opa/ast"
@@ -217,7 +218,7 @@ type TraceV1Raw []TraceEventV1
 // UnmarshalJSON unmarshals the TraceV1Raw from a JSON representation.
 func (t *TraceV1Raw) UnmarshalJSON(b []byte) error {
 	var trace []TraceEventV1
-	if err := json.Unmarshal(b, &trace); err != nil {
+	if err := sonic.Unmarshal(b, &trace); err != nil {
 		return err
 	}
 	*t = TraceV1Raw(trace)
@@ -232,7 +233,7 @@ type TraceV1Pretty []string
 // UnmarshalJSON unmarshals the TraceV1Pretty from a JSON representation.
 func (t *TraceV1Pretty) UnmarshalJSON(b []byte) error {
 	var s []string
-	if err := json.Unmarshal(b, &s); err != nil {
+	if err := sonic.Unmarshal(b, &s); err != nil {
 		return err
 	}
 	*t = TraceV1Pretty(s)
@@ -263,7 +264,7 @@ func newRawTraceV1(trace []*topdown.Event) (TraceV1, error) {
 		}
 	}
 
-	b, err := json.Marshal(result)
+	b, err := sonic.Marshal(result)
 	if err != nil {
 		return nil, err
 	}
@@ -275,7 +276,7 @@ func newPrettyTraceV1(trace []*topdown.Event) (TraceV1, error) {
 	topdown.PrettyTraceWithLocation(&buf, trace)
 
 	str := strings.Trim(buf.String(), "\n")
-	b, err := json.Marshal(strings.Split(str, "\n"))
+	b, err := sonic.Marshal(strings.Split(str, "\n"))
 	if err != nil {
 		return nil, err
 	}

@@ -671,7 +671,7 @@ func TestLoadWithJSONOptions(t *testing.T) {
 		t.Fatalf("Expected bar/bar.rego to be loaded")
 	}
 
-	bs, err := json.Marshal(mod.Parsed.Package)
+	bs, err := sonic.Marshal(mod.Parsed.Package)
 	if err != nil {
 		t.Fatalf("Unexpected error: %v", err)
 	}

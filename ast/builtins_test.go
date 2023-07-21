@@ -5,7 +5,7 @@
 package ast
 
 import (
-	"encoding/json"
+	"github.com/bytedance/sonic"
 	"testing"
 
 	"github.com/open-policy-agent/opa/types"
@@ -13,14 +13,14 @@ import (
 
 func TestBuiltinDeclRoundtrip(t *testing.T) {
 
-	bs, err := json.Marshal(Plus)
+	bs, err := sonic.Marshal(Plus)
 	if err != nil {
 		t.Fatal(err)
 	}
 
 	var cpy Builtin
 
-	if err := json.Unmarshal(bs, &cpy); err != nil {
+	if err := sonic.Unmarshal(bs, &cpy); err != nil {
 		t.Fatal(err)
 	}
 

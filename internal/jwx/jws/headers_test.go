@@ -68,7 +68,7 @@ func TestHeader(t *testing.T) {
 			t.Fatal("Failed to JSON marshal")
 		}
 		var hNew jws.StandardHeaders
-		err = json.Unmarshal(hByte, &hNew)
+		err = sonic.Unmarshal(hByte, &hNew)
 		if err != nil {
 			t.Fatal("Failed to JSON marshal")
 		}
@@ -111,7 +111,7 @@ func TestHeader(t *testing.T) {
 
 		headers := `{"typ":"JWT",` + "\r\n" + ` "alg":"dummy"}`
 		var standardHeaders jws.StandardHeaders
-		err := json.Unmarshal([]byte(headers), &standardHeaders)
+		err := sonic.Unmarshal([]byte(headers), &standardHeaders)
 		if err != nil {
 			t.Fatal(err)
 		}

@@ -1000,7 +1000,7 @@ func TestCompilerPlanTargetPruneUnused(t *testing.T) {
 			plan := compiler.bundle.PlanModules[0].Raw
 			var policy ir.Policy
 
-			if err := json.Unmarshal(plan, &policy); err != nil {
+			if err := sonic.Unmarshal(plan, &policy); err != nil {
 				t.Fatal(err)
 			}
 			if exp, act := 1, len(policy.Funcs.Funcs); act != exp {

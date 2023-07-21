@@ -50,7 +50,7 @@ func TestInterfaceToValue(t *testing.T) {
 	}
 
 	// Test standard JSON package unmarshalled inputs
-	if err := json.Unmarshal([]byte(input), &x); err != nil {
+	if err := sonic.Unmarshal([]byte(input), &x); err != nil {
 		t.Fatal(err)
 	}
 

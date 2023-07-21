@@ -34,7 +34,7 @@ func TestJSONSerialization(t *testing.T) {
 	}
 
 	act := make(map[string]map[string]interface{}, len(m))
-	err = json.Unmarshal(bs, &act)
+	err = sonic.Unmarshal(bs, &act)
 	if err != nil {
 		t.Fatal(err)
 	}

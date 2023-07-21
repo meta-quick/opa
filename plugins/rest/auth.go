@@ -19,6 +19,7 @@ import (
 	"encoding/pem"
 	"errors"
 	"fmt"
+	"github.com/bytedance/sonic"
 	"hash"
 	"io"
 	"math/big"
@@ -552,7 +553,7 @@ func (ap *oauth2ClientCredentialsAuthPlugin) requestToken(ctx context.Context) (
 	}
 
 	var tokenResponse tokenEndpointResponse
-	err = json.Unmarshal(bodyRaw, &tokenResponse)
+	err = sonic.Unmarshal(bodyRaw, &tokenResponse)
 	if err != nil {
 		return nil, err
 	}

@@ -169,7 +169,7 @@ func GenerateConcurrencyBenchmarkData() (string, map[string]interface{}) {
 		`)
 
 	var data map[string]interface{}
-	if err := json.Unmarshal(obj, &data); err != nil {
+	if err := sonic.Unmarshal(obj, &data); err != nil {
 		panic(err)
 	}
 	mod := `package test

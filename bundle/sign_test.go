@@ -99,7 +99,7 @@ func TestGenerateSignedTokenWithClaims(t *testing.T) {
 		claims := make(map[string]interface{})
 		claims["scope"] = "read"
 
-		claimBytes, err := json.Marshal(claims)
+		claimBytes, err := sonic.Marshal(claims)
 		if err != nil {
 			t.Fatalf("Unexpected error %v", err)
 		}
