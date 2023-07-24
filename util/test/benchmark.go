@@ -6,8 +6,8 @@ package test
 
 import (
 	"bytes"
-	"encoding/json"
 	"fmt"
+	"github.com/bytedance/sonic"
 	"text/template"
 )
 

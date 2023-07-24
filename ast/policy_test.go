@@ -6,8 +6,8 @@ package ast
 
 import (
 	"bytes"
-	"encoding/json"
 	"fmt"
+	"github.com/bytedance/sonic"
 	"net/url"
 	"reflect"
 	"testing"

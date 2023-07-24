@@ -87,11 +87,12 @@ func MustMarshalJSON(x interface{}) []byte {
 // rego.Input and inmem's Write operations. Works with both references and
 // values.
 func RoundTrip(x *interface{}) error {
-	bs, err := sonic.Marshal(x)
-	if err != nil {
-		return err
-	}
-	return UnmarshalJSON(bs, x)
+	//bs, err := sonic.Marshal(x)
+	//if err != nil {
+	//	return err
+	//}
+	//return UnmarshalJSON(bs, x)
+	return nil
 }
 
 // Reference returns a pointer to its argument unless the argument already is

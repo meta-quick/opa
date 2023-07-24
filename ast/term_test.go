@@ -7,6 +7,7 @@ package ast
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/bytedance/sonic"
 	"math/rand"
 	"reflect"
 	"runtime"

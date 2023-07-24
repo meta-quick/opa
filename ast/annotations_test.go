@@ -1096,7 +1096,7 @@ func TestAnnotations_toObject(t *testing.T) {
 }
 
 func toJSON(v interface{}) string {
-	b, _ := sonic.MarshalIndent(v, "", "  ")
+	b, _ := json.MarshalIndent(v, "", "  ")
 	return string(b)
 }
 
