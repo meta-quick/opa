@@ -41,31 +41,24 @@ func TestExprNoCompilied(t *testing.T) {
 }
 
 func TestExprRego(t *testing.T) {
-	code := `"hello " + greet`
-	env := map[string]interface{}{
-		"greet":   "world",
-		"sprintf": "fmt.Sprintf",
-	}
+	code := `sprintf("hello %v",greet)`
 
 	input := map[string]interface{}{
-		"code":    code,
-		"context": env,
+		"code": code,
 	}
 
 	ctx := context.Background()
 
-	module := `
-		package test
-		p = output {
-        #x := timed.Gauge.Add("ns","ley",100,100000)
-        xxx := Expr.CompiledEval(input.code,input.context)
-        output := input
-}
-`
+	module := "\t\tpackage test\n\t\tp = output {\n        xxx := Expr.CompiledEval(`%s`,input)\n        output := input\n}"
+	module = fmt.Sprintf(module, code)
+
 	r := rego.New(
 		rego.Query("data.test.p"),
 		rego.Module("", module),
 	)
+
+	RegisterExprCustomFunc("sprintf", fmt.Sprintf)
+	RegisterExprCustomFunc("greet", "demo")
 
 	pq, err := r.PrepareForEval(ctx)
 	if err != nil {
