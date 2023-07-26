@@ -398,6 +398,14 @@ func builtinJSONPatch(_ BuiltinContext, operands []*ast.Term, iter func(*ast.Ter
 	return iter(patched)
 }
 
+func ApplyPatches(source *ast.Term, operations *ast.Array) (*ast.Term, error) {
+	return applyPatches(source, operations)
+}
+
+func ParsePath(path *ast.Term) (ast.Ref, error) {
+	return parsePath(path)
+}
+
 func init() {
 	RegisterBuiltinFunc(ast.JSONFilter.Name, builtinJSONFilter)
 	RegisterBuiltinFunc(ast.JSONRemove.Name, builtinJSONRemove)

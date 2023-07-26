@@ -23,6 +23,7 @@ require (
 	github.com/golang/protobuf v1.5.3
 	github.com/google/go-cmp v0.5.9
 	github.com/gorilla/mux v1.8.0
+	github.com/meta-quick/mask v0.1.4
 	github.com/olekukonko/tablewriter v0.0.5
 	github.com/opencontainers/go-digest v1.0.0
 	github.com/opencontainers/image-spec v1.1.0-rc4
