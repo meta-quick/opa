@@ -6,7 +6,7 @@ package ast
 
 import (
 	"github.com/bytedance/sonic"
-	"github.com/open-policy-agent/opa/util"
+	"github.com/meta-quick/opa/util"
 )
 
 // ValueMap represents a key/value map between AST term values. Any type of term

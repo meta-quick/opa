@@ -12,9 +12,9 @@ import (
 	"github.com/bytedance/sonic"
 	"strings"
 
-	"github.com/open-policy-agent/opa/ast"
-	"github.com/open-policy-agent/opa/topdown"
-	"github.com/open-policy-agent/opa/util"
+	"github.com/meta-quick/opa/ast"
+	"github.com/meta-quick/opa/topdown"
+	"github.com/meta-quick/opa/util"
 )
 
 // Error codes returned by OPA's REST API.

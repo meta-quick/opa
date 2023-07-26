@@ -3,7 +3,7 @@ package lexer
 import (
 	"strconv"
 
-	"github.com/open-policy-agent/opa/internal/gqlparser/ast"
+	"github.com/meta-quick/opa/internal/gqlparser/ast"
 )
 
 const (

@@ -10,8 +10,8 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/open-policy-agent/opa/internal/version"
-	"github.com/open-policy-agent/opa/logging"
+	"github.com/meta-quick/opa/internal/version"
+	"github.com/meta-quick/opa/logging"
 )
 
 // Values taken from

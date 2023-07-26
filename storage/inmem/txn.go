@@ -9,10 +9,10 @@ import (
 	"encoding/json"
 	"strconv"
 
-	"github.com/open-policy-agent/opa/internal/deepcopy"
-	"github.com/open-policy-agent/opa/storage"
-	"github.com/open-policy-agent/opa/storage/internal/errors"
-	"github.com/open-policy-agent/opa/storage/internal/ptr"
+	"github.com/meta-quick/opa/internal/deepcopy"
+	"github.com/meta-quick/opa/storage"
+	"github.com/meta-quick/opa/storage/internal/errors"
+	"github.com/meta-quick/opa/storage/internal/ptr"
 )
 
 // transaction implements the low-level read/write operations on the in-memory

@@ -6,7 +6,7 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/open-policy-agent/opa/internal/gqlparser/ast"
+	"github.com/meta-quick/opa/internal/gqlparser/ast"
 )
 
 type Formatter interface {
@@ -556,7 +556,7 @@ func (f *formatter) FormatVariableDefinition(def *ast.VariableDefinition) {
 		f.FormatValue(def.DefaultValue)
 	}
 
-	// TODO https://github.com/open-policy-agent/opa/internal/gqlparser/issues/102
+	// TODO https://github.com/meta-quick/opa/internal/gqlparser/issues/102
 	//   VariableDefinition : Variable : Type DefaultValue? Directives[Const]?
 }
 

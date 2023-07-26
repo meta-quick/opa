@@ -11,13 +11,13 @@ import (
 	"reflect"
 	"testing"
 
-	internal_tracing "github.com/open-policy-agent/opa/internal/distributedtracing"
-	"github.com/open-policy-agent/opa/internal/storage/mock"
-	"github.com/open-policy-agent/opa/logging"
-	"github.com/open-policy-agent/opa/logging/test"
-	"github.com/open-policy-agent/opa/plugins/rest"
-	inmem "github.com/open-policy-agent/opa/storage/inmem/test"
-	"github.com/open-policy-agent/opa/topdown/cache"
+	internal_tracing "github.com/meta-quick/opa/internal/distributedtracing"
+	"github.com/meta-quick/opa/internal/storage/mock"
+	"github.com/meta-quick/opa/logging"
+	"github.com/meta-quick/opa/logging/test"
+	"github.com/meta-quick/opa/plugins/rest"
+	inmem "github.com/meta-quick/opa/storage/inmem/test"
+	"github.com/meta-quick/opa/topdown/cache"
 	prom "github.com/prometheus/client_golang/prometheus"
 )
 

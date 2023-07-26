@@ -6,8 +6,8 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/open-policy-agent/opa/internal/jwx/jwa"
-	"github.com/open-policy-agent/opa/internal/jwx/jwk"
+	"github.com/meta-quick/opa/internal/jwx/jwa"
+	"github.com/meta-quick/opa/internal/jwx/jwk"
 )
 
 func TestRSA(t *testing.T) {

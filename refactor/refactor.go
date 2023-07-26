@@ -8,7 +8,7 @@ package refactor
 import (
 	"fmt"
 
-	"github.com/open-policy-agent/opa/ast"
+	"github.com/meta-quick/opa/ast"
 )
 
 // Error defines the structure of errors returned by refactor.

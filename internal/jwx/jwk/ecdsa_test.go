@@ -4,14 +4,13 @@ import (
 	"crypto/ecdsa"
 	"crypto/elliptic"
 	"crypto/rand"
-	"encoding/json"
 	"fmt"
 	"reflect"
 	"testing"
 
-	"github.com/open-policy-agent/opa/internal/jwx/buffer"
-	"github.com/open-policy-agent/opa/internal/jwx/jwa"
-	"github.com/open-policy-agent/opa/internal/jwx/jwk"
+	"github.com/meta-quick/opa/internal/jwx/buffer"
+	"github.com/meta-quick/opa/internal/jwx/jwa"
+	"github.com/meta-quick/opa/internal/jwx/jwk"
 )
 
 func TestECDSA(t *testing.T) {

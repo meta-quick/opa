@@ -7,8 +7,8 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/open-policy-agent/opa/ast"
-	"github.com/open-policy-agent/opa/topdown/print"
+	"github.com/meta-quick/opa/ast"
+	"github.com/meta-quick/opa/topdown/print"
 )
 
 func TestTopDownPrint(t *testing.T) {

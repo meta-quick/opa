@@ -10,8 +10,8 @@ import (
 	"fmt"
 	"runtime"
 
-	"github.com/open-policy-agent/opa/storage"
-	"github.com/open-policy-agent/opa/version"
+	"github.com/meta-quick/opa/storage"
+	"github.com/meta-quick/opa/version"
 )
 
 var versionPath = storage.MustParsePath("/system/version")

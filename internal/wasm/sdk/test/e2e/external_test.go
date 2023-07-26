@@ -19,12 +19,12 @@ import (
 	"testing"
 	"time"
 
-	"github.com/open-policy-agent/opa/ast"
-	"github.com/open-policy-agent/opa/internal/wasm/sdk/opa"
-	"github.com/open-policy-agent/opa/rego"
-	"github.com/open-policy-agent/opa/test/cases"
-	"github.com/open-policy-agent/opa/types"
-	"github.com/open-policy-agent/opa/util"
+	"github.com/meta-quick/opa/ast"
+	"github.com/meta-quick/opa/internal/wasm/sdk/opa"
+	"github.com/meta-quick/opa/rego"
+	"github.com/meta-quick/opa/test/cases"
+	"github.com/meta-quick/opa/types"
+	"github.com/meta-quick/opa/util"
 )
 
 const opaRootDir = "../../../../../"

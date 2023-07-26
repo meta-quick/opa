@@ -14,8 +14,8 @@ import (
 	"time"
 	_ "time/tzdata" // this is needed to have LoadLocation when no filesystem tzdata is available
 
-	"github.com/open-policy-agent/opa/ast"
-	"github.com/open-policy-agent/opa/topdown/builtins"
+	"github.com/meta-quick/opa/ast"
+	"github.com/meta-quick/opa/topdown/builtins"
 )
 
 var tzCache map[string]*time.Location

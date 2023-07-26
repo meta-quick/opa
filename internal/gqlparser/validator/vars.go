@@ -7,8 +7,8 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/open-policy-agent/opa/internal/gqlparser/ast"
-	"github.com/open-policy-agent/opa/internal/gqlparser/gqlerror"
+	"github.com/meta-quick/opa/internal/gqlparser/ast"
+	"github.com/meta-quick/opa/internal/gqlparser/gqlerror"
 )
 
 var ErrUnexpectedType = fmt.Errorf("Unexpected Type")

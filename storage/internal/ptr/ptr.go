@@ -8,8 +8,8 @@ package ptr
 import (
 	"strconv"
 
-	"github.com/open-policy-agent/opa/storage"
-	"github.com/open-policy-agent/opa/storage/internal/errors"
+	"github.com/meta-quick/opa/storage"
+	"github.com/meta-quick/opa/storage/internal/errors"
 )
 
 func Ptr(data interface{}, path storage.Path) (interface{}, error) {

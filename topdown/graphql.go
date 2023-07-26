@@ -10,15 +10,15 @@ import (
 	"github.com/bytedance/sonic"
 	"strings"
 
-	gqlast "github.com/open-policy-agent/opa/internal/gqlparser/ast"
-	gqlparser "github.com/open-policy-agent/opa/internal/gqlparser/parser"
-	gqlvalidator "github.com/open-policy-agent/opa/internal/gqlparser/validator"
+	gqlast "github.com/meta-quick/opa/internal/gqlparser/ast"
+	gqlparser "github.com/meta-quick/opa/internal/gqlparser/parser"
+	gqlvalidator "github.com/meta-quick/opa/internal/gqlparser/validator"
 
 	// Side-effecting import. Triggers GraphQL library's validation rule init() functions.
-	_ "github.com/open-policy-agent/opa/internal/gqlparser/validator/rules"
+	_ "github.com/meta-quick/opa/internal/gqlparser/validator/rules"
 
-	"github.com/open-policy-agent/opa/ast"
-	"github.com/open-policy-agent/opa/topdown/builtins"
+	"github.com/meta-quick/opa/ast"
+	"github.com/meta-quick/opa/topdown/builtins"
 )
 
 // Parses a GraphQL schema, and returns the GraphQL AST for the schema.

@@ -3,8 +3,8 @@ package extended
 import (
 	"context"
 	"github.com/bytedance/sonic"
-	"github.com/open-policy-agent/opa/ast"
-	"github.com/open-policy-agent/opa/rego"
+	"github.com/meta-quick/opa/ast"
+	"github.com/meta-quick/opa/rego"
 	"testing"
 )
 

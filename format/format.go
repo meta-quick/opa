@@ -12,9 +12,9 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/open-policy-agent/opa/ast"
-	"github.com/open-policy-agent/opa/internal/future"
-	"github.com/open-policy-agent/opa/types"
+	"github.com/meta-quick/opa/ast"
+	"github.com/meta-quick/opa/internal/future"
+	"github.com/meta-quick/opa/types"
 )
 
 // Opts lets you control the code formatting via `AstWithOpts()`.

@@ -9,14 +9,14 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/open-policy-agent/opa/dependencies"
-	"github.com/open-policy-agent/opa/internal/presentation"
+	"github.com/meta-quick/opa/dependencies"
+	"github.com/meta-quick/opa/internal/presentation"
 
 	"github.com/spf13/cobra"
 
-	"github.com/open-policy-agent/opa/ast"
-	"github.com/open-policy-agent/opa/loader"
-	"github.com/open-policy-agent/opa/util"
+	"github.com/meta-quick/opa/ast"
+	"github.com/meta-quick/opa/loader"
+	"github.com/meta-quick/opa/util"
 )
 
 type depsCommandParams struct {

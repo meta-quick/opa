@@ -14,13 +14,13 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/open-policy-agent/opa/ast"
-	"github.com/open-policy-agent/opa/loader"
-	"github.com/open-policy-agent/opa/rego"
-	"github.com/open-policy-agent/opa/storage"
-	inmem "github.com/open-policy-agent/opa/storage/inmem/test"
-	"github.com/open-policy-agent/opa/util"
-	"github.com/open-policy-agent/opa/util/test"
+	"github.com/meta-quick/opa/ast"
+	"github.com/meta-quick/opa/loader"
+	"github.com/meta-quick/opa/rego"
+	"github.com/meta-quick/opa/storage"
+	inmem "github.com/meta-quick/opa/storage/inmem/test"
+	"github.com/meta-quick/opa/util"
+	"github.com/meta-quick/opa/util/test"
 )
 
 type testErrorWithMarshaller struct {

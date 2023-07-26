@@ -11,10 +11,10 @@ import (
 	"strings"
 	"time"
 
-	"github.com/open-policy-agent/opa/internal/compiler/wasm/opa"
-	"github.com/open-policy-agent/opa/internal/wasm/encoding"
-	"github.com/open-policy-agent/opa/internal/wasm/instruction"
-	"github.com/open-policy-agent/opa/internal/wasm/module"
+	"github.com/meta-quick/opa/internal/compiler/wasm/opa"
+	"github.com/meta-quick/opa/internal/wasm/encoding"
+	"github.com/meta-quick/opa/internal/wasm/instruction"
+	"github.com/meta-quick/opa/internal/wasm/module"
 )
 
 const warning = `---------------------------------------------------------------

@@ -13,11 +13,11 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"github.com/open-policy-agent/opa/ast"
-	"github.com/open-policy-agent/opa/format"
-	fileurl "github.com/open-policy-agent/opa/internal/file/url"
-	"github.com/open-policy-agent/opa/loader"
-	"github.com/open-policy-agent/opa/refactor"
+	"github.com/meta-quick/opa/ast"
+	"github.com/meta-quick/opa/format"
+	fileurl "github.com/meta-quick/opa/internal/file/url"
+	"github.com/meta-quick/opa/loader"
+	"github.com/meta-quick/opa/refactor"
 )
 
 type moveCommandParams struct {

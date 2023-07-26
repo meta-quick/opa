@@ -19,8 +19,8 @@ import (
 	"testing"
 	"testing/fstest"
 
-	"github.com/open-policy-agent/opa/ast"
-	"github.com/open-policy-agent/opa/internal/file/archive"
+	"github.com/meta-quick/opa/ast"
+	"github.com/meta-quick/opa/internal/file/archive"
 )
 
 func TestManifestAddRoot(t *testing.T) {

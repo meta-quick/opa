@@ -4,7 +4,7 @@ import (
 	"compress/gzip"
 	"fmt"
 
-	"github.com/open-policy-agent/opa/util"
+	"github.com/meta-quick/opa/util"
 )
 
 var defaultGzipMinLength = 1024

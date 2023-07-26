@@ -9,8 +9,8 @@ package wasm
 import (
 	"context"
 
-	"github.com/open-policy-agent/opa/internal/rego/opa"
-	wopa "github.com/open-policy-agent/opa/internal/wasm/sdk/opa"
+	"github.com/meta-quick/opa/internal/rego/opa"
+	wopa "github.com/meta-quick/opa/internal/wasm/sdk/opa"
 )
 
 func init() {

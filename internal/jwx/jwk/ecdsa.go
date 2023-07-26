@@ -7,7 +7,7 @@ import (
 	"fmt"
 	"math/big"
 
-	"github.com/open-policy-agent/opa/internal/jwx/jwa"
+	"github.com/meta-quick/opa/internal/jwx/jwa"
 )
 
 func newECDSAPublicKey(key *ecdsa.PublicKey) (*ECDSAPublicKey, error) {

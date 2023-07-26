@@ -14,10 +14,10 @@ import (
 	"testing"
 	"time"
 
-	"github.com/open-policy-agent/opa/ast"
-	"github.com/open-policy-agent/opa/rego"
-	"github.com/open-policy-agent/opa/topdown"
-	"github.com/open-policy-agent/opa/util/test"
+	"github.com/meta-quick/opa/ast"
+	"github.com/meta-quick/opa/rego"
+	"github.com/meta-quick/opa/topdown"
+	"github.com/meta-quick/opa/util/test"
 )
 
 func TestFilterTraceDefault(t *testing.T) {

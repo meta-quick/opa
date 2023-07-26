@@ -11,7 +11,7 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/open-policy-agent/opa/metrics"
+	"github.com/meta-quick/opa/metrics"
 )
 
 const (

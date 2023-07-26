@@ -9,7 +9,7 @@ import (
 	"strconv"
 	"testing"
 
-	"github.com/open-policy-agent/opa/ast"
+	"github.com/meta-quick/opa/ast"
 )
 
 func TestBindingsZeroValues(t *testing.T) {

@@ -15,9 +15,9 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"github.com/open-policy-agent/opa/runtime"
-	"github.com/open-policy-agent/opa/server"
-	"github.com/open-policy-agent/opa/util"
+	"github.com/meta-quick/opa/runtime"
+	"github.com/meta-quick/opa/server"
+	"github.com/meta-quick/opa/util"
 )
 
 const (

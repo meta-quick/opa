@@ -7,7 +7,7 @@ import (
 	"context"
 	"testing"
 
-	"github.com/open-policy-agent/opa/ast"
+	"github.com/meta-quick/opa/ast"
 )
 
 func TestOPARuntime(t *testing.T) {

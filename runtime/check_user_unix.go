@@ -1,3 +1,4 @@
+//go:build !linux && !windows
 // +build !linux,!windows
 
 // Copyright 2022 The OPA Authors.  All rights reserved.
@@ -9,7 +10,7 @@ package runtime
 import (
 	"os/user"
 
-	"github.com/open-policy-agent/opa/logging"
+	"github.com/meta-quick/opa/logging"
 )
 
 // checkUserPrivileges could not be running in Docker, so we only warn

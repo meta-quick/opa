@@ -1,7 +1,7 @@
 package status
 
 import (
-	"github.com/open-policy-agent/opa/version"
+	"github.com/meta-quick/opa/version"
 	"github.com/prometheus/client_golang/prometheus"
 )
 

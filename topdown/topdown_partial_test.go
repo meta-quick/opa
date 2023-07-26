@@ -11,10 +11,10 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/open-policy-agent/opa/ast"
-	"github.com/open-policy-agent/opa/storage"
-	inmem "github.com/open-policy-agent/opa/storage/inmem/test"
-	"github.com/open-policy-agent/opa/util"
+	"github.com/meta-quick/opa/ast"
+	"github.com/meta-quick/opa/storage"
+	inmem "github.com/meta-quick/opa/storage/inmem/test"
+	"github.com/meta-quick/opa/util"
 )
 
 func TestTopDownPartialEval(t *testing.T) {
@@ -3288,7 +3288,7 @@ func TestTopDownPartialEval(t *testing.T) {
 					a2 = input; __local4__2 > __local2__2 }
 				}`},
 		},
-		{ // https://github.com/open-policy-agent/opa/issues/5367
+		{ // https://github.com/meta-quick/opa/issues/5367
 			note:  "copypropagation: keep equations that are only found in comprehensions, inlined function call",
 			query: "data.test.p",
 			modules: []string{`package test
@@ -3320,7 +3320,7 @@ func TestTopDownPartialEval(t *testing.T) {
 			}`},
 			wantQueries: []string{`every __local0__1, __local1__1 in input.ys { __local1__1 = input.foo }; x1 = input.foo`},
 		},
-		{ // https://github.com/open-policy-agent/opa/issues/6027
+		{ // https://github.com/meta-quick/opa/issues/6027
 			note:  "ref heads: \"double\" unification, single-value rule",
 			query: "data.test.foo[input.a][input.b]",
 			modules: []string{`package test
@@ -3329,7 +3329,7 @@ func TestTopDownPartialEval(t *testing.T) {
 			}`},
 			wantQueries: []string{`"bar" = input.a; "baz" = input.b`},
 		},
-		{ // https://github.com/open-policy-agent/opa/issues/6027
+		{ // https://github.com/meta-quick/opa/issues/6027
 			note:  "ref heads: \"double\" unification, multi-value rule",
 			query: "data.test.foo[input.a][input.b]",
 			modules: []string{`package test

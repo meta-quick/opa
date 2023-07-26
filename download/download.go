@@ -18,12 +18,12 @@ import (
 	"sync"
 	"time"
 
-	"github.com/open-policy-agent/opa/bundle"
-	"github.com/open-policy-agent/opa/logging"
-	"github.com/open-policy-agent/opa/metrics"
-	"github.com/open-policy-agent/opa/plugins"
-	"github.com/open-policy-agent/opa/plugins/rest"
-	"github.com/open-policy-agent/opa/util"
+	"github.com/meta-quick/opa/bundle"
+	"github.com/meta-quick/opa/logging"
+	"github.com/meta-quick/opa/metrics"
+	"github.com/meta-quick/opa/plugins"
+	"github.com/meta-quick/opa/plugins/rest"
+	"github.com/meta-quick/opa/util"
 )
 
 const (

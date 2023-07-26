@@ -11,7 +11,7 @@ package authz
 import (
 	"os"
 
-	"github.com/open-policy-agent/opa/storage/disk"
+	"github.com/meta-quick/opa/storage/disk"
 )
 
 func diskStorage() (*disk.Options, func() error) {

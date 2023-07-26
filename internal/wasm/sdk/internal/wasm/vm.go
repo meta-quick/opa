@@ -16,14 +16,14 @@ import (
 
 	wasmtime "github.com/bytecodealliance/wasmtime-go/v3"
 
-	"github.com/open-policy-agent/opa/ast"
-	sdk_errors "github.com/open-policy-agent/opa/internal/wasm/sdk/opa/errors"
-	"github.com/open-policy-agent/opa/internal/wasm/util"
-	"github.com/open-policy-agent/opa/metrics"
-	"github.com/open-policy-agent/opa/topdown"
-	"github.com/open-policy-agent/opa/topdown/builtins"
-	"github.com/open-policy-agent/opa/topdown/cache"
-	"github.com/open-policy-agent/opa/topdown/print"
+	"github.com/meta-quick/opa/ast"
+	sdk_errors "github.com/meta-quick/opa/internal/wasm/sdk/opa/errors"
+	"github.com/meta-quick/opa/internal/wasm/util"
+	"github.com/meta-quick/opa/metrics"
+	"github.com/meta-quick/opa/topdown"
+	"github.com/meta-quick/opa/topdown/builtins"
+	"github.com/meta-quick/opa/topdown/cache"
+	"github.com/meta-quick/opa/topdown/print"
 )
 
 // VM is a wrapper around a Wasm VM instance

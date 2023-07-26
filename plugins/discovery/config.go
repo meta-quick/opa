@@ -8,13 +8,13 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/open-policy-agent/opa/keys"
+	"github.com/meta-quick/opa/keys"
 
-	"github.com/open-policy-agent/opa/bundle"
+	"github.com/meta-quick/opa/bundle"
 
-	"github.com/open-policy-agent/opa/ast"
-	"github.com/open-policy-agent/opa/download"
-	"github.com/open-policy-agent/opa/util"
+	"github.com/meta-quick/opa/ast"
+	"github.com/meta-quick/opa/download"
+	"github.com/meta-quick/opa/util"
 )
 
 // Config represents the configuration for the discovery feature.

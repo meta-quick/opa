@@ -9,8 +9,8 @@ import (
 	"errors"
 	"strings"
 
-	"github.com/open-policy-agent/opa/ast"
-	"github.com/open-policy-agent/opa/storage"
+	"github.com/meta-quick/opa/ast"
+	"github.com/meta-quick/opa/storage"
 )
 
 // ParseDataPath returns a ref from the slash separated path s rooted at data.

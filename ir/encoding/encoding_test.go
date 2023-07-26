@@ -5,9 +5,9 @@ import (
 	"encoding/json"
 	"testing"
 
-	"github.com/open-policy-agent/opa/ast"
-	"github.com/open-policy-agent/opa/internal/planner"
-	"github.com/open-policy-agent/opa/ir"
+	"github.com/meta-quick/opa/ast"
+	"github.com/meta-quick/opa/internal/planner"
+	"github.com/meta-quick/opa/ir"
 )
 
 func TestRoundTrip(t *testing.T) {

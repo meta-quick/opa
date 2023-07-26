@@ -18,15 +18,15 @@ import (
 
 	"github.com/olekukonko/tablewriter"
 
-	"github.com/open-policy-agent/opa/ast"
-	"github.com/open-policy-agent/opa/cover"
-	"github.com/open-policy-agent/opa/format"
-	"github.com/open-policy-agent/opa/loader"
-	"github.com/open-policy-agent/opa/metrics"
-	"github.com/open-policy-agent/opa/profiler"
-	"github.com/open-policy-agent/opa/rego"
-	"github.com/open-policy-agent/opa/storage"
-	"github.com/open-policy-agent/opa/topdown"
+	"github.com/meta-quick/opa/ast"
+	"github.com/meta-quick/opa/cover"
+	"github.com/meta-quick/opa/format"
+	"github.com/meta-quick/opa/loader"
+	"github.com/meta-quick/opa/metrics"
+	"github.com/meta-quick/opa/profiler"
+	"github.com/meta-quick/opa/rego"
+	"github.com/meta-quick/opa/storage"
+	"github.com/meta-quick/opa/topdown"
 )
 
 // DefaultProfileSortOrder is the default ordering unless something is specified in the CLI

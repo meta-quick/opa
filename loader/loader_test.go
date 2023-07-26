@@ -7,7 +7,6 @@ package loader
 import (
 	"bytes"
 	"embed"
-	"encoding/json"
 	"io"
 	"io/fs"
 	"os"
@@ -18,10 +17,10 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/open-policy-agent/opa/ast"
-	"github.com/open-policy-agent/opa/bundle"
-	"github.com/open-policy-agent/opa/util"
-	"github.com/open-policy-agent/opa/util/test"
+	"github.com/meta-quick/opa/ast"
+	"github.com/meta-quick/opa/bundle"
+	"github.com/meta-quick/opa/util"
+	"github.com/meta-quick/opa/util/test"
 )
 
 func TestLoadJSON(t *testing.T) {

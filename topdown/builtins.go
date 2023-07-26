@@ -11,12 +11,12 @@ import (
 	"io"
 	"math/rand"
 
-	"github.com/open-policy-agent/opa/ast"
-	"github.com/open-policy-agent/opa/metrics"
-	"github.com/open-policy-agent/opa/topdown/builtins"
-	"github.com/open-policy-agent/opa/topdown/cache"
-	"github.com/open-policy-agent/opa/topdown/print"
-	"github.com/open-policy-agent/opa/tracing"
+	"github.com/meta-quick/opa/ast"
+	"github.com/meta-quick/opa/metrics"
+	"github.com/meta-quick/opa/topdown/builtins"
+	"github.com/meta-quick/opa/topdown/cache"
+	"github.com/meta-quick/opa/topdown/print"
+	"github.com/meta-quick/opa/tracing"
 )
 
 type (

@@ -9,9 +9,9 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/open-policy-agent/opa/ast"
-	"github.com/open-policy-agent/opa/storage"
-	inmem "github.com/open-policy-agent/opa/storage/inmem/test"
+	"github.com/meta-quick/opa/ast"
+	"github.com/meta-quick/opa/storage"
+	inmem "github.com/meta-quick/opa/storage/inmem/test"
 )
 
 func genNxMSetBenchmarkData(n, m int) ast.Value {
@@ -138,7 +138,7 @@ func BenchmarkSetUnion(b *testing.B) {
 				store := inmem.NewFromObject(map[string]interface{}{"sets": genNxMSetBenchmarkData(n, m)})
 
 				// Code is lifted from here:
-				// https://github.com/open-policy-agent/opa/issues/4979#issue-1332019382
+				// https://github.com/meta-quick/opa/issues/4979#issue-1332019382
 
 				module := `package test
 
@@ -191,7 +191,7 @@ func BenchmarkSetUnionSlow(b *testing.B) {
 				store := inmem.NewFromObject(map[string]interface{}{"sets": genNxMSetBenchmarkData(n, m)})
 
 				// Code is lifted from here:
-				// https://github.com/open-policy-agent/opa/issues/4979#issue-1332019382
+				// https://github.com/meta-quick/opa/issues/4979#issue-1332019382
 
 				module := `package test
 

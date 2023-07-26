@@ -12,8 +12,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/open-policy-agent/opa/keys"
-	"github.com/open-policy-agent/opa/plugins/rest"
+	"github.com/meta-quick/opa/keys"
+	"github.com/meta-quick/opa/plugins/rest"
 )
 
 func TestOCIStartStop(t *testing.T) {

@@ -5,10 +5,10 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/open-policy-agent/opa/ast"
-	"github.com/open-policy-agent/opa/internal/runtime"
-	inmem "github.com/open-policy-agent/opa/storage/inmem/test"
-	"github.com/open-policy-agent/opa/util/test"
+	"github.com/meta-quick/opa/ast"
+	"github.com/meta-quick/opa/internal/runtime"
+	inmem "github.com/meta-quick/opa/storage/inmem/test"
+	"github.com/meta-quick/opa/util/test"
 )
 
 func BenchmarkPartialObjectRuleCrossModule(b *testing.B) {

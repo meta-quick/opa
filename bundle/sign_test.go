@@ -5,17 +5,16 @@
 package bundle
 
 import (
-	"encoding/json"
 	"os"
 	"path/filepath"
 	"testing"
 
-	"github.com/open-policy-agent/opa/util"
+	"github.com/meta-quick/opa/util"
 
-	"github.com/open-policy-agent/opa/util/test"
+	"github.com/meta-quick/opa/util/test"
 
-	"github.com/open-policy-agent/opa/internal/jwx/jwa"
-	"github.com/open-policy-agent/opa/internal/jwx/jws"
+	"github.com/meta-quick/opa/internal/jwx/jwa"
+	"github.com/meta-quick/opa/internal/jwx/jws"
 )
 
 func TestGenerateSignedToken(t *testing.T) {

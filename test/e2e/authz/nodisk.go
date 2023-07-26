@@ -8,7 +8,7 @@
 // nolint: deadcode,unused // build tags confuse these linters
 package authz
 
-import "github.com/open-policy-agent/opa/storage/disk"
+import "github.com/meta-quick/opa/storage/disk"
 
 func diskStorage() (*disk.Options, func() error) {
 	return nil, nil

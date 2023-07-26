@@ -2,8 +2,8 @@ package validator
 
 import (
 	//nolint:revive
-	. "github.com/open-policy-agent/opa/internal/gqlparser/ast"
-	"github.com/open-policy-agent/opa/internal/gqlparser/gqlerror"
+	. "github.com/meta-quick/opa/internal/gqlparser/ast"
+	"github.com/meta-quick/opa/internal/gqlparser/gqlerror"
 )
 
 type AddErrFunc func(options ...ErrorOption)

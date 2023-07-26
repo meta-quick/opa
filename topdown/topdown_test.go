@@ -20,17 +20,17 @@ import (
 	"testing"
 	"time"
 
-	"github.com/open-policy-agent/opa/format"
+	"github.com/meta-quick/opa/format"
 
 	"github.com/ghodss/yaml"
 
-	iCache "github.com/open-policy-agent/opa/topdown/cache"
+	iCache "github.com/meta-quick/opa/topdown/cache"
 
-	"github.com/open-policy-agent/opa/ast"
-	"github.com/open-policy-agent/opa/storage"
-	inmem "github.com/open-policy-agent/opa/storage/inmem/test"
-	"github.com/open-policy-agent/opa/types"
-	"github.com/open-policy-agent/opa/util"
+	"github.com/meta-quick/opa/ast"
+	"github.com/meta-quick/opa/storage"
+	inmem "github.com/meta-quick/opa/storage/inmem/test"
+	"github.com/meta-quick/opa/types"
+	"github.com/meta-quick/opa/util"
 )
 
 func TestTopDownQueryIDsUnique(t *testing.T) {
@@ -1359,8 +1359,8 @@ func getTestNamespace() string {
 		for more := true; more; {
 			var f runtime.Frame
 			f, more = frames.Next()
-			if strings.HasPrefix(f.Function, "github.com/open-policy-agent/opa/topdown.Test") {
-				return strings.TrimPrefix(strings.ToLower(strings.TrimPrefix(strings.TrimPrefix(f.Function, "github.com/open-policy-agent/opa/topdown.Test"), "TopDown")), "builtin")
+			if strings.HasPrefix(f.Function, "github.com/meta-quick/opa/topdown.Test") {
+				return strings.TrimPrefix(strings.ToLower(strings.TrimPrefix(strings.TrimPrefix(f.Function, "github.com/meta-quick/opa/topdown.Test"), "TopDown")), "builtin")
 			}
 		}
 	}

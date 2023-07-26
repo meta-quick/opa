@@ -5,8 +5,8 @@
 package topdown
 
 import (
-	"github.com/open-policy-agent/opa/ast"
-	"github.com/open-policy-agent/opa/internal/uuid"
+	"github.com/meta-quick/opa/ast"
+	"github.com/meta-quick/opa/internal/uuid"
 )
 
 type uuidCachingKey string

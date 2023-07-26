@@ -13,10 +13,10 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"github.com/open-policy-agent/opa/ast"
-	pr "github.com/open-policy-agent/opa/internal/presentation"
-	"github.com/open-policy-agent/opa/loader"
-	"github.com/open-policy-agent/opa/util"
+	"github.com/meta-quick/opa/ast"
+	pr "github.com/meta-quick/opa/internal/presentation"
+	"github.com/meta-quick/opa/loader"
+	"github.com/meta-quick/opa/util"
 )
 
 const (

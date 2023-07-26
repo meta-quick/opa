@@ -10,7 +10,7 @@ import (
 	"path/filepath"
 	"sync"
 
-	"github.com/open-policy-agent/opa/loader/filter"
+	"github.com/meta-quick/opa/loader/filter"
 )
 
 const (

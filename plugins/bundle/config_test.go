@@ -8,11 +8,11 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/open-policy-agent/opa/plugins"
+	"github.com/meta-quick/opa/plugins"
 
-	"github.com/open-policy-agent/opa/keys"
+	"github.com/meta-quick/opa/keys"
 
-	"github.com/open-policy-agent/opa/bundle"
+	"github.com/meta-quick/opa/bundle"
 
 	"github.com/ghodss/yaml"
 )

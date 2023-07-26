@@ -10,23 +10,22 @@ package authz
 import (
 	"bytes"
 	"context"
-	"encoding/json"
 	"flag"
 	"io"
 	"os"
 	"strings"
 	"testing"
 
-	"github.com/open-policy-agent/opa/ast"
-	"github.com/open-policy-agent/opa/bundle"
-	"github.com/open-policy-agent/opa/compile"
-	"github.com/open-policy-agent/opa/metrics"
-	"github.com/open-policy-agent/opa/storage"
-	"github.com/open-policy-agent/opa/test/authz"
-	testAuthz "github.com/open-policy-agent/opa/test/authz"
-	"github.com/open-policy-agent/opa/test/e2e"
-	"github.com/open-policy-agent/opa/util"
-	"github.com/open-policy-agent/opa/util/test"
+	"github.com/meta-quick/opa/ast"
+	"github.com/meta-quick/opa/bundle"
+	"github.com/meta-quick/opa/compile"
+	"github.com/meta-quick/opa/metrics"
+	"github.com/meta-quick/opa/storage"
+	"github.com/meta-quick/opa/test/authz"
+	testAuthz "github.com/meta-quick/opa/test/authz"
+	"github.com/meta-quick/opa/test/e2e"
+	"github.com/meta-quick/opa/util"
+	"github.com/meta-quick/opa/util/test"
 )
 
 var testRuntime *e2e.TestRuntime

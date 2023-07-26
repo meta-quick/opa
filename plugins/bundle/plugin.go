@@ -18,14 +18,14 @@ import (
 	"sync"
 	"time"
 
-	"github.com/open-policy-agent/opa/ast"
-	"github.com/open-policy-agent/opa/bundle"
-	"github.com/open-policy-agent/opa/download"
-	bundleUtils "github.com/open-policy-agent/opa/internal/bundle"
-	"github.com/open-policy-agent/opa/logging"
-	"github.com/open-policy-agent/opa/metrics"
-	"github.com/open-policy-agent/opa/plugins"
-	"github.com/open-policy-agent/opa/storage"
+	"github.com/meta-quick/opa/ast"
+	"github.com/meta-quick/opa/bundle"
+	"github.com/meta-quick/opa/download"
+	bundleUtils "github.com/meta-quick/opa/internal/bundle"
+	"github.com/meta-quick/opa/logging"
+	"github.com/meta-quick/opa/metrics"
+	"github.com/meta-quick/opa/plugins"
+	"github.com/meta-quick/opa/storage"
 )
 
 // maxActivationRetry represents the maximum number of attempts

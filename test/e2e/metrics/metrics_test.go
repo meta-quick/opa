@@ -8,8 +8,8 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/open-policy-agent/opa/server/types"
-	"github.com/open-policy-agent/opa/test/e2e"
+	"github.com/meta-quick/opa/server/types"
+	"github.com/meta-quick/opa/test/e2e"
 )
 
 var testRuntime *e2e.TestRuntime

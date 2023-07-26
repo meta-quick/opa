@@ -8,12 +8,12 @@ import (
 	"context"
 	"testing"
 
-	"github.com/open-policy-agent/opa/ast"
-	"github.com/open-policy-agent/opa/logging"
-	"github.com/open-policy-agent/opa/rego"
-	"github.com/open-policy-agent/opa/storage"
-	"github.com/open-policy-agent/opa/storage/disk"
-	"github.com/open-policy-agent/opa/storage/inmem"
+	"github.com/meta-quick/opa/ast"
+	"github.com/meta-quick/opa/logging"
+	"github.com/meta-quick/opa/rego"
+	"github.com/meta-quick/opa/storage"
+	"github.com/meta-quick/opa/storage/disk"
+	"github.com/meta-quick/opa/storage/inmem"
 )
 
 func BenchmarkAuthzForbidAuthn(b *testing.B) {

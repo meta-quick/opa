@@ -3,7 +3,7 @@ package validator
 import (
 	_ "embed"
 
-	"github.com/open-policy-agent/opa/internal/gqlparser/ast"
+	"github.com/meta-quick/opa/internal/gqlparser/ast"
 )
 
 //go:embed prelude.graphql

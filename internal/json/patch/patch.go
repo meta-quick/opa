@@ -7,7 +7,7 @@ package patch
 import (
 	"strings"
 
-	"github.com/open-policy-agent/opa/storage"
+	"github.com/meta-quick/opa/storage"
 )
 
 // ParsePatchPathEscaped returns a new path for the given escaped str.

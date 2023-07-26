@@ -6,9 +6,9 @@ package extended
 
 import (
 	"github.com/antonmedv/expr"
-	"github.com/open-policy-agent/opa/ast"
-	"github.com/open-policy-agent/opa/rego"
-	"github.com/open-policy-agent/opa/types"
+	"github.com/meta-quick/opa/ast"
+	"github.com/meta-quick/opa/rego"
+	"github.com/meta-quick/opa/types"
 	"sync"
 )
 

@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"strconv"
 
-	"github.com/open-policy-agent/opa/internal/gqlparser/ast"
+	"github.com/meta-quick/opa/internal/gqlparser/ast"
 )
 
 // Error is the standard graphql error type described in https://facebook.github.io/graphql/draft/#sec-Errors

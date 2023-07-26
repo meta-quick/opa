@@ -8,7 +8,7 @@ import (
 	"encoding/json"
 	"testing"
 
-	"github.com/open-policy-agent/opa/types"
+	"github.com/meta-quick/opa/types"
 )
 
 func TestInsertIntoObject(t *testing.T) {

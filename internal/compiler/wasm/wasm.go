@@ -12,16 +12,16 @@ import (
 	"fmt"
 	"io"
 
-	"github.com/open-policy-agent/opa/ast"
-	"github.com/open-policy-agent/opa/internal/compiler/wasm/opa"
-	"github.com/open-policy-agent/opa/internal/debug"
-	"github.com/open-policy-agent/opa/internal/wasm/encoding"
-	"github.com/open-policy-agent/opa/internal/wasm/instruction"
-	"github.com/open-policy-agent/opa/internal/wasm/module"
-	"github.com/open-policy-agent/opa/internal/wasm/types"
-	"github.com/open-policy-agent/opa/internal/wasm/util"
-	"github.com/open-policy-agent/opa/ir"
-	opatypes "github.com/open-policy-agent/opa/types"
+	"github.com/meta-quick/opa/ast"
+	"github.com/meta-quick/opa/internal/compiler/wasm/opa"
+	"github.com/meta-quick/opa/internal/debug"
+	"github.com/meta-quick/opa/internal/wasm/encoding"
+	"github.com/meta-quick/opa/internal/wasm/instruction"
+	"github.com/meta-quick/opa/internal/wasm/module"
+	"github.com/meta-quick/opa/internal/wasm/types"
+	"github.com/meta-quick/opa/internal/wasm/util"
+	"github.com/meta-quick/opa/ir"
+	opatypes "github.com/meta-quick/opa/types"
 )
 
 // Record Wasm ABI version in exported global variable

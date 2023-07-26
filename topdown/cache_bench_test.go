@@ -8,7 +8,7 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/open-policy-agent/opa/ast"
+	"github.com/meta-quick/opa/ast"
 )
 
 func BenchmarkVirtualCache(b *testing.B) {

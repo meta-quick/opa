@@ -10,8 +10,8 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/open-policy-agent/opa/ast"
-	"github.com/open-policy-agent/opa/topdown"
+	"github.com/meta-quick/opa/ast"
+	"github.com/meta-quick/opa/topdown"
 )
 
 func TestFilter(t *testing.T) {

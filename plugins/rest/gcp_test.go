@@ -8,7 +8,7 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	"github.com/open-policy-agent/opa/keys"
+	"github.com/meta-quick/opa/keys"
 )
 
 func TestGCPMetadataAuthPlugin(t *testing.T) {

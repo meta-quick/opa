@@ -5,16 +5,15 @@ package authz
 
 import (
 	"bytes"
-	"encoding/json"
 	"flag"
 	"io"
 	"os"
 	"strings"
 	"testing"
 
-	testAuthz "github.com/open-policy-agent/opa/test/authz"
-	"github.com/open-policy-agent/opa/test/e2e"
-	"github.com/open-policy-agent/opa/util"
+	testAuthz "github.com/meta-quick/opa/test/authz"
+	"github.com/meta-quick/opa/test/e2e"
+	"github.com/meta-quick/opa/util"
 )
 
 var testRuntime *e2e.TestRuntime

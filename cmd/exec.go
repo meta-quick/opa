@@ -10,17 +10,17 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"github.com/open-policy-agent/opa/cmd/internal/exec"
-	"github.com/open-policy-agent/opa/internal/config"
-	internal_logging "github.com/open-policy-agent/opa/internal/logging"
-	"github.com/open-policy-agent/opa/logging"
-	"github.com/open-policy-agent/opa/plugins"
-	"github.com/open-policy-agent/opa/plugins/bundle"
-	"github.com/open-policy-agent/opa/plugins/discovery"
-	"github.com/open-policy-agent/opa/plugins/logs"
-	"github.com/open-policy-agent/opa/plugins/status"
-	"github.com/open-policy-agent/opa/sdk"
-	"github.com/open-policy-agent/opa/util"
+	"github.com/meta-quick/opa/cmd/internal/exec"
+	"github.com/meta-quick/opa/internal/config"
+	internal_logging "github.com/meta-quick/opa/internal/logging"
+	"github.com/meta-quick/opa/logging"
+	"github.com/meta-quick/opa/plugins"
+	"github.com/meta-quick/opa/plugins/bundle"
+	"github.com/meta-quick/opa/plugins/discovery"
+	"github.com/meta-quick/opa/plugins/logs"
+	"github.com/meta-quick/opa/plugins/status"
+	"github.com/meta-quick/opa/sdk"
+	"github.com/meta-quick/opa/util"
 )
 
 func init() {

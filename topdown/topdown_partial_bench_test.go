@@ -5,9 +5,9 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/open-policy-agent/opa/ast"
-	"github.com/open-policy-agent/opa/storage"
-	inmem "github.com/open-policy-agent/opa/storage/inmem/test"
+	"github.com/meta-quick/opa/ast"
+	"github.com/meta-quick/opa/storage"
+	inmem "github.com/meta-quick/opa/storage/inmem/test"
 )
 
 func BenchmarkInliningFullScan(b *testing.B) {

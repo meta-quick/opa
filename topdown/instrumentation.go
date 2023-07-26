@@ -4,7 +4,7 @@
 
 package topdown
 
-import "github.com/open-policy-agent/opa/metrics"
+import "github.com/meta-quick/opa/metrics"
 
 const (
 	evalOpPlug                    = "eval_op_plug"

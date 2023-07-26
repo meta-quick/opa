@@ -11,12 +11,12 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/open-policy-agent/opa/bundle"
-	"github.com/open-policy-agent/opa/internal/file/archive"
-	storageerrors "github.com/open-policy-agent/opa/storage/internal/errors"
+	"github.com/meta-quick/opa/bundle"
+	"github.com/meta-quick/opa/internal/file/archive"
+	storageerrors "github.com/meta-quick/opa/storage/internal/errors"
 
-	"github.com/open-policy-agent/opa/storage"
-	"github.com/open-policy-agent/opa/util"
+	"github.com/meta-quick/opa/storage"
+	"github.com/meta-quick/opa/util"
 )
 
 func TestInMemoryRead(t *testing.T) {

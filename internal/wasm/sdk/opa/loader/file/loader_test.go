@@ -16,7 +16,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/open-policy-agent/opa/bundle"
+	"github.com/meta-quick/opa/bundle"
 )
 
 func TestFileLoader(t *testing.T) {

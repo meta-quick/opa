@@ -10,10 +10,10 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/open-policy-agent/opa/ast"
-	"github.com/open-policy-agent/opa/download"
-	"github.com/open-policy-agent/opa/metrics"
-	"github.com/open-policy-agent/opa/server/types"
+	"github.com/meta-quick/opa/ast"
+	"github.com/meta-quick/opa/download"
+	"github.com/meta-quick/opa/metrics"
+	"github.com/meta-quick/opa/server/types"
 )
 
 const (

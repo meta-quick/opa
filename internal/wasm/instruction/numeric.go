@@ -5,7 +5,7 @@
 package instruction
 
 import (
-	"github.com/open-policy-agent/opa/internal/wasm/opcode"
+	"github.com/meta-quick/opa/internal/wasm/opcode"
 )
 
 // I32Const represents the WASM i32.const instruction.

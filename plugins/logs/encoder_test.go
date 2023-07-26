@@ -9,7 +9,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/open-policy-agent/opa/metrics"
+	"github.com/meta-quick/opa/metrics"
 )
 
 func TestChunkEncoder(t *testing.T) {

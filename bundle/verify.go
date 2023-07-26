@@ -12,10 +12,10 @@ import (
 	"fmt"
 	"github.com/bytedance/sonic"
 
-	"github.com/open-policy-agent/opa/internal/jwx/jwa"
-	"github.com/open-policy-agent/opa/internal/jwx/jws"
-	"github.com/open-policy-agent/opa/internal/jwx/jws/verify"
-	"github.com/open-policy-agent/opa/util"
+	"github.com/meta-quick/opa/internal/jwx/jwa"
+	"github.com/meta-quick/opa/internal/jwx/jws"
+	"github.com/meta-quick/opa/internal/jwx/jws/verify"
+	"github.com/meta-quick/opa/util"
 )
 
 const defaultVerifierID = "_default"

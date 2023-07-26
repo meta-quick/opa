@@ -7,7 +7,7 @@ package storage
 import (
 	"context"
 
-	"github.com/open-policy-agent/opa/metrics"
+	"github.com/meta-quick/opa/metrics"
 )
 
 // Transaction defines the interface that identifies a consistent snapshot over

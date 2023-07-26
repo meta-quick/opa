@@ -7,7 +7,7 @@ package planner
 import (
 	"testing"
 
-	"github.com/open-policy-agent/opa/ast"
+	"github.com/meta-quick/opa/ast"
 )
 
 func TestFuncstack(t *testing.T) {

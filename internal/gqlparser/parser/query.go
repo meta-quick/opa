@@ -1,10 +1,10 @@
 package parser
 
 import (
-	"github.com/open-policy-agent/opa/internal/gqlparser/lexer"
+	"github.com/meta-quick/opa/internal/gqlparser/lexer"
 
 	//nolint:revive
-	. "github.com/open-policy-agent/opa/internal/gqlparser/ast"
+	. "github.com/meta-quick/opa/internal/gqlparser/ast"
 )
 
 func ParseQuery(source *Source) (*QueryDocument, error) {

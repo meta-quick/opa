@@ -4,8 +4,8 @@ import (
 	"bytes"
 	"unicode/utf8"
 
-	"github.com/open-policy-agent/opa/internal/gqlparser/ast"
-	"github.com/open-policy-agent/opa/internal/gqlparser/gqlerror"
+	"github.com/meta-quick/opa/internal/gqlparser/ast"
+	"github.com/meta-quick/opa/internal/gqlparser/gqlerror"
 )
 
 // Lexer turns graphql request and schema strings into tokens

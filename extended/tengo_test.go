@@ -8,7 +8,7 @@ import (
 	"context"
 	"fmt"
 	"github.com/bytedance/sonic"
-	"github.com/open-policy-agent/opa/rego"
+	"github.com/meta-quick/opa/rego"
 	"testing"
 )
 

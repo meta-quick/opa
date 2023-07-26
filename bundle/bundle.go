@@ -20,12 +20,12 @@ import (
 	"reflect"
 	"strings"
 
-	"github.com/open-policy-agent/opa/ast"
-	"github.com/open-policy-agent/opa/format"
-	"github.com/open-policy-agent/opa/internal/file/archive"
-	"github.com/open-policy-agent/opa/internal/merge"
-	"github.com/open-policy-agent/opa/metrics"
-	"github.com/open-policy-agent/opa/util"
+	"github.com/meta-quick/opa/ast"
+	"github.com/meta-quick/opa/format"
+	"github.com/meta-quick/opa/internal/file/archive"
+	"github.com/meta-quick/opa/internal/merge"
+	"github.com/meta-quick/opa/metrics"
+	"github.com/meta-quick/opa/util"
 )
 
 // Common file extensions and file names.

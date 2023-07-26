@@ -10,7 +10,7 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"github.com/open-policy-agent/opa/cmd/internal/deprecation"
+	"github.com/meta-quick/opa/cmd/internal/deprecation"
 )
 
 // RootCommand is the base CLI command that all subcommands are added to.

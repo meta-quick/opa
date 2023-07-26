@@ -7,7 +7,7 @@ package future
 import (
 	"fmt"
 
-	"github.com/open-policy-agent/opa/ast"
+	"github.com/meta-quick/opa/ast"
 )
 
 // ParserOptionsFromFutureImports transforms a slice of `ast.Import`s into the

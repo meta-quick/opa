@@ -2,8 +2,8 @@ package parser
 
 import (
 	//nolint:revive
-	. "github.com/open-policy-agent/opa/internal/gqlparser/ast"
-	"github.com/open-policy-agent/opa/internal/gqlparser/lexer"
+	. "github.com/meta-quick/opa/internal/gqlparser/ast"
+	"github.com/meta-quick/opa/internal/gqlparser/lexer"
 )
 
 func ParseSchema(source *Source) (*SchemaDocument, error) {

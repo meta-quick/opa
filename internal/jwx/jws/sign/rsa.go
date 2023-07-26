@@ -7,7 +7,7 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/open-policy-agent/opa/internal/jwx/jwa"
+	"github.com/meta-quick/opa/internal/jwx/jwa"
 )
 
 var rsaSignFuncs = map[jwa.SignatureAlgorithm]rsaSignFunc{}

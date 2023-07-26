@@ -10,9 +10,9 @@ import (
 	"os"
 	"strings"
 
-	"github.com/open-policy-agent/opa/ast"
-	"github.com/open-policy-agent/opa/internal/compiler/wasm"
-	"github.com/open-policy-agent/opa/types"
+	"github.com/meta-quick/opa/ast"
+	"github.com/meta-quick/opa/internal/compiler/wasm"
+	"github.com/meta-quick/opa/types"
 )
 
 func main() {

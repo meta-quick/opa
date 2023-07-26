@@ -12,12 +12,12 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/open-policy-agent/opa/ast"
-	"github.com/open-policy-agent/opa/bundle"
-	storedversion "github.com/open-policy-agent/opa/internal/version"
-	"github.com/open-policy-agent/opa/loader"
-	"github.com/open-policy-agent/opa/metrics"
-	"github.com/open-policy-agent/opa/storage"
+	"github.com/meta-quick/opa/ast"
+	"github.com/meta-quick/opa/bundle"
+	storedversion "github.com/meta-quick/opa/internal/version"
+	"github.com/meta-quick/opa/loader"
+	"github.com/meta-quick/opa/metrics"
+	"github.com/meta-quick/opa/storage"
 )
 
 // InsertAndCompileOptions contains the input for the operation.

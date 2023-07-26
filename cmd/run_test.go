@@ -7,13 +7,12 @@ package cmd
 import (
 	"bytes"
 	"context"
-	"encoding/json"
 	"strings"
 	"testing"
 	"time"
 
-	"github.com/open-policy-agent/opa/logging"
-	"github.com/open-policy-agent/opa/test/e2e"
+	"github.com/meta-quick/opa/logging"
+	"github.com/meta-quick/opa/test/e2e"
 	"github.com/spf13/cobra"
 )
 

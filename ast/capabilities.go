@@ -12,9 +12,9 @@ import (
 	"sort"
 	"strings"
 
-	caps "github.com/open-policy-agent/opa/capabilities"
-	"github.com/open-policy-agent/opa/internal/wasm/sdk/opa/capabilities"
-	"github.com/open-policy-agent/opa/util"
+	caps "github.com/meta-quick/opa/capabilities"
+	"github.com/meta-quick/opa/internal/wasm/sdk/opa/capabilities"
+	"github.com/meta-quick/opa/util"
 )
 
 // In the compiler, we used this to check that we're OK working with ref heads.
@@ -41,7 +41,7 @@ type Capabilities struct {
 	// As of now, this only controls fetching remote refs for using JSON Schemas in
 	// the type checker.
 	// TODO(sr): support ports to further restrict connection peers
-	// TODO(sr): support restricting `http.send` using the same mechanism (see https://github.com/open-policy-agent/opa/issues/3665)
+	// TODO(sr): support restricting `http.send` using the same mechanism (see https://github.com/meta-quick/opa/issues/3665)
 	AllowNet []string `json:"allow_net,omitempty"`
 }
 

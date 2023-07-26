@@ -8,7 +8,7 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/open-policy-agent/opa/internal/wasm/sdk/opa/errors"
+	"github.com/meta-quick/opa/internal/wasm/sdk/opa/errors"
 )
 
 // WithURL configures the URL to download the bundle from.

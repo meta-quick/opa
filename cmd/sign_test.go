@@ -5,16 +5,15 @@ package cmd
 
 import (
 	"bytes"
-	"encoding/json"
 	"fmt"
 	"os"
 	"path/filepath"
 	"testing"
 
-	"github.com/open-policy-agent/opa/bundle"
-	"github.com/open-policy-agent/opa/internal/file/archive"
-	"github.com/open-policy-agent/opa/keys"
-	"github.com/open-policy-agent/opa/util/test"
+	"github.com/meta-quick/opa/bundle"
+	"github.com/meta-quick/opa/internal/file/archive"
+	"github.com/meta-quick/opa/keys"
+	"github.com/meta-quick/opa/util/test"
 )
 
 func TestWriteTokenToFile(t *testing.T) {

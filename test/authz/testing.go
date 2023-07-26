@@ -8,10 +8,9 @@
 package authz
 
 import (
-	"encoding/json"
 	"fmt"
 
-	"github.com/open-policy-agent/opa/util"
+	"github.com/meta-quick/opa/util"
 )
 
 // Policy is a test rego policy for a token based authz system

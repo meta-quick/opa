@@ -9,7 +9,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/open-policy-agent/opa/ast"
+	"github.com/meta-quick/opa/ast"
 	"github.com/spf13/cobra"
 )
 

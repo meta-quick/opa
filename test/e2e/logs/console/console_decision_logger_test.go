@@ -5,15 +5,14 @@
 package console
 
 import (
-	"encoding/json"
 	"flag"
 	"os"
 	"strings"
 	"testing"
 
-	"github.com/open-policy-agent/opa/logging/test"
-	"github.com/open-policy-agent/opa/runtime"
-	"github.com/open-policy-agent/opa/test/e2e"
+	"github.com/meta-quick/opa/logging/test"
+	"github.com/meta-quick/opa/runtime"
+	"github.com/meta-quick/opa/test/e2e"
 )
 
 var testRuntime *e2e.TestRuntime

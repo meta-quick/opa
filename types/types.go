@@ -10,7 +10,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/bytedance/sonic"
-	"github.com/open-policy-agent/opa/util"
+	"github.com/meta-quick/opa/util"
 	"sort"
 	"strings"
 )

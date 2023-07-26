@@ -3,7 +3,7 @@ package verify
 import (
 	"testing"
 
-	"github.com/open-policy-agent/opa/internal/jwx/jwa"
+	"github.com/meta-quick/opa/internal/jwx/jwa"
 )
 
 func TestRSAVerify(t *testing.T) {

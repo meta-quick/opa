@@ -8,7 +8,7 @@ import (
 	"bytes"
 	"testing"
 
-	"github.com/open-policy-agent/opa/ast/internal/tokens"
+	"github.com/meta-quick/opa/ast/internal/tokens"
 )
 
 func TestPositions(t *testing.T) {

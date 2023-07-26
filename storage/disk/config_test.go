@@ -12,7 +12,7 @@ import (
 	"testing"
 
 	"github.com/dgraph-io/badger/v3"
-	"github.com/open-policy-agent/opa/logging"
+	"github.com/meta-quick/opa/logging"
 )
 
 func TestNewFromConfig(t *testing.T) {

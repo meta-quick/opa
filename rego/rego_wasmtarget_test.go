@@ -20,14 +20,14 @@ import (
 
 	"github.com/fortytw2/leaktest"
 
-	"github.com/open-policy-agent/opa/ast"
-	sdk_errors "github.com/open-policy-agent/opa/internal/wasm/sdk/opa/errors"
-	"github.com/open-policy-agent/opa/storage/inmem"
-	"github.com/open-policy-agent/opa/topdown"
-	"github.com/open-policy-agent/opa/topdown/cache"
-	"github.com/open-policy-agent/opa/util/test"
+	"github.com/meta-quick/opa/ast"
+	sdk_errors "github.com/meta-quick/opa/internal/wasm/sdk/opa/errors"
+	"github.com/meta-quick/opa/storage/inmem"
+	"github.com/meta-quick/opa/topdown"
+	"github.com/meta-quick/opa/topdown/cache"
+	"github.com/meta-quick/opa/util/test"
 
-	_ "github.com/open-policy-agent/opa/features/wasm"
+	_ "github.com/meta-quick/opa/features/wasm"
 )
 
 func TestPrepareAndEvalWithWasmTarget(t *testing.T) {

@@ -16,9 +16,9 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"github.com/open-policy-agent/opa/bundle"
-	initload "github.com/open-policy-agent/opa/internal/runtime/init"
-	"github.com/open-policy-agent/opa/util"
+	"github.com/meta-quick/opa/bundle"
+	initload "github.com/meta-quick/opa/internal/runtime/init"
+	"github.com/meta-quick/opa/util"
 )
 
 type signCmdParams struct {

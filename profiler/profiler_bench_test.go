@@ -10,8 +10,8 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/open-policy-agent/opa/ast"
-	"github.com/open-policy-agent/opa/rego"
+	"github.com/meta-quick/opa/ast"
+	"github.com/meta-quick/opa/rego"
 )
 
 func BenchmarkProfilerBigLocalVar(b *testing.B) {

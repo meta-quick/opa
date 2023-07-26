@@ -13,7 +13,7 @@ import (
 
 	"github.com/bytedance/sonic"
 	"github.com/ghodss/yaml"
-	"github.com/open-policy-agent/opa/loader/extension"
+	"github.com/meta-quick/opa/loader/extension"
 )
 
 // UnmarshalJSON parses the JSON encoded data and stores the result in the value

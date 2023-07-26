@@ -13,9 +13,9 @@ import (
 	"sync"
 	"time"
 
-	"github.com/open-policy-agent/opa/bundle"
-	"github.com/open-policy-agent/opa/internal/wasm/sdk/opa"
-	"github.com/open-policy-agent/opa/internal/wasm/sdk/opa/errors"
+	"github.com/meta-quick/opa/bundle"
+	"github.com/meta-quick/opa/internal/wasm/sdk/opa"
+	"github.com/meta-quick/opa/internal/wasm/sdk/opa/errors"
 )
 
 const (

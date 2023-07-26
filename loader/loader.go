@@ -17,15 +17,15 @@ import (
 
 	"github.com/ghodss/yaml"
 
-	"github.com/open-policy-agent/opa/ast"
-	"github.com/open-policy-agent/opa/bundle"
-	fileurl "github.com/open-policy-agent/opa/internal/file/url"
-	"github.com/open-policy-agent/opa/internal/merge"
-	"github.com/open-policy-agent/opa/loader/filter"
-	"github.com/open-policy-agent/opa/metrics"
-	"github.com/open-policy-agent/opa/storage"
-	"github.com/open-policy-agent/opa/storage/inmem"
-	"github.com/open-policy-agent/opa/util"
+	"github.com/meta-quick/opa/ast"
+	"github.com/meta-quick/opa/bundle"
+	fileurl "github.com/meta-quick/opa/internal/file/url"
+	"github.com/meta-quick/opa/internal/merge"
+	"github.com/meta-quick/opa/loader/filter"
+	"github.com/meta-quick/opa/metrics"
+	"github.com/meta-quick/opa/storage"
+	"github.com/meta-quick/opa/storage/inmem"
+	"github.com/meta-quick/opa/util"
 )
 
 // Result represents the result of successfully loading zero or more files.

@@ -3,7 +3,7 @@ package sign
 import (
 	"testing"
 
-	"github.com/open-policy-agent/opa/internal/jwx/jwa"
+	"github.com/meta-quick/opa/internal/jwx/jwa"
 )
 
 func TestECDSASign(t *testing.T) {

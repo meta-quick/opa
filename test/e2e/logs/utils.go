@@ -2,7 +2,6 @@ package logs
 
 import (
 	"context"
-	"encoding/json"
 	"fmt"
 	"net"
 	"net/http"
@@ -10,7 +9,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/open-policy-agent/opa/test/e2e"
+	"github.com/meta-quick/opa/test/e2e"
 )
 
 // RunDecisionLoggerBenchmark runs a benchmark for decision logs with a

@@ -19,18 +19,18 @@ import (
 
 	"golang.org/x/time/rate"
 
-	"github.com/open-policy-agent/opa/ast"
-	"github.com/open-policy-agent/opa/internal/ref"
-	"github.com/open-policy-agent/opa/logging"
-	"github.com/open-policy-agent/opa/metrics"
-	"github.com/open-policy-agent/opa/plugins"
-	lstat "github.com/open-policy-agent/opa/plugins/logs/status"
-	"github.com/open-policy-agent/opa/plugins/rest"
-	"github.com/open-policy-agent/opa/plugins/status"
-	"github.com/open-policy-agent/opa/rego"
-	"github.com/open-policy-agent/opa/server"
-	"github.com/open-policy-agent/opa/storage"
-	"github.com/open-policy-agent/opa/util"
+	"github.com/meta-quick/opa/ast"
+	"github.com/meta-quick/opa/internal/ref"
+	"github.com/meta-quick/opa/logging"
+	"github.com/meta-quick/opa/metrics"
+	"github.com/meta-quick/opa/plugins"
+	lstat "github.com/meta-quick/opa/plugins/logs/status"
+	"github.com/meta-quick/opa/plugins/rest"
+	"github.com/meta-quick/opa/plugins/status"
+	"github.com/meta-quick/opa/rego"
+	"github.com/meta-quick/opa/server"
+	"github.com/meta-quick/opa/storage"
+	"github.com/meta-quick/opa/util"
 )
 
 // Logger defines the interface for decision logging plugins.

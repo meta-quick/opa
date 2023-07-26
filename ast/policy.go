@@ -12,7 +12,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/open-policy-agent/opa/util"
+	"github.com/meta-quick/opa/util"
 )
 
 // Initialize seed for term hashing. This is intentionally placed before the

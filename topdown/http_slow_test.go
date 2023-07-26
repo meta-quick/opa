@@ -17,7 +17,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/open-policy-agent/opa/ast"
+	"github.com/meta-quick/opa/ast"
 )
 
 func TestHTTPSendTimeout(t *testing.T) {

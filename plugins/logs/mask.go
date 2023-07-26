@@ -10,7 +10,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/open-policy-agent/opa/internal/deepcopy"
+	"github.com/meta-quick/opa/internal/deepcopy"
 )
 
 type maskOP string
