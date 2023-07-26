@@ -10,6 +10,7 @@ import (
 	"github.com/meta-quick/opa/ast"
 	"github.com/meta-quick/opa/rego"
 	"github.com/meta-quick/opa/types"
+	"sync"
 
 	"github.com/bytedance/sonic"
 	"github.com/cockroachdb/pebble"
@@ -564,8 +565,21 @@ func initTimedCounterGet() {
 	)
 }
 
+var mutexStore sync.Mutex
+var StoreContext string
+
+func RegisterStoreCustomFunc(path string) {
+	mutexStore.Lock()
+	defer mutexStore.Unlock()
+	StoreContext = path
+}
+
 func init() {
-	RegisterPebbleStore("/tmp/store.db")
+	if StoreContext == "" {
+		StoreContext = "/tmp/store.db"
+	}
+
+	RegisterPebbleStore(StoreContext)
 
 	initTimedCounterDelete()
 	initTimedCounterGet()

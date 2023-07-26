@@ -88,3 +88,8 @@ func TestPersistRego(t *testing.T) {
 	vvx, _ := sonic.Marshal(output)
 	println(string(vvx))
 }
+
+func TestStringNil(t *testing.T) {
+	var s string
+	println(s)
+}
