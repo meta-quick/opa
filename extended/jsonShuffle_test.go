@@ -9,15 +9,42 @@ import (
 )
 
 func TestJSONShuffle(t *testing.T) {
-	model := `{"filters":{"denied":[{"match":"code","guard":"output := input.x >=1 "}]}}`
+	model := `{
+   "filters":{
+      "denied":[
+         {
+            "match":"code",
+            "guard":"input.x >=1"
+         }
+      ],
+      "rowfilter":{
+         "expr":"output := true; patch(\"hello world\")"
+      }
+   },
+"shuffle":{
+      "d/e/f":{
+         "algo":{
+            "name":"mx.pfe.mask_string",
+            "params":[
+               "2"
+            ],
+            "guard":"1>1",
+            "order":1
+         }
+      }
+   }
+}`
 
 	env := map[string]interface{}{
 		"greet":   "world",
 		"sprintf": "fmt.Sprintf",
 	}
 
+	array := []interface{}{"hello", "world"}
+
 	input := map[string]interface{}{
-		"code":    "code",
+		"code":    "helloworld",
+		"xxx":     array,
 		"context": env,
 		"x":       100,
 	}

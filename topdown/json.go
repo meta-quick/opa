@@ -406,6 +406,22 @@ func ParsePath(path *ast.Term) (ast.Ref, error) {
 	return parsePath(path)
 }
 
+func PathsToObject(paths []ast.Ref) ast.Object {
+	return pathsToObject(paths)
+}
+
+func GetPatch(o ast.Object) (jsonPatch, error) {
+	return getPatch(o)
+}
+
+func JSONRemove(a *ast.Term, b *ast.Term) (*ast.Term, error) {
+	return jsonRemove(a, b)
+}
+
+func GetJSONPaths(operand ast.Value) ([]ast.Ref, error) {
+	return getJSONPaths(operand)
+}
+
 func init() {
 	RegisterBuiltinFunc(ast.JSONFilter.Name, builtinJSONFilter)
 	RegisterBuiltinFunc(ast.JSONRemove.Name, builtinJSONRemove)
