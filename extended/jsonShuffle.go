@@ -6,6 +6,7 @@ import (
 	"github.com/bytedance/sonic"
 	"github.com/d5/tengo/v2"
 	"github.com/meta-quick/opa/ast"
+	"github.com/meta-quick/opa/internal/ref"
 	"github.com/meta-quick/opa/rego"
 	"github.com/meta-quick/opa/topdown"
 	"github.com/meta-quick/opa/topdown/builtins"
@@ -177,11 +178,41 @@ func JSONShuffle(model string, input *ast.Term) (*ast.Term, error) {
 				case map[string]interface{}:
 					for path, _ := range vv {
 						fmt.Println(path)
-						path := `aaa/:`
+						//xxx, _ := ast.InterfaceToValue("xxx")
+						//inx, _ := ast.InterfaceToValue(0)
+						//al := ast.NewArray(ast.NewTerm(xxx), ast.NewTerm(inx))
+
+						//path, err := builtins.ArrayOperand(ast.NewTerm(al).Value, 2)
+						//if err != nil {
+						//	if ret := object.Get(operands[1]); ret != nil {
+						//		return iter(ret)
+						//	}
+						//
+						//	return iter(operands[2])
+						//}
+
+						// if the path is empty, then we skip selecting nested keys and return the whole object
+						//if path.Len() == 0 {
+						//	return iter(operands[0])
+						//}
+
+						// build an ast.Ref from the array and see if it matches within the object
+						//pathRef := ref.ArrayPath(path)
+						//value, err := object.Find(pathRef)
+						//if err != nil {
+						//	return iter(operands[2])
+						//}
+
+						xxx, _ := ast.InterfaceToValue("xxx")
+						inx, _ := ast.InterfaceToValue(0)
+
+						al := ast.NewArray(ast.NewTerm(xxx), ast.NewTerm(inx))
+
 						pathV1, _ := ast.InterfaceToValue(path)
 						regoPath, _ := topdown.ParsePath(ast.NewTerm(pathV1))
 						Oobject, err := builtins.ObjectOperand(target.Value, 1)
-						OOOO := Oobject.Get(ast.NewTerm(pathV1))
+						pathRef := ref.ArrayPath(al)
+						OOOO, _ := Oobject.Find(pathRef)
 
 						println(OOOO)
 						println(err)

@@ -49,8 +49,10 @@ func TestJSONShuffle(t *testing.T) {
 		"x":       100,
 	}
 
-	// set values
-	module := "\t\tpackage test\n\t\tp = output {\n        xxxx := meta.json.shuffle(`%s`,input)\n        output := xxxx\n}"
+	fmt.Println(model)
+	// set values  xxxx := object.get(input,["xxx",0],0)
+	//  xxxx := meta.json.shuffle(`%s`,input)
+	module := "\t\tpackage test\n\t\tp = output {\n       xxxx := meta.json.shuffle(`%s`,input)\n        output := xxxx\n}"
 	module = fmt.Sprintf(module, model)
 
 	ctx := context.Background()
