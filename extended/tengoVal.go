@@ -5,6 +5,7 @@
 package extended
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/d5/tengo/v2"
 	"reflect"
@@ -52,6 +53,14 @@ func toValue(v interface{}) tengo.Object {
 		return &tengo.Time{Value: vv}
 	case tengo.Object:
 		return vv
+	case json.Number:
+		if i, err := vv.Int64(); err == nil {
+			return &tengo.Int{Value: i}
+		} else if f, err := vv.Float64(); err == nil {
+			return &tengo.Float{Value: f}
+		} else {
+			return &tengo.String{Value: vv.String()}
+		}
 	case error:
 		return &tengo.Error{Value: toValue(vv.Error())}
 	default:

@@ -22,7 +22,7 @@ func copyTengoContext() map[string]tengo.Object {
 	return newContext
 }
 
-type aa struct {
+type AA struct {
 	A    string
 	Cost int
 }
@@ -39,12 +39,13 @@ func JSONShuffle(model string, input *ast.Term) (*ast.Term, error) {
 	target := input
 
 	//init builtin variables
-	aaa := aa{
-		A:    "a",
-		Cost: 100,
-	}
-	enviroment["input"] = toValue(inputTengo)
-	enviroment["aa"] = toValue(aaa)
+	enviroment["input"] = toValue(toEnviroments(inputTengo))
+	//below commented code is for testing
+	//aa := &AA{
+	//	A:    "a",
+	//	Cost: 10,
+	//}
+	//enviroment["aa"] = toValue(aa)
 
 	//Unmarshal to map
 	var shuffle = make(map[string]interface{}, 100)

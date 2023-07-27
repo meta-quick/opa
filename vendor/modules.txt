@@ -172,6 +172,8 @@ github.com/cyphar/filepath-securejoin
 ## explicit; go 1.13
 github.com/d5/tengo/v2
 github.com/d5/tengo/v2/parser
+github.com/d5/tengo/v2/stdlib
+github.com/d5/tengo/v2/stdlib/json
 github.com/d5/tengo/v2/token
 # github.com/davecgh/go-spew v1.1.1
 ## explicit
@@ -299,12 +301,6 @@ github.com/mattn/go-runewidth
 # github.com/matttproud/golang_protobuf_extensions v1.0.4
 ## explicit; go 1.9
 github.com/matttproud/golang_protobuf_extensions/pbutil
-# github.com/meta-quick/mask v0.1.4
-## explicit; go 1.17
-github.com/meta-quick/mask/anonymity
-github.com/meta-quick/mask/jsonmask
-github.com/meta-quick/mask/types
-github.com/meta-quick/mask/utils
 # github.com/miekg/dns v1.1.43
 ## explicit; go 1.14
 github.com/miekg/dns
@@ -354,6 +350,9 @@ github.com/rcrowley/go-metrics
 # github.com/rogpeppe/go-internal v1.9.0
 ## explicit; go 1.17
 github.com/rogpeppe/go-internal/fmtsort
+# github.com/rosbit/tengo-x v0.0.0-20220202011210-3c0e183d4492
+## explicit; go 1.17
+github.com/rosbit/tengo-x
 # github.com/russross/blackfriday/v2 v2.1.0
 ## explicit
 github.com/russross/blackfriday/v2

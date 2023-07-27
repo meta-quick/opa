@@ -9,7 +9,7 @@ import (
 )
 
 func TestJSONShuffle(t *testing.T) {
-	model := `{"filters":{"denied":[{"match":"code","guard":"output := aa.Cost >=1 "}]}}`
+	model := `{"filters":{"denied":[{"match":"code","guard":"output := input.x >=1 "}]}}`
 
 	env := map[string]interface{}{
 		"greet":   "world",

@@ -23,13 +23,13 @@ require (
 	github.com/golang/protobuf v1.5.3
 	github.com/google/go-cmp v0.5.9
 	github.com/gorilla/mux v1.8.0
-	github.com/meta-quick/mask v0.1.4
 	github.com/olekukonko/tablewriter v0.0.5
 	github.com/opencontainers/go-digest v1.0.0
 	github.com/opencontainers/image-spec v1.1.0-rc4
 	github.com/peterh/liner v1.2.2
 	github.com/prometheus/client_golang v1.16.0
 	github.com/rcrowley/go-metrics v0.0.0-20201227073835-cf1acfcdf475
+	github.com/rosbit/tengo-x v0.0.0-20220202011210-3c0e183d4492
 	github.com/sirupsen/logrus v1.9.3
 	github.com/spf13/cobra v1.7.0
 	github.com/spf13/pflag v1.0.5
