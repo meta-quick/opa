@@ -170,6 +170,10 @@ func ValueToInterface(v Value, resolver Resolver) (interface{}, error) {
 	return valueToInterface(v, resolver, JSONOpt{})
 }
 
+func ValueToInterfaceX(v Value) (interface{}, error) {
+	return valueToInterface(v, illegalResolver{}, JSONOpt{})
+}
+
 func valueToInterface(v Value, resolver Resolver, opt JSONOpt) (interface{}, error) {
 	switch v := v.(type) {
 	case Null:

@@ -14,21 +14,21 @@ func TestJSONShuffle(t *testing.T) {
       "denied":[
          {
             "match":"code",
-            "guard":"input.x >=1"
+            "guard":"output := input.x >=1"
          }
       ],
       "rowfilter":{
-         "expr":"output := true; patch(\"hello world\")"
+         "records/:":"output := false"
       }
    },
 "shuffle":{
-      "d/e/f":{
+      "records/:/contact/:":{
          "algo":{
             "name":"mx.pfe.mask_string",
             "params":[
                "2"
             ],
-            "guard":"1>1",
+            "guard":"output := 1>0",
             "order":1
          }
       }
@@ -40,11 +40,34 @@ func TestJSONShuffle(t *testing.T) {
 		"sprintf": "fmt.Sprintf",
 	}
 
-	array := []interface{}{"hello", "world"}
+	contact1 := []interface{}{
+		"zhangsan@qq.com",
+		"123456789",
+	}
+
+	contact2 := []interface{}{
+		"lishi@qq.com",
+		"123456789",
+	}
+
+	r1 := map[string]interface{}{
+		"nane":    "zhangsan",
+		"age":     18,
+		"contact": contact1,
+	}
+
+	r2 := map[string]interface{}{
+		"name":    "lishi",
+		"age":     18,
+		"contact": contact2,
+	}
+
+	array := []interface{}{r1, r2}
 
 	input := map[string]interface{}{
-		"code":    "helloworld",
-		"xxx":     array,
+		"code":    0,
+		"message": "success",
+		"records": array,
 		"context": env,
 		"x":       100,
 	}

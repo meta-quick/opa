@@ -5,13 +5,15 @@ import (
 	"fmt"
 	"github.com/bytedance/sonic"
 	"github.com/d5/tengo/v2"
+	"github.com/meta-quick/mask/jsonmask"
+	maskTypes "github.com/meta-quick/mask/types"
 	"github.com/meta-quick/opa/ast"
-	"github.com/meta-quick/opa/internal/ref"
+	"github.com/meta-quick/opa/internal/edittree"
 	"github.com/meta-quick/opa/rego"
-	"github.com/meta-quick/opa/topdown"
-	"github.com/meta-quick/opa/topdown/builtins"
 	"github.com/meta-quick/opa/types"
+	"github.com/spf13/cast"
 	"strconv"
+	"strings"
 )
 
 func initTengoContext() {
@@ -54,6 +56,204 @@ func patch(op string) int {
 	return 0
 }
 
+func expandPath(targetObj ast.Object, path *ast.Term) ([]ast.Ref, error) {
+	// paths can either be a `/` separated json path or
+	// an array or set of values
+	var pathSegments ast.Ref
+	switch p := path.Value.(type) {
+	case ast.String:
+		if p == "" {
+			return nil, fmt.Errorf("empty path type ")
+		}
+		parts := strings.Split(strings.TrimLeft(string(p), "/"), "/")
+		for _, part := range parts {
+			part = strings.ReplaceAll(strings.ReplaceAll(part, "~1", "/"), "~0", "~")
+			pathSegments = append(pathSegments, ast.StringTerm(part))
+		}
+	case *ast.Array:
+		p.Foreach(func(term *ast.Term) {
+			pathSegments = append(pathSegments, term)
+		})
+	default:
+		return nil, fmt.Errorf("invalid path type %T", path.Value)
+	}
+
+	//expand path for array
+	expandedSegments := make([]ast.Ref, 0)
+	expandedSegmentsX := make([]ast.Ref, 0)
+
+	for _, pathSegment := range pathSegments {
+		switch pathSegment.Value.(type) {
+		case ast.String:
+			if pathSegment.Value.(ast.String) == ":" {
+				//expand path
+				//cache all expanded path
+				expandedSegments = expandedSegmentsX
+				//recreate expandedSegmentsX
+				expandedSegmentsX = make([]ast.Ref, 0)
+				for _, expandedSegment := range expandedSegments {
+					parentObj, err := targetObj.Find(expandedSegment)
+					if err == nil {
+						switch parentObj.(type) {
+						case *ast.Array:
+							parentArray := parentObj.(*ast.Array)
+							for i := 0; i < parentArray.Len(); i++ {
+								extended := make(ast.Ref, 0)
+								extended = append(extended, expandedSegment...)
+								extended = append(extended, ast.IntNumberTerm(i))
+								expandedSegmentsX = append(expandedSegmentsX, extended)
+							}
+						}
+					}
+				}
+
+				//fixed expandedSegments is empty for the first time
+				if len(expandedSegments) == 0 {
+					for i := 0; i < targetObj.Len(); i++ {
+						extended := make(ast.Ref, 0)
+						extended = append(extended, ast.IntNumberTerm(i))
+						expandedSegments = append(expandedSegments, extended)
+					}
+				}
+			} else {
+				//cache all expanded path
+				expandedSegments = expandedSegmentsX
+				//recreate expandedSegmentsX
+				expandedSegmentsX = make([]ast.Ref, 0)
+				for _, expandedSegment := range expandedSegments {
+					extended := make(ast.Ref, 0)
+					extended = append(extended, expandedSegment...)
+					extended = append(extended, pathSegment)
+					expandedSegmentsX = append(expandedSegmentsX, extended)
+				}
+
+				//fixed expandedSegments is empty for the first time
+				if len(expandedSegments) == 0 {
+					extended := make(ast.Ref, 0)
+					extended = append(extended, pathSegment)
+					expandedSegmentsX = append(expandedSegmentsX, extended)
+				}
+			}
+		}
+	}
+
+	return expandedSegmentsX, nil
+}
+
+func PatchObject(target *ast.Term, et *edittree.EditTree, path string, rule interface{}, tengoEnviroment map[string]tengo.Object) {
+	pathVal, err := ast.InterfaceToValue(path)
+	if err != nil {
+		return
+	}
+
+	targetObj, ok := target.Value.(ast.Object)
+	if !ok {
+		return
+	}
+
+	if rule == nil {
+		return
+	}
+
+	guard := ""
+	cbname := ""
+	var args []string
+
+	switch rule.(type) {
+	case map[string]interface{}:
+		ruleMap := rule.(map[string]interface{})
+		for _, algo := range ruleMap {
+			switch algo.(type) {
+			case map[string]interface{}:
+				xx := algo.(map[string]interface{})
+				for k, v := range xx {
+					switch v.(type) {
+					case string:
+						if k == "guard" {
+							guard = v.(string)
+						}
+
+						if k == "name" {
+							cbname = v.(string)
+						}
+					case int64:
+					case float64:
+					case []interface{}:
+						if k == "params" {
+							args, _ = cast.ToStringSliceE(v)
+						}
+					default:
+						fmt.Println(k, v, "default")
+					}
+				}
+			}
+		}
+	}
+
+	cb := jsonmask.ProcessHandle{
+		Fn:   cbname,
+		Args: args,
+	}
+
+	expanded, err := expandPath(targetObj, ast.NewTerm(pathVal))
+	if err != nil {
+		return
+	}
+
+	for _, expandedSegment := range expanded {
+		//check guard, make sure it is true. if not, skip
+		var step ast.Value
+		if guard != "" {
+			step, err = targetObj.Find(expandedSegment)
+			if err != nil {
+				continue
+			}
+
+			vstep, err := ast.ValueToInterfaceX(step)
+			if err != nil {
+				continue
+			}
+			tengoEnviroment["Data"] = toValue(vstep)
+			tengoEnviroment["DataPath"] = toValue(buildRefPath(expandedSegment))
+
+			retVal, err := TengoEval(guard, "output", tengoEnviroment)
+			if err != nil {
+				continue
+			}
+			if retVal != true {
+				continue
+			}
+		}
+
+		if step == nil {
+			step, err = targetObj.Find(expandedSegment)
+			if err != nil {
+				continue
+			}
+		}
+
+		current, _ := ast.ValueToInterfaceX(step)
+		ctx := maskTypes.BuiltinContext{
+			Fn:      cb.Fn,
+			Args:    cb.Args,
+			Current: typeCasting(current),
+		}
+
+		maskTypes.Eval(&ctx)
+		newValue, err := ast.InterfaceToValue(ctx.Result)
+
+		_, err = et.DeleteAtPath(expandedSegment)
+		if err != nil {
+			continue
+		}
+
+		_, err = et.InsertAtPath(expandedSegment, ast.NewTerm(newValue))
+		if err != nil {
+			continue
+		}
+	}
+}
+
 func JSONShuffle(model string, input *ast.Term) (*ast.Term, error) {
 	//copy global context
 	enviroment := copyTengoContext()
@@ -64,6 +264,8 @@ func JSONShuffle(model string, input *ast.Term) (*ast.Term, error) {
 	}
 
 	target := input
+	et := edittree.NewEditTree(target)
+	targetObj, _ := target.Value.(ast.Object)
 
 	//init builtin variables
 	enviroment["input"] = toValue(toEnviroments(inputTengo))
@@ -133,18 +335,17 @@ func JSONShuffle(model string, input *ast.Term) (*ast.Term, error) {
 										retVal, err := TengoEval(guard, "output", enviroment)
 										if err == nil {
 											if retVal == true {
+												//expand path
+												vpath, _ := ast.InterfaceToValue(match)
+												expanded, err := expandPath(targetObj, ast.NewTerm(vpath))
 												//remove this field
-												operations := make(map[string]string, 0)
-												operations["op"] = "remove"
-												operations["path"] = match
-
-												patch, err := sonic.Marshal(operations)
 												if err == nil {
-													patches := ast.NewArray()
-													patches = patches.Append(ast.MustParseTerm(string(patch)))
-													target, err = topdown.ApplyPatches(target, patches)
-													if err != nil {
-														return target, err
+													//loop through expanded path
+													for _, expandedSegment := range expanded {
+														_, err = et.DeleteAtPath(expandedSegment)
+														if err != nil {
+															continue
+														}
 													}
 												}
 											}
@@ -153,14 +354,36 @@ func JSONShuffle(model string, input *ast.Term) (*ast.Term, error) {
 								}
 							}
 						}
+						//handle rowfilter to filter data row
 						if denied == "rowfilter" {
 							switch columns := column.(type) {
 							case map[string]interface{}:
-								for k, v := range columns {
-									if k == "expr" {
-										_, err := TengoEval(v.(string), "output", enviroment)
+								for path, expr := range columns {
+									vpath, _ := ast.InterfaceToValue(path)
+									expanded, err := expandPath(targetObj, ast.NewTerm(vpath))
+									if err != nil {
+										continue
+									}
+
+									//loop through expanded path
+									for i := len(expanded) - 1; i >= 0; i-- {
+										expandedSegment := expanded[i]
+										step, err := targetObj.Find(expandedSegment)
 										if err != nil {
-											return target, err
+											continue
+										}
+										vstep, err := ast.ValueToInterfaceX(step)
+										enviroment["Data"] = toValue(vstep)
+										enviroment["DataPath"] = toValue(buildRefPath(expandedSegment))
+										retVal, err := TengoEval(expr.(string), "output", enviroment)
+										if err != nil {
+											continue
+										}
+										if retVal == true {
+											_, err = et.DeleteAtPath(expandedSegment)
+											if err != nil {
+												continue
+											}
 										}
 									}
 								}
@@ -171,98 +394,28 @@ func JSONShuffle(model string, input *ast.Term) (*ast.Term, error) {
 			} //end if
 		}
 
-		//handle data shuffle such as mask
+		//handle data shuffle such as mask, encrypt, etc.
 		for key, field := range shuffle {
 			if key == "shuffle" {
 				switch vv := field.(type) {
 				case map[string]interface{}:
-					for path, _ := range vv {
-						fmt.Println(path)
-						//xxx, _ := ast.InterfaceToValue("xxx")
-						//inx, _ := ast.InterfaceToValue(0)
-						//al := ast.NewArray(ast.NewTerm(xxx), ast.NewTerm(inx))
-
-						//path, err := builtins.ArrayOperand(ast.NewTerm(al).Value, 2)
-						//if err != nil {
-						//	if ret := object.Get(operands[1]); ret != nil {
-						//		return iter(ret)
-						//	}
-						//
-						//	return iter(operands[2])
-						//}
-
-						// if the path is empty, then we skip selecting nested keys and return the whole object
-						//if path.Len() == 0 {
-						//	return iter(operands[0])
-						//}
-
-						// build an ast.Ref from the array and see if it matches within the object
-						//pathRef := ref.ArrayPath(path)
-						//value, err := object.Find(pathRef)
-						//if err != nil {
-						//	return iter(operands[2])
-						//}
-
-						xxx, _ := ast.InterfaceToValue("xxx")
-						inx, _ := ast.InterfaceToValue(0)
-
-						al := ast.NewArray(ast.NewTerm(xxx), ast.NewTerm(inx))
-
-						pathV1, _ := ast.InterfaceToValue(path)
-						regoPath, _ := topdown.ParsePath(ast.NewTerm(pathV1))
-						Oobject, err := builtins.ObjectOperand(target.Value, 1)
-						pathRef := ref.ArrayPath(al)
-						OOOO, _ := Oobject.Find(pathRef)
-
-						println(OOOO)
-						println(err)
-						fmt.Println(regoPath)
-
-						//switch algo := algoval.(type) {
-						//case map[string]interface{}:
-						//var name string
-						//var params []interface{}
-						//var guard string
-						//for k, v := range algo {
-						//	if k == "name" {
-						//		name = v.(string)
-						//	}
-						//	if k == "params" {
-						//		params = v.([]interface{})
-						//	}
-						//	if k == "guard" {
-						//		guard = v.(string)
-						//	}
-						//}
-
-						//retVal, err := TengoEval(guard, "output", enviroment)
-						//if err == nil {
-						//	if retVal == true {
-						//		//remove this field
-						//		operations := make(map[string]interface{}, 0)
-						//		operations["op"] = "replace"
-						//		operations["path"] = path
-						//		operations["value"] = typeCasting(params[0])
-						//
-						//		patch, err := sonic.Marshal(operations)
-						//		if err == nil {
-						//			patches := ast.NewArray()
-						//			patches = patches.Append(ast.MustParseTerm(string(patch)))
-						//			target, err = topdown.ApplyPatches(target, patches)
-						//			if err != nil {
-						//				return target, err
-						//			}
-						//		}
-						//	}
-						//}
-						//}
+					for path, rule := range vv {
+						PatchObject(target, et, path, rule, enviroment)
 					}
 				}
 			}
 		}
 	}
 
-	return target, nil
+	return et.Render(), nil
+}
+
+func buildRefPath(path ast.Ref) string {
+	var segments []string
+	for _, segment := range path {
+		segments = append(segments, segment.String())
+	}
+	return strings.Join(segments, "/")
 }
 
 func init() {
