@@ -5285,7 +5285,7 @@ func TestCheckUnusedFunctionArgVars(t *testing.T) {
 				&Error{
 					Code:     CompileErr,
 					Location: NewLocation([]byte("func(x, y)"), "", 2, 4),
-					Message:  "unused argument y",
+					Message:  "unused argument y. (hint: use _ (wildcard variable) instead)",
 				},
 			},
 		},
@@ -5299,7 +5299,7 @@ func TestCheckUnusedFunctionArgVars(t *testing.T) {
 				&Error{
 					Code:     CompileErr,
 					Location: NewLocation([]byte("a.b.c.func(x, y)"), "", 2, 4),
-					Message:  "unused argument y",
+					Message:  "unused argument y. (hint: use _ (wildcard variable) instead)",
 				},
 			},
 		},
@@ -5314,12 +5314,12 @@ func TestCheckUnusedFunctionArgVars(t *testing.T) {
 				&Error{
 					Code:     CompileErr,
 					Location: NewLocation([]byte("func(x, y)"), "", 2, 4),
-					Message:  "unused argument x",
+					Message:  "unused argument x. (hint: use _ (wildcard variable) instead)",
 				},
 				&Error{
 					Code:     CompileErr,
 					Location: NewLocation([]byte("func(x, y)"), "", 2, 4),
-					Message:  "unused argument y",
+					Message:  "unused argument y. (hint: use _ (wildcard variable) instead)",
 				},
 			},
 		},
@@ -5334,7 +5334,7 @@ func TestCheckUnusedFunctionArgVars(t *testing.T) {
 				&Error{
 					Code:     CompileErr,
 					Location: NewLocation([]byte("func(x, y)"), "", 2, 4),
-					Message:  "unused argument y",
+					Message:  "unused argument y. (hint: use _ (wildcard variable) instead)",
 				},
 			},
 		},
@@ -5357,7 +5357,7 @@ func TestCheckUnusedFunctionArgVars(t *testing.T) {
 				&Error{
 					Code:     CompileErr,
 					Location: NewLocation([]byte("func(x, _)"), "", 2, 4),
-					Message:  "unused argument x",
+					Message:  "unused argument x. (hint: use _ (wildcard variable) instead)",
 				},
 			},
 		},
@@ -5400,7 +5400,7 @@ func TestCheckUnusedFunctionArgVars(t *testing.T) {
 				&Error{
 					Code:     CompileErr,
 					Location: NewLocation([]byte("func(x) := { x: v | x := \"foo\"; v := a[x] }"), "", 3, 4),
-					Message:  "unused argument x",
+					Message:  "unused argument x. (hint: use _ (wildcard variable) instead)",
 				},
 			},
 		},
@@ -5478,7 +5478,7 @@ func TestCheckUnusedFunctionArgVars(t *testing.T) {
 				&Error{
 					Code:     CompileErr,
 					Location: NewLocation([]byte("func(x, y, z)"), "", 2, 4),
-					Message:  "unused argument x",
+					Message:  "unused argument x. (hint: use _ (wildcard variable) instead)",
 				},
 			},
 		},
@@ -5496,7 +5496,7 @@ func TestCheckUnusedFunctionArgVars(t *testing.T) {
 				&Error{
 					Code:     CompileErr,
 					Location: NewLocation([]byte("func(x, y, z)"), "", 2, 4),
-					Message:  "unused argument y",
+					Message:  "unused argument y. (hint: use _ (wildcard variable) instead)",
 				},
 			},
 		},
@@ -5514,7 +5514,19 @@ func TestCheckUnusedFunctionArgVars(t *testing.T) {
 				&Error{
 					Code:     CompileErr,
 					Location: NewLocation([]byte("func(x, y, z)"), "", 2, 4),
-					Message:  "unused argument z",
+					Message:  "unused argument z. (hint: use _ (wildcard variable) instead)",
+				},
+			},
+		},
+		{
+			note: "unused default function argvar",
+			module: `package test
+			default func(x) := 0`,
+			expectedErrors: Errors{
+				&Error{
+					Code:     CompileErr,
+					Location: NewLocation([]byte("func(x) := 0"), "", 2, 12),
+					Message:  "unused argument x. (hint: use _ (wildcard variable) instead)",
 				},
 			},
 		},
@@ -5546,7 +5558,7 @@ func TestCompileUnusedAssignedVarsErrorLocations(t *testing.T) {
 				&Error{
 					Code:     CompileErr,
 					Location: NewLocation([]byte("func(x, y)"), "", 2, 4),
-					Message:  "unused argument y",
+					Message:  "unused argument y. (hint: use _ (wildcard variable) instead)",
 				},
 			},
 		},
@@ -7759,6 +7771,11 @@ r2 = 2`,
 r3 = 3`,
 		"hidden": `package system.hidden
 r4 = 4`,
+		"mod4": `package b.c
+r5[x] = 5 { x := "foo" }
+r5.bar = 6 { input.x }
+r5.baz = 7 { input.y }
+`,
 	})
 
 	compileStages(compiler, nil)
@@ -7768,6 +7785,9 @@ r4 = 4`,
 	rule2 := compiler.Modules["mod2"].Rules[1]
 	rule3 := compiler.Modules["mod3"].Rules[0]
 	rule4 := compiler.Modules["hidden"].Rules[0]
+	rule5 := compiler.Modules["mod4"].Rules[0]
+	rule5b := compiler.Modules["mod4"].Rules[1]
+	rule5c := compiler.Modules["mod4"].Rules[2]
 
 	tests := []struct {
 		input         string
@@ -7779,12 +7799,16 @@ r4 = 4`,
 		{input: "data.a.b[x].d", expected: []*Rule{rule1, rule3}},
 		{input: "data.a.b.c", expected: []*Rule{rule1, rule2d, rule2}},
 		{input: "data.a.b.d"},
-		{input: "data", expected: []*Rule{rule1, rule2d, rule2, rule3, rule4}},
-		{input: "data[x]", expected: []*Rule{rule1, rule2d, rule2, rule3, rule4}},
+		{input: "data", expected: []*Rule{rule1, rule2d, rule2, rule3, rule4, rule5, rule5b, rule5c}},
+		{input: "data[x]", expected: []*Rule{rule1, rule2d, rule2, rule3, rule4, rule5, rule5b, rule5c}},
 		{input: "data[data.complex_computation].b[y]", expected: []*Rule{rule1, rule2d, rule2, rule3}},
 		{input: "data[x][y].c.e", expected: []*Rule{rule2d, rule2}},
 		{input: "data[x][y].r3", expected: []*Rule{rule3}},
-		{input: "data[x][y]", expected: []*Rule{rule1, rule2d, rule2, rule3}, excludeHidden: true}, // old behaviour of GetRulesDynamic
+		{input: "data[x][y]", expected: []*Rule{rule1, rule2d, rule2, rule3, rule5, rule5b, rule5c}, excludeHidden: true}, // old behaviour of GetRulesDynamic
+		{input: "data.b.c", expected: []*Rule{rule5, rule5b, rule5c}},
+		{input: "data.b.c.r5", expected: []*Rule{rule5, rule5b, rule5c}},
+		{input: "data.b.c.r5.bar", expected: []*Rule{rule5, rule5b}}, // rule5 might still define a value for the "bar" key
+		{input: "data.b.c.r5.baz", expected: []*Rule{rule5, rule5c}},
 	}
 
 	for _, tc := range tests {

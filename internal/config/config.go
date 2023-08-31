@@ -12,7 +12,7 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/ghodss/yaml"
+	"sigs.k8s.io/yaml"
 
 	"github.com/meta-quick/opa/internal/strvals"
 	"github.com/meta-quick/opa/keys"

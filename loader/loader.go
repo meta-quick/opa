@@ -15,7 +15,7 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/ghodss/yaml"
+	"sigs.k8s.io/yaml"
 
 	"github.com/meta-quick/opa/ast"
 	"github.com/meta-quick/opa/bundle"

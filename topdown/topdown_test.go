@@ -21,8 +21,7 @@ import (
 	"time"
 
 	"github.com/meta-quick/opa/format"
-
-	"github.com/ghodss/yaml"
+	"sigs.k8s.io/yaml"
 
 	iCache "github.com/meta-quick/opa/topdown/cache"
 

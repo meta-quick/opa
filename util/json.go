@@ -12,8 +12,8 @@ import (
 	"reflect"
 
 	"github.com/bytedance/sonic"
-	"github.com/ghodss/yaml"
 	"github.com/meta-quick/opa/loader/extension"
+	"sigs.k8s.io/yaml"
 )
 
 // UnmarshalJSON parses the JSON encoded data and stores the result in the value

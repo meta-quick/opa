@@ -14,7 +14,7 @@ import (
 
 	"github.com/meta-quick/opa/bundle"
 
-	"github.com/ghodss/yaml"
+	"sigs.k8s.io/yaml"
 )
 
 func TestConfigValidation(t *testing.T) {
