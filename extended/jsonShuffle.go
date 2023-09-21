@@ -468,20 +468,25 @@ func buildRefPath(path ast.Ref) string {
 
 func init() {
 	RegisterTengoCustomFunc("patch", patch)
-	rego.RegisterBuiltin2(
+	rego.RegisterBuiltin3(
 		&rego.Function{
 			Name:             "meta.json.shuffle",
-			Decl:             types.NewFunction(types.Args(types.S, types.S), types.N),
+			Decl:             types.NewFunction(types.Args(types.S, types.S, types.S), types.N),
 			Memoize:          true,
 			Nondeterministic: true,
 		},
-		func(bctx rego.BuiltinContext, model, target *ast.Term) (*ast.Term, error) {
+		func(bctx rego.BuiltinContext, ns, model, target *ast.Term) (*ast.Term, error) {
 			var template string
 			if err := ast.As(model.Value, &template); err != nil {
 				return nil, err
 			}
 
-			v, err := JSONShuffle("", template, target)
+			var namespace string
+			if err := ast.As(ns.Value, &namespace); err != nil {
+				return nil, err
+			}
+
+			v, err := JSONShuffle(namespace, template, target)
 			if err != nil {
 				return nil, err
 			}

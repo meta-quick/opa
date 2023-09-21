@@ -76,7 +76,7 @@ func TestJSONShuffle(t *testing.T) {
 	fmt.Println(model)
 	// set values  xxxx := object.get(input,["xxx",0],0)
 	//  xxxx := meta.json.shuffle(`%s`,input)
-	module := "\t\tpackage test\n\t\tp = output {\n       xxxx := meta.json.shuffle(`%s`,input)\n        output := xxxx\n}"
+	module := "\t\tpackage test\n\t\tp = output {\n       xxxx := meta.json.shuffle(\"nscc\",`%s`,input)\n        output := xxxx\n}"
 	module = fmt.Sprintf(module, model)
 
 	ctx := context.Background()
@@ -105,8 +105,7 @@ func TestJSONShuffle(t *testing.T) {
 func Test_Main(t *testing.T) {
 	rsp, _ := ioutil.ReadFile("data.json")
 
-	module := "package play\nimport future.keywords.in\ndefault pre = false\ndefault main = {}\npre {\n    input.reqm.withPII == input.objm.withPII\n    some i, j\n    input.reqm.__builtin_g[i] == input.objm.__builtin_g[j]\n}\nmain() = rsp {\n    rsp := meta.json.shuffle(\"{\\\"filters\\\":{\\\"rowfilter\\\":{\\\"rsp/value/:\\\":\\\"output := Data.age == 18\\\"},\\\"denied\\\":[{\\\"guard\\\":\\\"output := true\\\",\\\"match\\\":\\\"rsp/value/:/phone\\\"}]},\\\"shuffle\\\":{\\\"rsp/value/:/password\\\":{\\\"algo\\\":{\\\"guard\\\":\\\"output := true\\\",\\\"params\\\":[\\\"1\\\"],\\\"name\\\":\\\"mx.pfe.mask_string\\\"}}}}\", input)\n}"
-
+	module := "package play\nimport future.keywords.in\ndefault pre = false\ndefault main = {}\npre {\n    input.reqm.withPII == input.objm.withPII\n    some i, j\n    input.reqm.__builtin_g[i] == input.objm.__builtin_g[j]\n}\nmain() = rsp {\n    rsp := meta.json.shuffle(\"nscc\",\"{\\\"filters\\\":{\\\"rowfilter\\\":{\\\"rsp/value/:\\\":\\\"output := Data.age == 18\\\"},\\\"denied\\\":[{\\\"guard\\\":\\\"output := true \\\",\\\"match\\\":\\\"rsp/value/:/phone\\\"}]},\\\"shuffle\\\":{\\\"rsp/value/:/password\\\":{\\\"algo\\\":{\\\"guard\\\":\\\"output := true\\\",\\\"params\\\":[\\\"2\\\"],\\\"name\\\":\\\"mx.pfe.mask_string\\\"}}}}\", input)\n}"
 	ctx := context.Background()
 
 	r := rego.New(
