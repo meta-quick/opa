@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"github.com/bytedance/sonic"
 	"github.com/meta-quick/opa/rego"
+	"io/ioutil"
 	"testing"
 )
 
@@ -14,11 +15,11 @@ func TestJSONShuffle(t *testing.T) {
       "denied":[
          {
             "match":"code",
-            "guard":"output := input.x >=1"
+            "guard":"output := input.x ==1"
          }
       ],
       "rowfilter":{
-         "records/:":"output := false"
+         "records/:":"output := true"
       }
    },
 "shuffle":{
@@ -98,5 +99,38 @@ func TestJSONShuffle(t *testing.T) {
 
 	output, err := pq.Eval(ctx, rego.EvalInput(input))
 	ret, _ := sonic.Marshal(output)
+	fmt.Println(string(ret[:]))
+}
+
+func Test_Main(t *testing.T) {
+	rsp, _ := ioutil.ReadFile("data.json")
+
+	module := "package play\nimport future.keywords.in\ndefault pre = false\ndefault main = {}\npre {\n    input.reqm.withPII == input.objm.withPII\n    some i, j\n    input.reqm.__builtin_g[i] == input.objm.__builtin_g[j]\n}\nmain() = rsp {\n    rsp := meta.json.shuffle(\"{\\\"filters\\\":{\\\"rowfilter\\\":{\\\"rsp/value/:\\\":\\\"output := Data.age == 18\\\"},\\\"denied\\\":[{\\\"guard\\\":\\\"output := true\\\",\\\"match\\\":\\\"rsp/value/:/phone\\\"}]},\\\"shuffle\\\":{\\\"rsp/value/:/password\\\":{\\\"algo\\\":{\\\"guard\\\":\\\"output := true\\\",\\\"params\\\":[\\\"1\\\"],\\\"name\\\":\\\"mx.pfe.mask_string\\\"}}}}\", input)\n}"
+
+	ctx := context.Background()
+
+	r := rego.New(
+		rego.Query("data.play.main"),
+		rego.Module("", module),
+	)
+
+	pq, err := r.PrepareForEval(ctx)
+	if err != nil {
+		t.Fatalf("Unexpected error: %s", err.Error())
+	}
+
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	var rspObj interface{}
+	sonic.Unmarshal([]byte(rsp), &rspObj)
+
+	input := map[string]interface{}{
+		"rsp": rspObj,
+	}
+	output, err := pq.Eval(ctx, rego.EvalInput(input))
+	ret, err := sonic.Marshal(output[0].Expressions[0].Value)
+
 	fmt.Println(string(ret[:]))
 }

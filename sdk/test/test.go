@@ -5,6 +5,7 @@ import (
 	"context"
 	"crypto/sha256"
 	"fmt"
+	"github.com/bytedance/sonic"
 	"io"
 	"net/http"
 	"net/http/httptest"

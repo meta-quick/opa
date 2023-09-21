@@ -18,6 +18,7 @@ import (
 
 func initTengoContext() {
 	RegisterTengoCustomFunc("sprintf", fmt.Sprintf)
+	RegisterTengoCustomFunc("strContains", strings.Contains)
 }
 
 func copyTengoContext() map[string]tengo.Object {
@@ -140,7 +141,7 @@ func expandPath(targetObj ast.Object, path *ast.Term) ([]ast.Ref, error) {
 	return expandedSegmentsX, nil
 }
 
-func PatchObject(target *ast.Term, et *edittree.EditTree, path string, rule interface{}, tengoEnviroment map[string]tengo.Object) {
+func PatchObject(keypatch map[string]string, target *ast.Term, et *edittree.EditTree, path string, rule interface{}, tengoEnviroment map[string]tengo.Object) {
 	pathVal, err := ast.InterfaceToValue(path)
 	if err != nil {
 		return
@@ -190,8 +191,18 @@ func PatchObject(target *ast.Term, et *edittree.EditTree, path string, rule inte
 		}
 	}
 
+	if guard == "" {
+		return
+	}
+
+	//Adjust args if cbname is for sm2 or sm4
+	fn, args, canExec := AdjustMaskEvalArgs(cbname, args, keypatch)
+	if !canExec {
+		return
+	}
+
 	cb := jsonmask.ProcessHandle{
-		Fn:   cbname,
+		Fn:   fn,
 		Args: args,
 	}
 
@@ -254,7 +265,19 @@ func PatchObject(target *ast.Term, et *edittree.EditTree, path string, rule inte
 	}
 }
 
-func JSONShuffle(model string, input *ast.Term) (*ast.Term, error) {
+func JSONShuffle(ns string, model string, input *ast.Term) (*ast.Term, error) {
+	patchKeys := make(map[string]string, 2)
+	//initial SM2 key if configured
+	sm2cert := SmKeyGet(ns + "/sm2")
+	if &sm2cert != nil && sm2cert != "" {
+		patchKeys[sm2key] = sm2cert
+	}
+	//initial SM4 key if configured
+	sm4cert := SmKeyGet(ns + "/sm4")
+	if &sm4cert != nil && sm4cert != "" {
+		patchKeys[sm4key] = sm4cert
+	}
+
 	//copy global context
 	enviroment := copyTengoContext()
 
@@ -269,12 +292,6 @@ func JSONShuffle(model string, input *ast.Term) (*ast.Term, error) {
 
 	//init builtin variables
 	enviroment["input"] = toValue(toEnviroments(inputTengo))
-	//below commented code is for testing
-	//aa := &AA{
-	//	A:    "a",
-	//	Cost: 10,
-	//}
-	//enviroment["aa"] = toValue(aa)
 
 	//Unmarshal to map
 	var shuffle = make(map[string]interface{}, 100)
@@ -283,34 +300,62 @@ func JSONShuffle(model string, input *ast.Term) (*ast.Term, error) {
 		return target, err
 	}
 
+	// All algo execution at condition return true
 	if shuffle != nil {
-		// Remove denied fields
+		// Do row filter at first,
 		for key, field := range shuffle {
-			/* The input model is like this:
-			   "filters":{
-			      "denied":[
-			         {
-			            "match":"code",
-			            "guard":"input.x >=1"
-			         }
-			      ],
-			      "rowfilter":{
-			         "expr":"output := true; patch(\"hello world\")"
-			      }
-			   },
-				"shuffle":{
-					  "d/e/f":{
-						 "algo":{
-							"name":"mx.pfe.mask_string",
-							"params":[
-							   "2"
-							],
-							"guard":"1>1",
-							"order":1
-						 }
-					  }
-				   }
-			*/
+			if key == "filters" {
+				switch vv := field.(type) {
+				case map[string]interface{}:
+					for denied, column := range vv {
+						if denied == "rowfilter" {
+							switch columns := column.(type) {
+							case map[string]interface{}:
+								for path, expr := range columns {
+									vpath, _ := ast.InterfaceToValue(path)
+									expanded, err := expandPath(targetObj, ast.NewTerm(vpath))
+									if err != nil {
+										continue
+									}
+
+									//loop through expanded path
+									for i := len(expanded) - 1; i >= 0; i-- {
+										expandedSegment := expanded[i]
+										step, err := targetObj.Find(expandedSegment)
+										if err != nil {
+											continue
+										}
+										vstep, err := ast.ValueToInterfaceX(step)
+										enviroment["Data"] = toValue(vstep)
+										enviroment["DataPath"] = toValue(buildRefPath(expandedSegment))
+										retVal, err := TengoEval(expr.(string), "output", enviroment)
+										if err != nil {
+											continue
+										}
+										//check condition if false , remove it, otherwise keep it
+										if retVal != true {
+											_, err = et.DeleteAtPath(expandedSegment)
+											if err != nil {
+												continue
+											}
+										}
+									}
+								}
+							}
+						}
+					} //end for
+				}
+			} //end if
+		}
+
+		//reduce data size
+		inputFiltered := et.Render()
+		target = inputFiltered
+		et = edittree.NewEditTree(target)
+		targetObj, _ = target.Value.(ast.Object)
+
+		// then, remove denied fields
+		for key, field := range shuffle {
 			if key == "filters" {
 				switch vv := field.(type) {
 				case map[string]interface{}:
@@ -337,6 +382,7 @@ func JSONShuffle(model string, input *ast.Term) (*ast.Term, error) {
 											if retVal == true {
 												//expand path
 												vpath, _ := ast.InterfaceToValue(match)
+												//TODO: Here should use filtered results
 												expanded, err := expandPath(targetObj, ast.NewTerm(vpath))
 												//remove this field
 												if err == nil {
@@ -354,53 +400,25 @@ func JSONShuffle(model string, input *ast.Term) (*ast.Term, error) {
 								}
 							}
 						}
-						//handle rowfilter to filter data row
-						if denied == "rowfilter" {
-							switch columns := column.(type) {
-							case map[string]interface{}:
-								for path, expr := range columns {
-									vpath, _ := ast.InterfaceToValue(path)
-									expanded, err := expandPath(targetObj, ast.NewTerm(vpath))
-									if err != nil {
-										continue
-									}
-
-									//loop through expanded path
-									for i := len(expanded) - 1; i >= 0; i-- {
-										expandedSegment := expanded[i]
-										step, err := targetObj.Find(expandedSegment)
-										if err != nil {
-											continue
-										}
-										vstep, err := ast.ValueToInterfaceX(step)
-										enviroment["Data"] = toValue(vstep)
-										enviroment["DataPath"] = toValue(buildRefPath(expandedSegment))
-										retVal, err := TengoEval(expr.(string), "output", enviroment)
-										if err != nil {
-											continue
-										}
-										if retVal == true {
-											_, err = et.DeleteAtPath(expandedSegment)
-											if err != nil {
-												continue
-											}
-										}
-									}
-								}
-							}
-						}
 					} //end for
 				}
 			} //end if
 		}
 
-		//handle data shuffle such as mask, encrypt, etc.
+		//CHECKED: No data row removed at this point
+
+		//inputFiltered = et.Render()
+		//target = inputFiltered
+		//et = edittree.NewEditTree(target)
+		//targetObj, _ = target.Value.(ast.Object)
+
+		//at last, handle data shuffle such as mask, encrypt, etc.
 		for key, field := range shuffle {
 			if key == "shuffle" {
 				switch vv := field.(type) {
 				case map[string]interface{}:
 					for path, rule := range vv {
-						PatchObject(target, et, path, rule, enviroment)
+						PatchObject(patchKeys, target, et, path, rule, enviroment)
 					}
 				}
 			}
@@ -408,6 +426,36 @@ func JSONShuffle(model string, input *ast.Term) (*ast.Term, error) {
 	}
 
 	return et.Render(), nil
+}
+
+func AdjustMaskEvalArgs(fn string, args []string, keypatch map[string]string) (string, []string, bool) {
+	if fn == maskTypes.SM2_MASK_STR.Name {
+		//for SM2 case
+		if sm2val, ok := keypatch[sm2key]; ok {
+			if &sm2val == nil || sm2val == "" {
+				//no set found, need skip, invalid case
+				return fn, args, false
+			}
+
+			args = []string{sm2val}
+			return fn, args, true
+		}
+	}
+
+	if fn == maskTypes.SM4_MASK_STR.Name {
+		//for SM4 case
+		if sm4val, ok := keypatch[sm4key]; ok {
+			if &sm4val == nil || sm4val == "" {
+				//no set found, need skip, invalid case
+				return fn, args, false
+			}
+
+			args = []string{sm4val}
+			return fn, args, true
+		}
+	}
+
+	return fn, args, true
 }
 
 func buildRefPath(path ast.Ref) string {
@@ -433,7 +481,7 @@ func init() {
 				return nil, err
 			}
 
-			v, err := JSONShuffle(template, target)
+			v, err := JSONShuffle("", template, target)
 			if err != nil {
 				return nil, err
 			}
