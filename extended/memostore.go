@@ -27,15 +27,3 @@ func StoreDelete(ns string, key string) {
 	key1 := ns + "/" + key
 	smKeyMap.Delete(key1)
 }
-
-func SmKeyAdd(key string, value string) {
-	StoreAdd("sm", key, value)
-}
-
-func SmKeyGet(key string) string {
-	return StoreGet("ns", key)
-}
-
-func SmKeyDelete(key string) {
-	StoreDelete("ns", key)
-}

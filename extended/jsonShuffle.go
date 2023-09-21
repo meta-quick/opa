@@ -268,14 +268,14 @@ func PatchObject(keypatch map[string]string, target *ast.Term, et *edittree.Edit
 func JSONShuffle(ns string, model string, input *ast.Term) (*ast.Term, error) {
 	patchKeys := make(map[string]string, 2)
 	//initial SM2 key if configured
-	sm2cert := SmKeyGet(ns + "/sm2")
+	sm2cert := StoreGet(ns, SM2key)
 	if &sm2cert != nil && sm2cert != "" {
-		patchKeys[sm2key] = sm2cert
+		patchKeys[SM2key] = sm2cert
 	}
 	//initial SM4 key if configured
-	sm4cert := SmKeyGet(ns + "/sm4")
+	sm4cert := StoreGet(ns, SM4key)
 	if &sm4cert != nil && sm4cert != "" {
-		patchKeys[sm4key] = sm4cert
+		patchKeys[SM4key] = sm4cert
 	}
 
 	//copy global context
@@ -431,7 +431,7 @@ func JSONShuffle(ns string, model string, input *ast.Term) (*ast.Term, error) {
 func AdjustMaskEvalArgs(fn string, args []string, keypatch map[string]string) (string, []string, bool) {
 	if fn == maskTypes.SM2_MASK_STR.Name {
 		//for SM2 case
-		if sm2val, ok := keypatch[sm2key]; ok {
+		if sm2val, ok := keypatch[SM2key]; ok {
 			if &sm2val == nil || sm2val == "" {
 				//no set found, need skip, invalid case
 				return fn, args, false
@@ -444,7 +444,7 @@ func AdjustMaskEvalArgs(fn string, args []string, keypatch map[string]string) (s
 
 	if fn == maskTypes.SM4_MASK_STR.Name {
 		//for SM4 case
-		if sm4val, ok := keypatch[sm4key]; ok {
+		if sm4val, ok := keypatch[SM4key]; ok {
 			if &sm4val == nil || sm4val == "" {
 				//no set found, need skip, invalid case
 				return fn, args, false
