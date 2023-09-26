@@ -407,10 +407,10 @@ func JSONShuffle(ns string, model string, input *ast.Term) (*ast.Term, error) {
 
 		//CHECKED: No data row removed at this point
 
-		//inputFiltered = et.Render()
-		//target = inputFiltered
-		//et = edittree.NewEditTree(target)
-		//targetObj, _ = target.Value.(ast.Object)
+		inputFiltered = et.Render()
+		target = inputFiltered
+		et = edittree.NewEditTree(target)
+		targetObj, _ = target.Value.(ast.Object)
 
 		//at last, handle data shuffle such as mask, encrypt, etc.
 		for key, field := range shuffle {
