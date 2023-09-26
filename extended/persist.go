@@ -578,6 +578,9 @@ func init() {
 	if StoreContext == "" {
 		StoreContext = "/tmp/store.db"
 	}
+	sonic.ConfigDefault = sonic.Config{
+		UseInt64: true,
+	}.Froze()
 
 	RegisterPebbleStore(StoreContext)
 
