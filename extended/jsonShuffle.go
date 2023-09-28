@@ -142,6 +142,13 @@ func expandPath(targetObj ast.Object, path *ast.Term) ([]ast.Ref, error) {
 }
 
 func PatchObject(keypatch map[string]string, target *ast.Term, et *edittree.EditTree, path string, rule interface{}, tengoEnviroment map[string]tengo.Object) {
+	//handle panic
+	defer func() {
+		if err := recover(); err != nil {
+			//silent skip
+		}
+	}()
+
 	pathVal, err := ast.InterfaceToValue(path)
 	if err != nil {
 		return
@@ -231,7 +238,7 @@ func PatchObject(keypatch map[string]string, target *ast.Term, et *edittree.Edit
 			if err != nil {
 				continue
 			}
-			if retVal != true {
+			if retVal != nil && retVal != true {
 				continue
 			}
 		}
@@ -249,7 +256,7 @@ func PatchObject(keypatch map[string]string, target *ast.Term, et *edittree.Edit
 			Args:    cb.Args,
 			Current: typeCasting(current),
 		}
-
+		//This call may panic. need catch
 		maskTypes.Eval(&ctx)
 		newValue, err := ast.InterfaceToValue(ctx.Result)
 
@@ -266,6 +273,12 @@ func PatchObject(keypatch map[string]string, target *ast.Term, et *edittree.Edit
 }
 
 func JSONShuffle(ns string, model string, input *ast.Term) (*ast.Term, error) {
+	defer func() {
+		if err := recover(); err != nil {
+			//silent
+		}
+	}()
+
 	patchKeys := make(map[string]string, 2)
 	//initial SM2 key if configured
 	sm2cert := StoreGet(ns, SM2key)
@@ -333,7 +346,7 @@ func JSONShuffle(ns string, model string, input *ast.Term) (*ast.Term, error) {
 											continue
 										}
 										//check condition if false , remove it, otherwise keep it
-										if retVal != true {
+										if retVal != nil && retVal != true {
 											_, err = et.DeleteAtPath(expandedSegment)
 											if err != nil {
 												continue
@@ -379,7 +392,7 @@ func JSONShuffle(ns string, model string, input *ast.Term) (*ast.Term, error) {
 
 										retVal, err := TengoEval(guard, "output", enviroment)
 										if err == nil {
-											if retVal == true {
+											if retVal != nil && retVal == true {
 												//expand path
 												vpath, _ := ast.InterfaceToValue(match)
 												//TODO: Here should use filtered results
