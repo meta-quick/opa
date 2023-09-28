@@ -591,4 +591,6 @@ func init() {
 	initTimedGaugeAdd()
 	initTimedGaugeDelete()
 	initTimedGaugeGet()
+
+	initTengoContext()
 }
