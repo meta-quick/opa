@@ -25,6 +25,12 @@ func toEnviroments(vars map[string]interface{}) map[string]tengo.Object {
 }
 
 func TengoEval(script string, retkey string, env map[string]tengo.Object) (interface{}, error) {
+	defer func() {
+		if err := recover(); err != nil {
+			//silent
+		}
+	}()
+
 	engine := tengo.NewScript([]byte(script))
 	for k, val := range env {
 		err := engine.Add(k, val)
