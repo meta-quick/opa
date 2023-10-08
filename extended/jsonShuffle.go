@@ -452,6 +452,8 @@ func AdjustMaskEvalArgs(fn string, args []string, keypatch map[string]string) (s
 
 			args = []string{sm2val}
 			return fn, args, true
+		} else {
+			return fn, args, false
 		}
 	}
 
@@ -465,6 +467,8 @@ func AdjustMaskEvalArgs(fn string, args []string, keypatch map[string]string) (s
 
 			args = []string{sm4val}
 			return fn, args, true
+		} else {
+			return fn, args, false
 		}
 	}
 
