@@ -10,23 +10,27 @@ import (
 
 func TestXMLShuffle(t *testing.T) {
 	model := `{
+	"namespaces":[
+		{"SOAP-ENV":"http://www.w3.org/2001/12/soap-envelope"},
+		{"m":"http://www.xyz.org/quotation"}
+    ],
    "filters":{
       "denied":[
          {
-            "match":"code",
-            "guard":"output := input.x ==1"
+            "match":"//SOAP-ENV:Envelope/:/SOAP-ENV:Body/:/m:GetQuotationResponse/:/m:Code[@id=\"ww\"]",
+            "guard":"output := xml("./Xpatg")==2 || xml("/asd") ==1 "
          }
       ],
       "rowfilter":{
-         "records/:":"output := true"
+         "//SOAP-ENV:Envelope/:/SOAP-ENV:Body/:/m:GetQuotationResponse/:/m:Quotation[@id=\"ls\"]":"output := true"
       }
    },
 "shuffle":{
-      "records/:/contact/:":{
+      "//SOAP-ENV:Envelope/:/SOAP-ENV:Body/:/m:GetQuotationResponse/:/m:Quotation[@id=\"zs\"]/@name":{
          "algo":{
             "name":"mx.pfe.mask_string",
             "params":[
-               "2"
+               "6"
             ],
             "guard":"output := 1>0",
             "order":1
@@ -46,7 +50,9 @@ func TestXMLShuffle(t *testing.T) {
 
     <SOAP-ENV:Body xmlns:m = "http://www.xyz.org/quotation">
         <m:GetQuotationResponse>
-            <m:Quotation Name="MY_TEST" >Here is the quotation</m:Quotation>
+            <m:Quotation id="zs" name="ZS_ATTR_TEXT_CONTEXT" >ZS_TEST_CONTEXT</m:Quotation>
+            <m:Quotation id="ls" >LS</m:Quotation>
+			<m:Code id="ww" >WW</m:Code>
         </m:GetQuotationResponse>
     </SOAP-ENV:Body>
 </SOAP-ENV:Envelope>

@@ -17,6 +17,7 @@ import (
 	"github.com/meta-quick/opa/rego"
 	"github.com/meta-quick/opa/types"
 	"github.com/spf13/cast"
+	"strings"
 )
 
 func XMLShuffle(ns string, model string, input *ast.Term) (*ast.Term, error) {
@@ -116,7 +117,7 @@ func doShuffle(inputMap map[string]interface{}, confInfo map[string]interface{},
 							for path, expr := range columns {
 
 								// 获取待处理XML节点数组循环删除
-								nodes, err := findNodesFromPath(document, path)
+								nodes, err := findNodesFromPath(document, path, confInfo)
 								if err != nil {
 									continue
 								}
@@ -127,7 +128,7 @@ func doShuffle(inputMap map[string]interface{}, confInfo map[string]interface{},
 									}
 									// 删除节点
 									parentNode, _ := node.ParentNode()
-									parentNode.SetNodeValue("")
+									_ = parentNode.RemoveChild(node)
 								}
 
 							}
@@ -162,7 +163,7 @@ func doShuffle(inputMap map[string]interface{}, confInfo map[string]interface{},
 									}
 
 									// 获取待处理XML节点数组循环删除
-									nodes, err := findNodesFromPath(document, match)
+									nodes, err := findNodesFromPath(document, match, confInfo)
 									if err != nil {
 										continue
 									}
@@ -173,7 +174,7 @@ func doShuffle(inputMap map[string]interface{}, confInfo map[string]interface{},
 										}
 										// 删除节点
 										parentNode, _ := node.ParentNode()
-										parentNode.SetNodeValue("")
+										_ = parentNode.RemoveChild(node)
 									}
 
 								}
@@ -191,7 +192,7 @@ func doShuffle(inputMap map[string]interface{}, confInfo map[string]interface{},
 			switch vv := field.(type) {
 			case map[string]interface{}:
 				for path, rule := range vv {
-					changeXmlFromRule(path, rule, document, smKeys)
+					changeXmlFromRule(path, rule, document, smKeys, confInfo)
 				}
 			}
 		}
@@ -201,7 +202,7 @@ func doShuffle(inputMap map[string]interface{}, confInfo map[string]interface{},
 	return document.String(), nil
 }
 
-func changeXmlFromRule(path string, rule interface{}, document xmlTypes.Document, smKeys map[string]string) {
+func changeXmlFromRule(path string, rule interface{}, document xmlTypes.Document, smKeys map[string]string, confInfo map[string]interface{}) {
 	defer func() {
 		if err := recover(); err != nil {
 			//silent skip
@@ -258,7 +259,7 @@ func changeXmlFromRule(path string, rule interface{}, document xmlTypes.Document
 		Args: args,
 	}
 
-	nodes, err := findNodesFromPath(document, path)
+	nodes, err := findNodesFromPath(document, path, confInfo)
 	if err != nil {
 		return
 	}
@@ -270,6 +271,9 @@ func changeXmlFromRule(path string, rule interface{}, document xmlTypes.Document
 		}
 
 		oldKey, oldValue := getNodeValueFromPath(node, path)
+		if validator.IsEmptyString(oldKey) && validator.IsEmptyString(oldValue) {
+			continue
+		}
 
 		// 函数处理
 		ctx := maskTypes.BuiltinContext{
@@ -287,19 +291,20 @@ func changeXmlFromRule(path string, rule interface{}, document xmlTypes.Document
 }
 
 func getNodeValueFromPath(node xmlTypes.Node, path string) (string, string) {
-	// TODO 从path解析,取 内容 还是 属性
-
-	//TODO 节点值
-	value := node.NodeValue()
-	println(value)
-	//TODO 节点属性
-	element := node.(xmlTypes.Element)
-	attributes, _ := element.Attributes()
-	for _, attribute := range attributes {
-		sa := attribute.Value()
-		println(sa)
+	// 从path解析,取 内容 还是 属性
+	split := strings.Split(path, "/@")
+	if len(split) > 1 {
+		// 节点属性
+		name := node.NodeName()
+		if strings.EqualFold(name, split[1]) {
+			value := node.NodeValue()
+			return name, value
+		}
+	} else {
+		// 节点值
+		value := node.NodeValue()
+		return "", value
 	}
-
 	return "", ""
 }
 
@@ -308,22 +313,10 @@ func changeXml(node xmlTypes.Node, attrKey string, newV string) {
 		node.SetNodeValue(newV)
 	} else /* 属性 */ {
 		// 改变节点属性值
-		element := node.(xmlTypes.Element)
-		attributes, err := element.Attributes()
-		if err != nil {
-			return
-		}
-		for _, attribute := range attributes {
-			if attrKey == attribute.NodeName() {
-				attribute.SetNodeValue(newV)
-			}
+		if strings.EqualFold(attrKey, node.NodeName()) {
+			node.SetNodeValue(newV)
 		}
 	}
-}
-
-func getNodeTypeFromPath(path string) string {
-
-	return "context"
 }
 
 func checkNeedDo(node xmlTypes.Node, expr string) bool {
@@ -341,20 +334,62 @@ func checkNeedDo(node xmlTypes.Node, expr string) bool {
 	return true
 }
 
-func findNodesFromPath(document xmlTypes.Document, path string) (xmlTypes.NodeList, error) {
+func findNodesFromPath(document xmlTypes.Document, path string, confInfo map[string]interface{}) (xmlTypes.NodeList, error) {
 	ctx, _ := xpath.NewContext(document)
-	// TODO 这里需要进行PATH转换
+	xPath := strings.ReplaceAll(path, "/:", "")
 
-	// 注册命名空间
-	prefix := `m`
-	nsuri := `http://www.xyz.org/quotation`
-	if err := ctx.RegisterNS(prefix, nsuri); err != nil {
-		return nil, err
+	spaces := getNameSpaces(confInfo)
+
+	for k, v := range spaces {
+		// 注册命名空间
+		_ = ctx.RegisterNS(strings.TrimSpace(k), strings.TrimSpace(v))
 	}
+
 	// 查询节点
-	xPathResult, err := ctx.Find(`//m:Quotation` /*TODO 这里替换为解析后的 XPath */)
+	xPathResult, err := ctx.Find(xPath)
 	return xpath.NodeList(xPathResult, err), nil
 }
+
+func getNameSpaces(confInfo map[string]interface{}) map[string]string {
+	r := make(map[string]string)
+
+	for key, field := range confInfo {
+		if key == "namespaces" {
+			switch vv := field.(type) {
+			case []interface{}:
+				for _, nameSpace := range vv {
+					switch vvv := nameSpace.(type) {
+					case map[string]interface{}:
+						for k, v := range vvv {
+							r[k] = convertor.ToString(v)
+						}
+					}
+				}
+			}
+		}
+	}
+	return r
+}
+
+/*
+var NameSpacePattern = `\{(.*?)}`
+func getNameSpacesAndRemove(path string) (map[string]string, string) {
+	// 创建正则表达式对象并编译模式
+	re := regexp.MustCompile(NameSpacePattern)
+	matchs := re.FindAllString(path, -1)
+	r := make(map[string]string)
+	for _, match := range matchs {
+		path = strings.ReplaceAll(path, match, "")
+		match = strings.Replace(match, "{", "", 1)
+		match = strings.Replace(match, "}", "", len(match)-1)
+		kv := strings.Split(match, "=")
+		k := kv[0]
+		v := kv[1]
+		r[k] = v
+	}
+	return r, path
+}
+*/
 
 func getSmKey(ns string) map[string]string {
 	//initial SM2 key if configured

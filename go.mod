@@ -3,7 +3,6 @@ module github.com/meta-quick/opa
 go 1.19
 
 require (
-	github.com/duke-git/lancet/v2 v2.1.16
 	github.com/OneOfOne/xxhash v1.2.8
 	github.com/agnivade/levenshtein v1.1.1
 	github.com/andreyvit/diff v0.0.0-20170406064948-c7f18ee00883
@@ -14,6 +13,7 @@ require (
 	github.com/containerd/containerd v1.7.4
 	github.com/d5/tengo/v2 v2.16.1
 	github.com/dgraph-io/badger/v3 v3.2103.5
+	github.com/duke-git/lancet/v2 v2.1.16
 	github.com/fortytw2/leaktest v1.3.0
 	github.com/foxcpp/go-mockdns v1.0.0
 	github.com/fsnotify/fsnotify v1.6.0
