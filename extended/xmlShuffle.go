@@ -4,7 +4,6 @@ import (
 	"errors"
 	"fmt"
 	"github.com/bytedance/sonic"
-	"github.com/d5/tengo/v2"
 	"github.com/duke-git/lancet/v2/convertor"
 	"github.com/duke-git/lancet/v2/validator"
 	"github.com/lestrrat-go/libxml2/parser"
@@ -123,7 +122,7 @@ func doShuffle(inputMap map[string]interface{}, confInfo map[string]interface{},
 								}
 								for _, node := range nodes {
 									// 先进行表达式判断，若表达式不成立，则直接跳过
-									if !checkNeedDo(node, expr.(string)) {
+									if !checkNeedDo(node, expr.(string), confInfo) {
 										continue
 									}
 									// 删除节点
@@ -169,7 +168,7 @@ func doShuffle(inputMap map[string]interface{}, confInfo map[string]interface{},
 									}
 									for _, node := range nodes {
 										// 先进行表达式判断，若表达式不成立，则直接跳过
-										if !checkNeedDo(node, guard) {
+										if !checkNeedDo(node, guard, confInfo) {
 											continue
 										}
 										// 删除节点
@@ -266,7 +265,7 @@ func changeXmlFromRule(path string, rule interface{}, document xmlTypes.Document
 
 	for _, node := range nodes {
 		// 先进行表达式判断，若表达式不成立，则直接跳过
-		if !checkNeedDo(node, guard) {
+		if !checkNeedDo(node, guard, confInfo) {
 			continue
 		}
 
@@ -319,27 +318,24 @@ func changeXml(node xmlTypes.Node, attrKey string, newV string) {
 	}
 }
 
-func checkNeedDo(node xmlTypes.Node, expr string) bool {
-	// TODO Expr 表达式提取与转换
-
-	// TODO 封装Tengo执行参数
-	enviroment := make(map[string]tengo.Object)
-	enviroment["Data"] = toValue("vstep") //TODO vstep是interface{}数据节点，这里我需要转换
-
+func checkNeedDo(node xmlTypes.Node, expr string, confInfo map[string]interface{}) bool {
+	// 封装Tengo执行参数
+	tengoContext := copyTengoContext()
+	tengoContext["node"] = toValue(node.String())
+	tengoContext["spaces"] = toValue(confInfo)
 	// 执行表达式判断
-	r, err := TengoEval(expr, "output", enviroment)
+	r, err := TengoEval(expr, "output", tengoContext)
 	if r == nil || err != nil || r == false {
 		return false
 	}
 	return true
 }
 
-func findNodesFromPath(document xmlTypes.Document, path string, confInfo map[string]interface{}) (xmlTypes.NodeList, error) {
+func findNodesFromPath(document xmlTypes.Node, path string, confInfo map[string]interface{}) (xmlTypes.NodeList, error) {
 	ctx, _ := xpath.NewContext(document)
 	xPath := strings.ReplaceAll(path, "/:", "")
 
 	spaces := getNameSpaces(confInfo)
-
 	for k, v := range spaces {
 		// 注册命名空间
 		_ = ctx.RegisterNS(strings.TrimSpace(k), strings.TrimSpace(v))
@@ -433,4 +429,34 @@ func init() {
 			return v, err
 		},
 	)
+
+	RegisterTengoCustomFunc("xml", getNodeValueFromXPath)
+	RegisterTengoCustomFunc("sprintf", fmt.Sprintf)
+	RegisterTengoCustomFunc("strContains", strings.Contains)
+	RegisterTengoCustomFunc("strEqualFold", strings.EqualFold)
+}
+
+func getNodeValueFromXPath(nodeS string, path string, configInfo map[string]interface{}) string {
+	docS := `<InnerHeader `
+	spaces := getNameSpaces(configInfo)
+	for k, v := range spaces {
+		// 拼接命名空间 xmlns:m = "http://www.xyz.org/quotation"
+		docS = docS + ` xmlns:` + k + ` = "` + v + `"`
+	}
+	docS = docS + `>` + nodeS + `</InnerHeader>`
+
+	// 转换XML文本对象
+	xmlParser := parser.New()
+	rootDoc, err := xmlParser.Parse([]byte(docS))
+	defer rootDoc.Free()
+	if err != nil {
+		return ""
+	}
+
+	nodes, _ := findNodesFromPath(rootDoc, path, configInfo)
+	for _, node := range nodes {
+		_, v := getNodeValueFromPath(node, path)
+		return v
+	}
+	return ""
 }

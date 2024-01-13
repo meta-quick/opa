@@ -18,7 +18,7 @@ func TestXMLShuffle(t *testing.T) {
       "denied":[
          {
             "match":"//SOAP-ENV:Envelope/:/SOAP-ENV:Body/:/m:GetQuotationResponse/:/m:Code[@id=\"ww\"]",
-            "guard":"output := xml("./Xpatg")==2 || xml("/asd") ==1 "
+            "guard":"na :=  xml(node,\"//m:Code/m:Name/@id\",spaces) \n output := strEqualFold(na,\"na\") "
          }
       ],
       "rowfilter":{
@@ -47,12 +47,14 @@ func TestXMLShuffle(t *testing.T) {
 <SOAP-ENV:Envelope
         xmlns:SOAP-ENV = "http://www.w3.org/2001/12/soap-envelope"
         SOAP-ENV:encodingStyle = "http://www.w3.org/2001/12/soap-encoding">
-
     <SOAP-ENV:Body xmlns:m = "http://www.xyz.org/quotation">
         <m:GetQuotationResponse>
             <m:Quotation id="zs" name="ZS_ATTR_TEXT_CONTEXT" >ZS_TEST_CONTEXT</m:Quotation>
             <m:Quotation id="ls" >LS</m:Quotation>
-			<m:Code id="ww" >WW</m:Code>
+			<m:Code id="ww">
+				<m:Name id="na">name</m:Name>
+				<m:Age>18</m:Age>
+			</m:Code>
         </m:GetQuotationResponse>
     </SOAP-ENV:Body>
 </SOAP-ENV:Envelope>
