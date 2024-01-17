@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"github.com/bytedance/sonic"
+	"github.com/d5/tengo/v2"
 	"github.com/duke-git/lancet/v2/convertor"
 	"github.com/duke-git/lancet/v2/validator"
 	"github.com/lestrrat-go/libxml2/parser"
@@ -103,6 +104,14 @@ func doShuffle(inputMap map[string]interface{}, confInfo map[string]interface{},
 	if confInfo == nil {
 		return "", errors.New("未解析到脱敏配置")
 	}
+	tengoContext := copyTengoContext()
+
+	ctx, _ := xpath.NewContext(document)
+	spaces := getNameSpaces(confInfo)
+	for k, v := range spaces {
+		// 注册命名空间
+		_ = ctx.RegisterNS(strings.TrimSpace(k), strings.TrimSpace(v))
+	}
 
 	// rowfilter 数据行过滤
 	for key, field := range confInfo {
@@ -116,13 +125,13 @@ func doShuffle(inputMap map[string]interface{}, confInfo map[string]interface{},
 							for path, expr := range columns {
 
 								// 获取待处理XML节点数组循环删除
-								nodes, err := findNodesFromPath(document, path, confInfo)
+								nodes, err := findNodesFromPath(path, ctx)
 								if err != nil {
 									continue
 								}
 								for _, node := range nodes {
 									// 先进行表达式判断，若表达式不成立，则直接跳过
-									if !checkNeedDo(node, expr.(string), confInfo) {
+									if !checkNeedDo(node, expr.(string), confInfo, tengoContext) {
 										continue
 									}
 									// 删除节点
@@ -162,13 +171,13 @@ func doShuffle(inputMap map[string]interface{}, confInfo map[string]interface{},
 									}
 
 									// 获取待处理XML节点数组循环删除
-									nodes, err := findNodesFromPath(document, match, confInfo)
+									nodes, err := findNodesFromPath(match, ctx)
 									if err != nil {
 										continue
 									}
 									for _, node := range nodes {
 										// 先进行表达式判断，若表达式不成立，则直接跳过
-										if !checkNeedDo(node, guard, confInfo) {
+										if !checkNeedDo(node, guard, confInfo, tengoContext) {
 											continue
 										}
 										// 删除节点
@@ -191,7 +200,7 @@ func doShuffle(inputMap map[string]interface{}, confInfo map[string]interface{},
 			switch vv := field.(type) {
 			case map[string]interface{}:
 				for path, rule := range vv {
-					changeXmlFromRule(path, rule, document, smKeys, confInfo)
+					changeXmlFromRule(path, rule, document, smKeys, confInfo, tengoContext, ctx)
 				}
 			}
 		}
@@ -201,7 +210,8 @@ func doShuffle(inputMap map[string]interface{}, confInfo map[string]interface{},
 	return document.String(), nil
 }
 
-func changeXmlFromRule(path string, rule interface{}, document xmlTypes.Document, smKeys map[string]string, confInfo map[string]interface{}) {
+func changeXmlFromRule(path string, rule interface{}, document xmlTypes.Document, smKeys map[string]string,
+	confInfo map[string]interface{}, tengoContext map[string]tengo.Object, ctx *xpath.Context) {
 	defer func() {
 		if err := recover(); err != nil {
 			//silent skip
@@ -258,14 +268,14 @@ func changeXmlFromRule(path string, rule interface{}, document xmlTypes.Document
 		Args: args,
 	}
 
-	nodes, err := findNodesFromPath(document, path, confInfo)
+	nodes, err := findNodesFromPath(path, ctx)
 	if err != nil {
 		return
 	}
 
 	for _, node := range nodes {
 		// 先进行表达式判断，若表达式不成立，则直接跳过
-		if !checkNeedDo(node, guard, confInfo) {
+		if !checkNeedDo(node, guard, confInfo, tengoContext) {
 			continue
 		}
 
@@ -318,9 +328,8 @@ func changeXml(node xmlTypes.Node, attrKey string, newV string) {
 	}
 }
 
-func checkNeedDo(node xmlTypes.Node, expr string, confInfo map[string]interface{}) bool {
+func checkNeedDo(node xmlTypes.Node, expr string, confInfo map[string]interface{}, tengoContext map[string]tengo.Object) bool {
 	// 封装Tengo执行参数
-	tengoContext := copyTengoContext()
 	tengoContext["node"] = toValue(node.String())
 	tengoContext["spaces"] = toValue(confInfo)
 	// 执行表达式判断
@@ -331,17 +340,9 @@ func checkNeedDo(node xmlTypes.Node, expr string, confInfo map[string]interface{
 	return true
 }
 
-func findNodesFromPath(document xmlTypes.Node, path string, confInfo map[string]interface{}) (xmlTypes.NodeList, error) {
-	ctx, _ := xpath.NewContext(document)
-	xPath := strings.ReplaceAll(path, "/:", "")
-
-	spaces := getNameSpaces(confInfo)
-	for k, v := range spaces {
-		// 注册命名空间
-		_ = ctx.RegisterNS(strings.TrimSpace(k), strings.TrimSpace(v))
-	}
-
+func findNodesFromPath(path string, ctx *xpath.Context) (xmlTypes.NodeList, error) {
 	// 查询节点
+	xPath := strings.ReplaceAll(path, "/:", "")
 	xPathResult, err := ctx.Find(xPath)
 	return xpath.NodeList(xPathResult, err), nil
 }
@@ -453,7 +454,13 @@ func getNodeValueFromXPath(nodeS string, path string, configInfo map[string]inte
 		return ""
 	}
 
-	nodes, _ := findNodesFromPath(rootDoc, path, configInfo)
+	ctx, _ := xpath.NewContext(rootDoc)
+	for k, v := range spaces {
+		// 注册命名空间
+		_ = ctx.RegisterNS(strings.TrimSpace(k), strings.TrimSpace(v))
+	}
+
+	nodes, _ := findNodesFromPath(path, ctx)
 	for _, node := range nodes {
 		_, v := getNodeValueFromPath(node, path)
 		return v
