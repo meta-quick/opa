@@ -105,6 +105,7 @@ func doShuffle(inputMap map[string]interface{}, confInfo map[string]interface{},
 		return "", errors.New("未解析到脱敏配置")
 	}
 	tengoContext := copyTengoContext()
+	tengoContext["input"] = toValue(toEnviroments(inputMap))
 
 	ctx, _ := xpath.NewContext(document)
 	spaces := getNameSpaces(confInfo)
