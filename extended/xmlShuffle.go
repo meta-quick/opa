@@ -436,6 +436,24 @@ func init() {
 	RegisterTengoCustomFunc("sprintf", fmt.Sprintf)
 	RegisterTengoCustomFunc("strContains", strings.Contains)
 	RegisterTengoCustomFunc("strEqualFold", strings.EqualFold)
+	RegisterTengoCustomFunc("toInt", toInt)
+	RegisterTengoCustomFunc("toFloat", toFloat)
+	RegisterTengoCustomFunc("toBool", toBool)
+}
+
+func toInt(v string) int64 {
+	r, _ := convertor.ToInt(v)
+	return r
+}
+
+func toFloat(v string) float64 {
+	r, _ := convertor.ToFloat(v)
+	return r
+}
+
+func toBool(v string) bool {
+	r, _ := convertor.ToBool(v)
+	return r
 }
 
 func getNodeValueFromXPath(nodeS string, path string, configInfo map[string]interface{}) string {
