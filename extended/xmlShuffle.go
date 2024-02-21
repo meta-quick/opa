@@ -7,6 +7,7 @@ import (
 	"github.com/d5/tengo/v2"
 	"github.com/duke-git/lancet/v2/convertor"
 	"github.com/duke-git/lancet/v2/validator"
+	"github.com/lestrrat-go/libxml2/dom"
 	"github.com/lestrrat-go/libxml2/parser"
 	xmlTypes "github.com/lestrrat-go/libxml2/types"
 	"github.com/lestrrat-go/libxml2/xpath"
@@ -183,7 +184,13 @@ func doShuffle(inputMap map[string]interface{}, confInfo map[string]interface{},
 										}
 										// 删除节点
 										parentNode, _ := node.ParentNode()
-										_ = parentNode.RemoveChild(node)
+										switch nt := node.(type) {
+										case *dom.Attribute:
+											element := parentNode.(xmlTypes.Element)
+											element.RemoveAttribute(nt.NodeName())
+										default:
+											_ = parentNode.RemoveChild(node)
+										}
 									}
 
 								}
@@ -457,32 +464,39 @@ func toBool(v string) bool {
 }
 
 func getNodeValueFromXPath(nodeS string, path string, configInfo map[string]interface{}) string {
-	docS := `<InnerHeader `
-	spaces := getNameSpaces(configInfo)
-	for k, v := range spaces {
-		// 拼接命名空间 xmlns:m = "http://www.xyz.org/quotation"
-		docS = docS + ` xmlns:` + k + ` = "` + v + `"`
-	}
-	docS = docS + `>` + nodeS + `</InnerHeader>`
+	if strings.Contains(nodeS, "=") && !strings.HasPrefix(nodeS, "<") { // 属性片段
+		kv := strings.Split(nodeS, "=")
+		return strings.ReplaceAll(kv[1], "\"", "")
+	} else if strings.HasPrefix(nodeS, "<") { // 标签片段
+		docS := `<InnerHeader `
+		spaces := getNameSpaces(configInfo)
+		for k, v := range spaces {
+			// 拼接命名空间 xmlns:m = "http://www.xyz.org/quotation"
+			docS = docS + ` xmlns:` + k + ` = "` + v + `"`
+		}
+		docS = docS + `>` + nodeS + `</InnerHeader>`
 
-	// 转换XML文本对象
-	xmlParser := parser.New()
-	rootDoc, err := xmlParser.Parse([]byte(docS))
-	defer rootDoc.Free()
-	if err != nil {
-		return ""
-	}
+		// 转换XML文本对象
+		xmlParser := parser.New()
+		rootDoc, err := xmlParser.Parse([]byte(docS))
+		defer rootDoc.Free()
+		if err != nil {
+			return ""
+		}
 
-	ctx, _ := xpath.NewContext(rootDoc)
-	for k, v := range spaces {
-		// 注册命名空间
-		_ = ctx.RegisterNS(strings.TrimSpace(k), strings.TrimSpace(v))
-	}
+		ctx, _ := xpath.NewContext(rootDoc)
+		for k, v := range spaces {
+			// 注册命名空间
+			_ = ctx.RegisterNS(strings.TrimSpace(k), strings.TrimSpace(v))
+		}
 
-	nodes, _ := findNodesFromPath(path, ctx)
-	for _, node := range nodes {
-		_, v := getNodeValueFromPath(node, path)
-		return v
+		nodes, _ := findNodesFromPath(path, ctx)
+		for _, node := range nodes {
+			_, v := getNodeValueFromPath(node, path)
+			return v
+		}
+	} else { // 值片段
+		return nodeS
 	}
 	return ""
 }
