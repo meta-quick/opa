@@ -443,19 +443,23 @@ func init() {
 	RegisterTengoCustomFunc("sprintf", fmt.Sprintf)
 	RegisterTengoCustomFunc("strContains", strings.Contains)
 	RegisterTengoCustomFunc("strEqualFold", strings.EqualFold)
-	RegisterTengoCustomFunc("toInt", toInt)
-	RegisterTengoCustomFunc("toFloat", ToFloat)
+	RegisterTengoCustomFunc("toNumber", toNumber)
 	RegisterTengoCustomFunc("toBool", toBool)
 }
 
-func toInt(v string) int64 {
-	r, _ := convertor.ToInt(v)
-	return r
-}
+func toNumber(v string) tengo.Object {
+	if !validator.IsNumberStr(v) {
+		return &tengo.Error{}
+	}
 
-func ToFloat(v string) float64 {
-	r, _ := convertor.ToFloat(v)
-	return r
+	if strings.Contains(v, ".") {
+		r, _ := convertor.ToFloat(v)
+		return toValue(r)
+	} else {
+		r, _ := convertor.ToInt(v)
+		return toValue(r)
+	}
+
 }
 
 func toBool(v string) bool {

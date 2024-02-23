@@ -182,7 +182,7 @@ func TestXMLShuffleConvertor(t *testing.T) {
       "denied":[
          {
             "match":"//SOAP-ENV:Envelope/:/SOAP-ENV:Body/:/m:GetQuotationResponse/:/m:Code[@id=\"ww\"]",
-            "guard":" output := ( toInt(xml(node,\"//m:Code/m:Age\",spaces)) >= 18 ) "
+            "guard":" output := ( toNumber(xml(node,\"//m:Code/m:Age\",spaces)) == 18.0 ) "
          }
       ],
       "rowfilter":{
@@ -217,7 +217,7 @@ func TestXMLShuffleConvertor(t *testing.T) {
             <m:Quotation id="ls" >LS</m:Quotation>
 			<m:Code id="ww">
 				<m:Name id="na">name</m:Name>
-				<m:Age>18</m:Age>
+				<m:Age>18.0</m:Age>
 			</m:Code>
         </m:GetQuotationResponse>
     </SOAP-ENV:Body>
