@@ -444,7 +444,7 @@ func init() {
 	RegisterTengoCustomFunc("strContains", strings.Contains)
 	RegisterTengoCustomFunc("strEqualFold", strings.EqualFold)
 	RegisterTengoCustomFunc("toInt", toInt)
-	RegisterTengoCustomFunc("toFloat", toFloat)
+	RegisterTengoCustomFunc("toFloat", ToFloat)
 	RegisterTengoCustomFunc("toBool", toBool)
 }
 
@@ -453,7 +453,7 @@ func toInt(v string) int64 {
 	return r
 }
 
-func toFloat(v string) float64 {
+func ToFloat(v string) float64 {
 	r, _ := convertor.ToFloat(v)
 	return r
 }

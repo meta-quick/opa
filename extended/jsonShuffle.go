@@ -19,6 +19,7 @@ import (
 func initTengoContext() {
 	RegisterTengoCustomFunc("sprintf", fmt.Sprintf)
 	RegisterTengoCustomFunc("strContains", strings.Contains)
+	RegisterTengoCustomFunc("toFloat", ToFloat)
 }
 
 func copyTengoContext() map[string]tengo.Object {
