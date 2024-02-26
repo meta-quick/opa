@@ -351,6 +351,7 @@ func checkNeedDo(node xmlTypes.Node, expr string, confInfo map[string]interface{
 func findNodesFromPath(path string, ctx *xpath.Context) (xmlTypes.NodeList, error) {
 	// 查询节点
 	xPath := strings.ReplaceAll(path, "/:", "")
+	xPath = strings.ReplaceAll(xPath, "/#text", "")
 	xPathResult, err := ctx.Find(xPath)
 	return xpath.NodeList(xPathResult, err), nil
 }
