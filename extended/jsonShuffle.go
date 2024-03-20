@@ -235,10 +235,7 @@ func PatchObject(keypatch map[string]string, target *ast.Term, et *edittree.Edit
 			tengoEnviroment["DataPath"] = toValue(buildRefPath(expandedSegment))
 
 			retVal, err := TengoEval(guard, "output", tengoEnviroment)
-			if err != nil {
-				continue
-			}
-			if retVal != nil && retVal != true {
+			if err == nil && retVal != nil && retVal != true {
 				continue
 			}
 		}
@@ -342,11 +339,8 @@ func JSONShuffle(ns string, model string, input *ast.Term) (*ast.Term, error) {
 										enviroment["Data"] = toValue(vstep)
 										enviroment["DataPath"] = toValue(buildRefPath(expandedSegment))
 										retVal, err := TengoEval(expr.(string), "output", enviroment)
-										if err != nil {
-											continue
-										}
 										//check condition if false , remove it, otherwise keep it
-										if retVal != nil && retVal != true {
+										if err != nil || (retVal != nil && retVal != true) {
 											_, err = et.DeleteAtPath(expandedSegment)
 											if err != nil {
 												continue
@@ -391,20 +385,18 @@ func JSONShuffle(ns string, model string, input *ast.Term) (*ast.Term, error) {
 										}
 
 										retVal, err := TengoEval(guard, "output", enviroment)
-										if err == nil {
-											if retVal != nil && retVal == true {
-												//expand path
-												vpath, _ := ast.InterfaceToValue(match)
-												//TODO: Here should use filtered results
-												expanded, err := expandPath(targetObj, ast.NewTerm(vpath))
-												//remove this field
-												if err == nil {
-													//loop through expanded path
-													for _, expandedSegment := range expanded {
-														_, err = et.DeleteAtPath(expandedSegment)
-														if err != nil {
-															continue
-														}
+										if err != nil || (retVal != nil && retVal == true) {
+											//expand path
+											vpath, _ := ast.InterfaceToValue(match)
+											//TODO: Here should use filtered results
+											expanded, err := expandPath(targetObj, ast.NewTerm(vpath))
+											//remove this field
+											if err == nil {
+												//loop through expanded path
+												for _, expandedSegment := range expanded {
+													_, err = et.DeleteAtPath(expandedSegment)
+													if err != nil {
+														continue
 													}
 												}
 											}

@@ -133,7 +133,9 @@ func doShuffle(inputMap map[string]interface{}, confInfo map[string]interface{},
 								}
 								for _, node := range nodes {
 									// 先进行表达式判断，若表达式不成立，则直接跳过
-									if !checkNeedDo(node, expr.(string), confInfo, tengoContext) {
+									do, err := checkNeedDo(node, expr.(string), confInfo, tengoContext)
+									// 与JSON保持一致， 表达式成立代表要给用户看，即不执行过滤操作哦
+									if err == nil && do {
 										continue
 									}
 									// 删除节点
@@ -179,7 +181,8 @@ func doShuffle(inputMap map[string]interface{}, confInfo map[string]interface{},
 									}
 									for _, node := range nodes {
 										// 先进行表达式判断，若表达式不成立，则直接跳过
-										if !checkNeedDo(node, guard, confInfo, tengoContext) {
+										do, err := checkNeedDo(node, guard, confInfo, tengoContext)
+										if err == nil && !do {
 											continue
 										}
 										// 删除节点
@@ -283,7 +286,8 @@ func changeXmlFromRule(path string, rule interface{}, document xmlTypes.Document
 
 	for _, node := range nodes {
 		// 先进行表达式判断，若表达式不成立，则直接跳过
-		if !checkNeedDo(node, guard, confInfo, tengoContext) {
+		do, err := checkNeedDo(node, guard, confInfo, tengoContext)
+		if err == nil && !do {
 			continue
 		}
 
@@ -336,16 +340,16 @@ func changeXml(node xmlTypes.Node, attrKey string, newV string) {
 	}
 }
 
-func checkNeedDo(node xmlTypes.Node, expr string, confInfo map[string]interface{}, tengoContext map[string]tengo.Object) bool {
+func checkNeedDo(node xmlTypes.Node, expr string, confInfo map[string]interface{}, tengoContext map[string]tengo.Object) (bool, error) {
 	// 封装Tengo执行参数
 	tengoContext["node"] = toValue(node.String())
 	tengoContext["spaces"] = toValue(confInfo)
 	// 执行表达式判断
 	r, err := TengoEval(expr, "output", tengoContext)
-	if r == nil || err != nil || r == false {
-		return false
+	if r == nil || r == false {
+		return false, err
 	}
-	return true
+	return true, err
 }
 
 func findNodesFromPath(path string, ctx *xpath.Context) (xmlTypes.NodeList, error) {
