@@ -141,7 +141,7 @@ func expandPath(targetObj ast.Object, path *ast.Term) ([]ast.Ref, error) {
 	return expandedSegmentsX, nil
 }
 
-func PatchObject(keypatch map[string]string, target *ast.Term, et *edittree.EditTree, path string, rule interface{}, tengoEnviroment map[string]tengo.Object) {
+func PatchObject(keypatch map[string]string, target *ast.Term, et *edittree.EditTree, path string, rule interface{}, tengoEnviroment map[string]tengo.Object, input *ast.Term) {
 	//handle panic
 	defer func() {
 		if err := recover(); err != nil {
@@ -218,55 +218,86 @@ func PatchObject(keypatch map[string]string, target *ast.Term, et *edittree.Edit
 		return
 	}
 
-	for _, expandedSegment := range expanded {
-		//check guard, make sure it is true. if not, skip
-		var step ast.Value
-		if guard != "" {
-			step, err = targetObj.Find(expandedSegment)
+	if cb.Fn == maskTypes.CUSTOMER_MASK_MD_ID.Name || cb.Fn == maskTypes.CUSTOMER_MASK_PHONE_NUMBER.Name {
+		for _, expandedSegment := range expanded {
+			//check guard, make sure it is true. if not, skip
+			if guard != "" {
+				tengoEnviroment["Data"] = toValue(nil)
+				tengoEnviroment["DataPath"] = toValue(buildRefPath(expandedSegment))
+
+				retVal, err := TengoEval(guard, "output", tengoEnviroment)
+				if err == nil && retVal != nil && retVal != true {
+					continue
+				}
+			}
+
+			ctx := maskTypes.BuiltinContext{
+				Fn:      cb.Fn,
+				Args:    cb.Args,
+				Current: typeCasting(input.Value.String()),
+			}
+			//This call may panic. need catch
+			maskTypes.Eval(&ctx)
+			newValue, err := ast.InterfaceToValue(ctx.Result)
+
+			_, _ = et.DeleteAtPath(expandedSegment)
+			_, err = et.InsertAtPath(expandedSegment, ast.NewTerm(newValue))
+			if err != nil {
+				continue
+			}
+		}
+	} else {
+		for _, expandedSegment := range expanded {
+			//check guard, make sure it is true. if not, skip
+			var step ast.Value
+			if guard != "" {
+				step, err = targetObj.Find(expandedSegment)
+				if err != nil {
+					continue
+				}
+
+				vstep, err := ast.ValueToInterfaceX(step)
+				if err != nil {
+					continue
+				}
+				tengoEnviroment["Data"] = toValue(vstep)
+				tengoEnviroment["DataPath"] = toValue(buildRefPath(expandedSegment))
+
+				retVal, err := TengoEval(guard, "output", tengoEnviroment)
+				if err == nil && retVal != nil && retVal != true {
+					continue
+				}
+			}
+
+			if step == nil {
+				step, err = targetObj.Find(expandedSegment)
+				if err != nil {
+					continue
+				}
+			}
+
+			current, _ := ast.ValueToInterfaceX(step)
+			ctx := maskTypes.BuiltinContext{
+				Fn:      cb.Fn,
+				Args:    cb.Args,
+				Current: typeCasting(current),
+			}
+			//This call may panic. need catch
+			maskTypes.Eval(&ctx)
+			newValue, err := ast.InterfaceToValue(ctx.Result)
+
+			_, err = et.DeleteAtPath(expandedSegment)
 			if err != nil {
 				continue
 			}
 
-			vstep, err := ast.ValueToInterfaceX(step)
+			_, err = et.InsertAtPath(expandedSegment, ast.NewTerm(newValue))
 			if err != nil {
 				continue
 			}
-			tengoEnviroment["Data"] = toValue(vstep)
-			tengoEnviroment["DataPath"] = toValue(buildRefPath(expandedSegment))
-
-			retVal, err := TengoEval(guard, "output", tengoEnviroment)
-			if err == nil && retVal != nil && retVal != true {
-				continue
-			}
-		}
-
-		if step == nil {
-			step, err = targetObj.Find(expandedSegment)
-			if err != nil {
-				continue
-			}
-		}
-
-		current, _ := ast.ValueToInterfaceX(step)
-		ctx := maskTypes.BuiltinContext{
-			Fn:      cb.Fn,
-			Args:    cb.Args,
-			Current: typeCasting(current),
-		}
-		//This call may panic. need catch
-		maskTypes.Eval(&ctx)
-		newValue, err := ast.InterfaceToValue(ctx.Result)
-
-		_, err = et.DeleteAtPath(expandedSegment)
-		if err != nil {
-			continue
-		}
-
-		_, err = et.InsertAtPath(expandedSegment, ast.NewTerm(newValue))
-		if err != nil {
-			continue
 		}
 	}
+
 }
 
 func JSONShuffle(ns string, model string, input *ast.Term) (*ast.Term, error) {
@@ -423,7 +454,7 @@ func JSONShuffle(ns string, model string, input *ast.Term) (*ast.Term, error) {
 				switch vv := field.(type) {
 				case map[string]interface{}:
 					for path, rule := range vv {
-						PatchObject(patchKeys, target, et, path, rule, enviroment)
+						PatchObject(patchKeys, target, et, path, rule, enviroment, input)
 					}
 				}
 			}

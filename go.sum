@@ -322,8 +322,8 @@ github.com/matttproud/golang_protobuf_extensions v1.0.4 h1:mmDVorXM7PCGKw94cs5zk
 github.com/matttproud/golang_protobuf_extensions v1.0.4/go.mod h1:BSXmuO+STAnVfrANrmjBb36TMTDstsz7MSK+HVaYKv4=
 github.com/mediocregopher/mediocre-go-lib v0.0.0-20181029021733-cb65787f37ed/go.mod h1:dSsfyI2zABAdhcbvkXqgxOxrCsbYeHCPgrZkku60dSg=
 github.com/mediocregopher/radix/v3 v3.3.0/go.mod h1:EmfVyvspXz1uZEyPBMyGK+kjWiKQGvsUt6O3Pj+LDCQ=
-github.com/meta-quick/mask v0.1.11 h1:kBMwFZkcFZ3B0BKxMRxQ3NIh938ZhZwGjz6RVE0P8ZU=
-github.com/meta-quick/mask v0.1.11/go.mod h1:FbfV73ATZpref39YHjLSC3I2KhJWeGYYTUuA4OGvocc=
+github.com/meta-quick/mask v0.1.15 h1:417fZWxYO3mLXu6sooIwIWriMvYwzVaiTEW4kRtYGw0=
+github.com/meta-quick/mask v0.1.15/go.mod h1:WCz3UHP3QNL40SUbQanDjWfLPJnu8lpF4216wsseeAw=
 github.com/microcosm-cc/bluemonday v1.0.2/go.mod h1:iVP4YcDBq+n/5fb23BhYFvIMq/leAFZyRl6bYmGDlGc=
 github.com/miekg/dns v1.1.25/go.mod h1:bPDLeHnStXmXAq1m/Ch/hvfNHr14JKNPMBo3VZKjuso=
 github.com/miekg/dns v1.1.43 h1:JKfpVSCB84vrAmHzyrsxB5NAr5kLoMXZArPSw7Qlgyg=

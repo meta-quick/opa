@@ -133,3 +133,96 @@ func Test_Main(t *testing.T) {
 
 	fmt.Println(string(ret[:]))
 }
+
+func TestJSONShuffle_1(t *testing.T) {
+	model := `{
+   "filters":{
+      "denied":[
+         {
+            "match":"code",
+            "guard":"output := input.x ==1"
+         }
+      ],
+      "rowfilter":{
+         "records/:":"output := true"
+      }
+   },
+"shuffle":{
+      "records/:/AAA":{
+         "algo":{
+            "name":"mx.customer.mask_md_id",
+            "params":[
+            ],
+            "guard":"output := 1>0",
+            "order":1
+         }
+      }
+   }
+}`
+
+	env := map[string]interface{}{
+		"greet":   "world",
+		"sprintf": "fmt.Sprintf",
+	}
+
+	contact1 := []interface{}{
+		"zhangsan@qq.com",
+		"123456789",
+	}
+
+	contact2 := []interface{}{
+		"lishi@qq.com",
+		"123456789",
+	}
+
+	r1 := map[string]interface{}{
+		"nane":    "zhangsan",
+		"age":     18,
+		"contact": contact1,
+	}
+
+	r2 := map[string]interface{}{
+		"name":    "lishi",
+		"age":     18,
+		"contact": contact2,
+	}
+
+	array := []interface{}{r1, r2}
+
+	input := map[string]interface{}{
+		"code":    0,
+		"message": "success",
+		"records": array,
+		"context": env,
+		"x":       100,
+		"sub":     "demousername",
+	}
+
+	fmt.Println(model)
+	// set values  xxxx := object.get(input,["xxx",0],0)
+	//  xxxx := meta.json.shuffle(`%s`,input)
+	module := "\t\tpackage test\n\t\tp = output {\n       xxxx := meta.json.shuffle(\"nscc\",`%s`,input)\n        output := xxxx\n}"
+	module = fmt.Sprintf(module, model)
+
+	ctx := context.Background()
+
+	r := rego.New(
+		rego.Query("data.test.p"),
+		rego.Module("", module),
+	)
+
+	pq, err := r.PrepareForEval(ctx)
+	if err != nil {
+		t.Fatalf("Unexpected error: %s", err.Error())
+	}
+
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	//xxx, _ := sonic.Marshal(input)
+
+	output, err := pq.Eval(ctx, rego.EvalInput(input))
+	ret, _ := sonic.Marshal(output)
+	fmt.Println(string(ret[:]))
+}
