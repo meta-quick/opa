@@ -18,6 +18,7 @@ import (
 	"github.com/meta-quick/opa/rego"
 	"github.com/meta-quick/opa/types"
 	"github.com/spf13/cast"
+	"net"
 	"strings"
 )
 
@@ -450,6 +451,17 @@ func init() {
 	RegisterTengoCustomFunc("strEqualFold", strings.EqualFold)
 	RegisterTengoCustomFunc("toNumber", toNumber)
 	RegisterTengoCustomFunc("toBool", toBool)
+	RegisterTengoCustomFunc("toBool", toBool)
+	RegisterTengoCustomFunc("ipContains", ipContains)
+}
+
+func ipContains(cidr string, ip string) bool {
+	_, ipNet, err := net.ParseCIDR(cidr)
+	if err != nil {
+		return false
+	}
+	ipAddr := net.ParseIP(ip)
+	return ipNet.Contains(ipAddr)
 }
 
 func toNumber(v string) tengo.Object {

@@ -19,6 +19,7 @@ import (
 func initTengoContext() {
 	RegisterTengoCustomFunc("sprintf", fmt.Sprintf)
 	RegisterTengoCustomFunc("strContains", strings.Contains)
+	RegisterTengoCustomFunc("ipContains", ipContains)
 }
 
 func copyTengoContext() map[string]tengo.Object {
