@@ -7,6 +7,7 @@ package extended
 import (
 	"context"
 	"github.com/d5/tengo/v2"
+	"github.com/d5/tengo/v2/stdlib"
 	"github.com/meta-quick/opa/ast"
 	"github.com/meta-quick/opa/rego"
 	"github.com/meta-quick/opa/types"
@@ -38,6 +39,8 @@ func TengoEval(script string, retkey string, env map[string]tengo.Object) (inter
 			return nil, err
 		}
 	}
+
+	engine.SetImports(stdlib.GetModuleMap(stdlib.AllModuleNames()...))
 
 	compiled, err := engine.RunContext(context.Background())
 	if err != nil {
