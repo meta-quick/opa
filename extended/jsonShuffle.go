@@ -20,6 +20,7 @@ func initTengoContext() {
 	RegisterTengoCustomFunc("sprintf", fmt.Sprintf)
 	RegisterTengoCustomFunc("strContains", strings.Contains)
 	RegisterTengoCustomFunc("ipContains", ipContains)
+	RegisterTengoCustomFunc("betweenClock", betweenClock)
 }
 
 func copyTengoContext() map[string]tengo.Object {

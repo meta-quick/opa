@@ -20,6 +20,7 @@ import (
 	"github.com/spf13/cast"
 	"net"
 	"strings"
+	"time"
 )
 
 func XMLShuffle(ns string, model string, input *ast.Term) (*ast.Term, error) {
@@ -453,6 +454,35 @@ func init() {
 	RegisterTengoCustomFunc("toBool", toBool)
 	RegisterTengoCustomFunc("toBool", toBool)
 	RegisterTengoCustomFunc("ipContains", ipContains)
+	RegisterTengoCustomFunc("betweenClock", betweenClock)
+}
+
+func betweenClock(startLong int64, endLong int64) bool {
+	nowFormat := time.Now().Format("15:04:05")
+	nowTime, err := time.Parse("15:04:05", nowFormat)
+	if err != nil {
+		return false
+	}
+
+	start := time.UnixMilli(startLong)
+	startFormat := start.Format("15:04:05")
+	startTime, err := time.Parse("15:04:05", startFormat)
+	if err != nil {
+		return false
+	}
+
+	end := time.UnixMilli(endLong)
+	endFormat := end.Format("15:04:05")
+	endTime, err := time.Parse("15:04:05", endFormat)
+	if err != nil {
+		return false
+	}
+
+	if nowTime.After(startTime) && nowTime.Before(endTime) {
+		return true
+	}
+
+	return false
 }
 
 func ipContains(cidr string, ip string) bool {
