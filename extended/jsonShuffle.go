@@ -14,6 +14,7 @@ import (
 	"github.com/spf13/cast"
 	"strconv"
 	"strings"
+	"time"
 )
 
 func initTengoContext() {
@@ -510,6 +511,7 @@ func buildRefPath(path ast.Ref) string {
 
 func init() {
 	RegisterTengoCustomFunc("patch", patch)
+
 	rego.RegisterBuiltin3(
 		&rego.Function{
 			Name:             "meta.json.shuffle",
@@ -536,4 +538,50 @@ func init() {
 			return v, err
 		},
 	)
+
+	rego.RegisterBuiltin2(
+		&rego.Function{
+			Name:             "meta.func.betweenClock",
+			Decl:             types.NewFunction(types.Args(types.N, types.N), types.B),
+			Memoize:          true,
+			Nondeterministic: true,
+		},
+		func(bctx rego.BuiltinContext, startTerm, endTerm *ast.Term) (*ast.Term, error) {
+			var startLong int64
+			if err := ast.As(startTerm.Value, &startLong); err != nil {
+				return nil, err
+			}
+			var endLong int64
+			if err := ast.As(endTerm.Value, &endLong); err != nil {
+				return nil, err
+			}
+
+			nowFormat := time.Now().Format("15:04:05")
+			nowTime, err := time.Parse("15:04:05", nowFormat)
+			if err != nil {
+				return ast.BooleanTerm(false), err
+			}
+
+			start := time.UnixMilli(startLong)
+			startFormat := start.Format("15:04:05")
+			startTime, err := time.Parse("15:04:05", startFormat)
+			if err != nil {
+				return ast.BooleanTerm(false), err
+			}
+
+			end := time.UnixMilli(endLong)
+			endFormat := end.Format("15:04:05")
+			endTime, err := time.Parse("15:04:05", endFormat)
+			if err != nil {
+				return ast.BooleanTerm(false), err
+			}
+
+			if nowTime.After(startTime) && nowTime.Before(endTime) {
+				return ast.BooleanTerm(true), nil
+			}
+
+			return ast.BooleanTerm(false), nil
+		},
+	)
+
 }
